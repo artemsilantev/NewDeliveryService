@@ -6,11 +6,9 @@ import api.utils.readers.FileReader;
 import api.utils.validators.ObjectValidator;
 import api.utils.validators.TextValidator;
 import exceptions.IllegalEntityException;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import model.BaseEntity;
 import model.Category;
-import org.modelmapper.TypeToken;
 
 
 import java.io.IOException;
@@ -45,7 +43,6 @@ public class EntityLoader<E extends BaseEntity>
                 displayProblems(exceptions);
                 return new ArrayList<>();
             }
-            Class<Category> putin;
             Collection<E> entities = (Collection<E>) parser.deserializeCollection(textFromFile, typeTokenCollection);
             for (ObjectValidator objectValidator : objectValidators) {
                 entities.forEach(entity->exceptions.addAll(objectValidator.validate(entity))) ;
