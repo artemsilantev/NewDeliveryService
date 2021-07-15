@@ -1,4 +1,4 @@
-package api.data;
+package storages;
 
 import model.Product;
 

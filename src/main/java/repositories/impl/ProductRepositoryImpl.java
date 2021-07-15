@@ -1,10 +1,7 @@
-package repositories;
+package repositories.impl;
 
-import api.data.CategoryDataStorage;
-import api.data.ProductDataStorage;
-import api.repositories.CategoryRepository;
-import api.repositories.ProductRepository;
-import model.Category;
+import repositories.ProductRepository;
+import storages.ProductDataStorage;
 import model.Product;
 
 public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product>

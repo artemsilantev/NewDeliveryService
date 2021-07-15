@@ -1,44 +1,39 @@
 package contexts;
 
-import api.data.ProductDataStorage;
-import api.repositories.ProductRepository;
-import api.services.ProductService;
-import api.utils.loaders.Loader;
-import api.utils.mappers.ProductMapper;
-import api.utils.validators.ObjectValidator;
-import api.utils.validators.TextValidator;
-import controllers.ProductController;
+import configs.DataStorageConfiguration;
+import dto.ProductDTO;
+import mappers.Mapper;
+import mappers.impl.dto.ProductDTOMapper;
+import mappers.impl.json.ProductJsonMapper;
+import storages.ProductDataStorage;
+import repositories.ProductRepository;
+import services.ProductService;
+import validators.ObjectValidator;
 import model.Product;
-import org.modelmapper.TypeToken;
-import repositories.ProductRepositoryImpl;
-import services.ProductServiceImpl;
-import storages.ProductDataStorageImpl;
-import utils.loaders.EntityLoader;
-import utils.mappers.ProductMapperImpl;
-import utils.validators.object.ProductValidator;
+import repositories.impl.ProductRepositoryImpl;
+import services.impl.ProductServiceImpl;
+import storages.impl.ProductDataStorageImpl;
+import validators.entity.ProductValidator;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
+import java.util.Arrays;
 
 public class ProductContext {
-    public static final String productFileName="productData.json";
-    public static final ObjectValidator productValidator = new ProductValidator(CategoryContext.categoryValidator, UtilsContext.entityIdValidator);
-    public static final ProductMapper productMapper = new ProductMapperImpl();
-    public static final Type typeTokenCollection = new TypeToken<Collection<Product>>(){}.getType();
+    public static final String PRODUCT_FILE_NAME = "productData.json";
+    public static final ObjectValidator PRODUCT_VALIDATOR = new ProductValidator();
+    public static final Mapper<Product, String> PRODUCT_JSON_MAPPER = new ProductJsonMapper();
+    public static final Mapper<ProductDTO, Product> PRODUCT_DTO_MAPPER = new ProductDTOMapper();
+    public static final DataStorageConfiguration PRODUCT_STORAGE_CONFIGURATION = DataStorageConfiguration.builder()
+            .pathToFile(PRODUCT_FILE_NAME)
+            .fileManager(UtilsContext.TEXT_FILE_MANAGER)
+            .mapper(PRODUCT_JSON_MAPPER)
+            .objectValidators(Arrays.asList(UtilsContext.ENTITY_ID_VALIDATOR, PRODUCT_VALIDATOR))
+            .textValidators(Arrays.asList(UtilsContext.JSON_TEXT_VALIDATOR))
+            .build();
 
-    private static final Loader productLoader = EntityLoader.builder()
-            .path(productFileName)
-            .fileReader(UtilsContext.textFileReader)
-            .parser(UtilsContext.gsonParser)
-            .textValidators(new TextValidator[]{UtilsContext.jsonTextValidator})
-            .objectValidators(new ObjectValidator[]{UtilsContext.entityIdValidator, productValidator})
-            .typeTokenCollection(typeTokenCollection).build();
+    public static final ProductDataStorage PRODUCT_DATA_STORAGE = new ProductDataStorageImpl(PRODUCT_STORAGE_CONFIGURATION,
+            CategoryContext.CATEGORY_DATA_STORAGE);
+    public static final ProductRepository PRODUCT_REPOSITORY = new ProductRepositoryImpl(PRODUCT_DATA_STORAGE);
+    public static final ProductService PRODUCT_SERVICE = new ProductServiceImpl(PRODUCT_DTO_MAPPER, PRODUCT_REPOSITORY);
 
-
-    private static final ProductDataStorage productDataStorage = new ProductDataStorageImpl(productLoader);
-    private static final ProductRepository productRepository = new ProductRepositoryImpl(productDataStorage);
-    private static final ProductService productService = new ProductServiceImpl(productRepository,productMapper, UtilsContext.entitySaver);
-
-    public static final ProductController productController = new ProductController(productService);
 }
 

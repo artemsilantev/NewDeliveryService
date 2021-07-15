@@ -1,7 +1,7 @@
-package repositories;
+package repositories.impl;
 
-import api.data.CategoryDataStorage;
-import api.repositories.CategoryRepository;
+import repositories.CategoryRepository;
+import storages.CategoryDataStorage;
 import model.Category;
 
 public class CategoryRepositoryImpl extends AbstractRepositoryImpl<Category>

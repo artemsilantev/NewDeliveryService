@@ -1,45 +1,37 @@
 package contexts;
 
-import api.data.CategoryDataStorage;
-import api.utils.loaders.Loader;
-import api.utils.mappers.CategoryMapper;
-import api.repositories.CategoryRepository;
-import api.services.CategoryService;
-import api.utils.validators.ObjectValidator;
-import api.utils.validators.TextValidator;
-import controllers.CategoryController;
+import configs.DataStorageConfiguration;
+import dto.CategoryDTO;
+import mappers.Mapper;
+import mappers.impl.dto.CategoryDTOMapper;
+import mappers.impl.json.CategoryJsonMapper;
+import repositories.CategoryRepository;
+import repositories.impl.CategoryRepositoryImpl;
+import services.CategoryService;
+import services.impl.CategoryServiceImpl;
+import storages.CategoryDataStorage;
+import validators.ObjectValidator;
 import model.Category;
-import utils.loaders.EntityLoader;
-import utils.mappers.CategoryMapperImpl;
-import repositories.CategoryRepositoryImpl;
-import services.CategoryServiceImpl;
-import storages.CategoryDataStorageImpl;
-import utils.validators.object.CategoryValidator;
-import org.modelmapper.TypeToken;
-import utils.validators.text.JsonFullTextValidator;
+import storages.impl.CategoryDataStorageImpl;
+import validators.entity.CategoryValidator;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
+import java.util.Arrays;
 
 public class CategoryContext {
-    public static final String categoryFileName = "categoryData.json";
-    public static final ObjectValidator categoryValidator = new CategoryValidator();
-    public static final CategoryMapper categoryMapper = new CategoryMapperImpl();
-    public static final Type typeTokenCollection = new TypeToken<Collection<Category>>() {
-    }.getType();
+    public static final String CATEGORY_FILE_NAME = "categoryData.json";
+    public static final ObjectValidator CATEGORY_VALIDATOR = new CategoryValidator();
+    public static final Mapper<Category, String> CATEGORY_JSON_MAPPER = new CategoryJsonMapper();
+    public static final Mapper<CategoryDTO, Category> CATEGORY_DTO_MAPPER = new CategoryDTOMapper();
+    public static final DataStorageConfiguration CATEGORY_STORAGE_CONFIGURATION = DataStorageConfiguration.builder()
+            .pathToFile(CATEGORY_FILE_NAME)
+            .fileManager(UtilsContext.TEXT_FILE_MANAGER)
+            .mapper(CATEGORY_JSON_MAPPER)
+            .objectValidators(Arrays.asList(UtilsContext.ENTITY_ID_VALIDATOR, CATEGORY_VALIDATOR))
+            .textValidators(Arrays.asList(UtilsContext.JSON_TEXT_VALIDATOR))
+            .build();
 
-    private static final Loader categoryLoader = EntityLoader.builder()
-            .path(categoryFileName)
-            .fileReader(UtilsContext.textFileReader)
-            .parser(UtilsContext.gsonParser)
-            .textValidators(new TextValidator[]{UtilsContext.jsonTextValidator})
-            .objectValidators(new ObjectValidator[]{UtilsContext.entityIdValidator, categoryValidator})
-            .typeTokenCollection(typeTokenCollection).build();
+    public static final CategoryDataStorage CATEGORY_DATA_STORAGE = new CategoryDataStorageImpl(CATEGORY_STORAGE_CONFIGURATION);
+    public static final CategoryRepository CATEGORY_REPOSITORY = new CategoryRepositoryImpl(CATEGORY_DATA_STORAGE);
+    public static final CategoryService CATEGORY_SERVICE = new CategoryServiceImpl(CATEGORY_DTO_MAPPER, CATEGORY_REPOSITORY);
 
-    private static final CategoryDataStorage categoryDataStorage = new CategoryDataStorageImpl(categoryLoader);
-    private static final CategoryRepository categoryRepository = new CategoryRepositoryImpl(categoryDataStorage);
-    private static final CategoryService categoryService = new CategoryServiceImpl(categoryRepository, categoryMapper, UtilsContext.entitySaver);
-
-    public static final CategoryController categoryController = new CategoryController(categoryService);
 }
-

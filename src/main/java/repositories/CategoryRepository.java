@@ -1,4 +1,4 @@
-package api.repositories;
+package repositories;
 
 import model.Category;
 

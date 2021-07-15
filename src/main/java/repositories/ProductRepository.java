@@ -1,6 +1,5 @@
-package api.repositories;
+package repositories;
 
-import model.Category;
 import model.Product;
 
 

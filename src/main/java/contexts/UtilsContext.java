@@ -1,25 +1,14 @@
 package contexts;
 
-import api.utils.parsers.Parser;
-import api.utils.readers.FileReader;
-import api.utils.savers.Saver;
-import api.utils.validators.ObjectValidator;
-import api.utils.validators.TextValidator;
-import api.utils.writers.FileWriter;
-import utils.parsers.GsonParser;
-import utils.readers.TextFileReader;
-import utils.savers.EntitySaver;
-import utils.validators.object.EntityIdValidator;
-import utils.validators.text.JsonFullTextValidator;
-import utils.writers.TextFileWriter;
+import filemanagers.TextFileManger;
+import validators.ObjectValidator;
+import validators.TextValidator;
+import filemanagers.FileManager;
+import validators.entity.EntityIdValidator;
+import validators.text.JsonTextValidator;
 
 public class UtilsContext {
-
-    public final static TextValidator jsonTextValidator = new JsonFullTextValidator();
-    public final static ObjectValidator entityIdValidator = new EntityIdValidator();
-    public final static FileReader textFileReader = new TextFileReader();
-    public final static FileWriter textFileWriter = new TextFileWriter();
-    public final static Parser gsonParser = new GsonParser();
-    public final static Saver entitySaver = new EntitySaver(gsonParser,  textFileWriter);
-
+    public static final TextValidator JSON_TEXT_VALIDATOR = new JsonTextValidator();
+    public static final ObjectValidator ENTITY_ID_VALIDATOR = new EntityIdValidator();
+    public static final FileManager TEXT_FILE_MANAGER = new TextFileManger();
 }

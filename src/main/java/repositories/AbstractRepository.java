@@ -1,4 +1,4 @@
-package api.repositories;
+package repositories;
 
 import exceptions.NoRecordException;
 import model.BaseEntity;
@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface AbstractRepository <E extends BaseEntity> {
     E create(E entity);
-    Optional<E> get(Long id);
+    E get(Long id);
     Collection<E> getAll();
-    void delete(Long id) throws NoRecordException;
+    void save();
+    void delete(Long id);
 }

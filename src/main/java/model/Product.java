@@ -1,25 +1,15 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.Set;
-
+import java.util.Collection;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Product extends BaseEntity{
     private String name;
-    private Set<Category> categories;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", categories=" + categories +
-                '}';
-    }
+    private Collection<Category> categories;
 }
