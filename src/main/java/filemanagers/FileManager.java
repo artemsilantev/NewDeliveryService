@@ -2,8 +2,9 @@ package filemanagers;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 public interface FileManager {
-    Collection<String> read(String pathToFile) throws IOException;
+    Stream<String> read(String pathToFile) throws IOException;
     void write(String path, Collection<String> lines) throws IOException;
 }

@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 
 public class TextFileManger implements FileManager {
     @Override
-    public Collection<String> read(String pathToFile) throws IOException {
+    public Stream<String> read(String pathToFile) throws IOException {
         var path = Paths.get(pathToFile);
         if(Files.notExists(path)){
             Files.createFile(path);
-        }
-        return Files.readAllLines(path);
+        };
+        return Files.lines(path);
     }
 
     @Override
