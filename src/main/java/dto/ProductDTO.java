@@ -10,8 +10,9 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class ProductDTO {
+    private Long id;
     private String name;
     private Collection<CategoryDTO> categories;
 }

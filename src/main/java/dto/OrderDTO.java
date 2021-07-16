@@ -10,8 +10,9 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class OrderDTO extends BaseEntity {
+    private Long id;
     private User user;
     private Collection<ShopItemDTO> items;
     private Double totalCost;

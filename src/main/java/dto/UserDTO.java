@@ -6,8 +6,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class UserDTO {
+    private Long id;
     private String firstName;
     private String secondName;
     private String number;

@@ -6,8 +6,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class ShopItemDTO {
+    private Long id;
     private ShopDTO shop;
     private ProductDTO product;
     private Double price;

@@ -6,8 +6,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class CategoryDTO {
+    private Long id;
     private String name;
     private String description;
 }

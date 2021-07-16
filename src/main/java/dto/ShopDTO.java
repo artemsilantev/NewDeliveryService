@@ -6,8 +6,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "id")
 public class ShopDTO {
+    private Long id;
     private String name;
     private String address;
     private String email;
