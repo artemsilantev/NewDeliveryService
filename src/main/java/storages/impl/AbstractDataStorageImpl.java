@@ -3,25 +3,28 @@ package storages.impl;
 import configs.DataStorageConfiguration;
 import exceptions.AccessFileException;
 import exceptions.LoadDataException;
+import lombok.extern.slf4j.Slf4j;
 import mappers.Mapper;
 import model.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import storages.AbstractDataStorage;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 public abstract class AbstractDataStorageImpl<E extends BaseEntity>
         implements AbstractDataStorage<E> {
 
     private Long entityIdSequence;
     private Collection<E> entities;
-    DataStorageConfiguration configuration;
+    DataStorageConfiguration<E> configuration;
 
 
-    protected AbstractDataStorageImpl(DataStorageConfiguration configuration) {
+    protected AbstractDataStorageImpl(DataStorageConfiguration<E> configuration) {
         this.configuration = configuration;
     }
 
@@ -46,11 +49,10 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
         Mapper<E, String> mapper = configuration.getMapper();
         var fileManager = configuration.getFileManager();
         var pathToFile = configuration.getPathToFile();
-        var lines = entities.stream().map(mapper::toSource).collect(Collectors.toList());
         try {
-            fileManager.write(pathToFile, lines);
+            fileManager.write(pathToFile, entities.stream().map(mapper::toSource).collect(Collectors.toList()));
         } catch (IOException ioException) {
-            System.out.printf("Couldn't save data by path \"%s\" in %s %n", pathToFile, this.getClass().getSimpleName());
+            log.error("Couldn't save data by path \"{}\" in {}", pathToFile, this.getClass().getSimpleName());
             throw new AccessFileException(pathToFile, ioException.getMessage());
         }
     }
@@ -60,13 +62,13 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
         var pathToFile = configuration.getPathToFile();
         Mapper<E, String> mapper = configuration.getMapper();
         try {
-            return fileManager.read(pathToFile).stream()
+            return fileManager.read(pathToFile)
                     .filter(this::validateText)
                     .map(entity -> {
                         try {
                             return mapper.toTarget(entity);
                         } catch (Exception exception) {
-                            System.out.printf("Entity [%s] has problem with parsing:%s %n",
+                            log.warn("Entity [{}] has problem with parsing:{}",
                                     entity, exception.getMessage());
                             return null;
                         }
@@ -75,7 +77,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
                     .filter(this::validateEntity)
                     .collect(Collectors.toList());
         } catch (IOException ioException) {
-            System.out.printf("Problem with loading data (path: \"%s\")%n", pathToFile);
+            log.error("Problem with loading data (path: \"{}\")", pathToFile);
             throw new LoadDataException(ioException.getMessage());
         }
     }
@@ -84,7 +86,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
         var problems = new ArrayList<String>();
         configuration.getTextValidators().forEach(textValidator -> problems.addAll(textValidator.validate(text)));
         if (!problems.isEmpty()) {
-            System.out.printf("Text [%s] has problems: %s %n", text,
+            log.warn("Text [{}] has problems: {}", text,
                     StringUtils.join(problems));
             return false;
         }
@@ -93,10 +95,10 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
     protected boolean validateEntity(E entity) {
         var problems = new ArrayList<String>();
-        configuration.getObjectValidators().forEach(objectValidator -> problems.addAll(objectValidator.validate(entity)));
+        configuration.getEntityValidators().forEach(entityValidator -> problems.addAll(entityValidator.validate(entity)));
         if (!problems.isEmpty()) {
-            System.out.printf("Entity [%s] has problems: %s %n", entity.toString(),
-                    StringUtils.join(null, ',', problems));
+            log.warn("Entity [{}] has problems: {}", entity.toString(),
+                    StringUtils.join(problems));
             return false;
         }
         return true;

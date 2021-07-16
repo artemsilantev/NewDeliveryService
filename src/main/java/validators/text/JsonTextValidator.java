@@ -1,14 +1,13 @@
 package validators.text;
 
 import org.apache.commons.lang3.StringUtils;
-import validators.TextValidator;
+import validators.Validator;
 
 import java.util.*;
 
-public class JsonTextValidator implements TextValidator {
+public class JsonTextValidator implements Validator<String> {
     @Override
     public Collection<String> validate(String line) {
-
        Collection<String> problems = new ArrayList<>();
         if (StringUtils.isBlank(line))
             problems.add("Line is blank");

@@ -12,6 +12,7 @@ import services.ShopService;
 import services.impl.ShopServiceImpl;
 import storages.ShopDataStorage;
 import storages.impl.ShopDataStorageImpl;
+import validators.Validator;
 
 import java.util.Arrays;
 
@@ -19,11 +20,11 @@ public class ShopContext {
     public static final String SHOP_FILE_NAME = "shopData.json";
     public static final Mapper<Shop, String> SHOP_JSON_MAPPER = new ShopJsonMapper();
     public static final Mapper<ShopDTO, Shop> SHOP_DTO_MAPPER = new ShopDTOMapper();
-    public static final DataStorageConfiguration SHOP_STORAGE_CONFIGURATION = DataStorageConfiguration.builder()
+    public static final DataStorageConfiguration<Shop> SHOP_STORAGE_CONFIGURATION = DataStorageConfiguration.<Shop>builder()
             .pathToFile(SHOP_FILE_NAME)
             .fileManager(UtilsContext.TEXT_FILE_MANAGER)
             .mapper(SHOP_JSON_MAPPER)
-            .objectValidators(Arrays.asList(UtilsContext.ENTITY_ID_VALIDATOR))
+            .entityValidators(Arrays.asList((Validator<Shop>) UtilsContext.ENTITY_ID_VALIDATOR))
             .textValidators(Arrays.asList(UtilsContext.JSON_TEXT_VALIDATOR))
             .build();
 

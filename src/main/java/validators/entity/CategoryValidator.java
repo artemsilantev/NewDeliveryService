@@ -2,25 +2,19 @@ package validators.entity;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import validators.ObjectValidator;
 import model.Category;
+import validators.Validator;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 @AllArgsConstructor
-public class CategoryValidator implements ObjectValidator {
+public class CategoryValidator implements Validator<Category> {
     @Override
-    public Collection<String> validate(Object obj) {
+    public Collection<String> validate(Category category) {
         var problems = new ArrayList<String>();
-        if (!(obj instanceof Category)) {
-            problems.add("Object should be instance of category");
-            return problems;
-        }
-        var category = (Category) obj;
         problems.addAll(checkName(category.getName()));
         return problems;
-
     }
 
     private Collection<String> checkName(String name){
