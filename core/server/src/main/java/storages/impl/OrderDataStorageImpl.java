@@ -1,15 +1,18 @@
 package storages.impl;
 
-import configs.DataStorageConfiguration;
+import filemanagers.FileManager;
+import handlers.Handler;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import mappers.Mapper;
 import model.Order;
 import model.ShopItem;
 import model.User;
 import storages.OrderDataStorage;
 import storages.ShopItemDataStorage;
 import storages.UserDataStorage;
+import validators.Validator;
 
 public class OrderDataStorageImpl extends AbstractDataStorageImpl<Order>
     implements OrderDataStorage {
@@ -17,12 +20,17 @@ public class OrderDataStorageImpl extends AbstractDataStorageImpl<Order>
   private final ShopItemDataStorage shopItemDataStorage;
   private final UserDataStorage userDataStorage;
 
-  public OrderDataStorageImpl(DataStorageConfiguration configuration,
+  public OrderDataStorageImpl(
+      Handler<Mapper<Order, String>, String> mapperHandler,
+      FileManager fileManager, String pathToFile,
+      Collection<Validator<String>> textValidators,
+      Collection<Validator<Order>> entityValidators,
       ShopItemDataStorage shopItemDataStorage, UserDataStorage userDataStorage) {
-    super(configuration);
+    super(mapperHandler, fileManager, pathToFile, textValidators, entityValidators);
     this.shopItemDataStorage = shopItemDataStorage;
     this.userDataStorage = userDataStorage;
   }
+
 
   @Override
   protected Collection<Order> load() {

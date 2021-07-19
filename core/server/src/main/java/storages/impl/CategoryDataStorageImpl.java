@@ -1,16 +1,24 @@
 package storages.impl;
 
-import configs.DataStorageConfiguration;
+import filemanagers.FileManager;
+import handlers.Handler;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import mappers.Mapper;
 import model.Category;
 import storages.CategoryDataStorage;
+import validators.Validator;
 
 public class CategoryDataStorageImpl extends AbstractDataStorageImpl<Category>
     implements CategoryDataStorage {
 
-  public CategoryDataStorageImpl(DataStorageConfiguration configuration) {
-    super(configuration);
+
+  public CategoryDataStorageImpl(
+      Handler<Mapper<Category, String>, String> mapperHandler,
+      FileManager fileManager, String pathToFile,
+      Collection<Validator<String>> textValidators,
+      Collection<Validator<Category>> entityValidators) {
+    super(mapperHandler, fileManager, pathToFile, textValidators, entityValidators);
   }
 
   @Override

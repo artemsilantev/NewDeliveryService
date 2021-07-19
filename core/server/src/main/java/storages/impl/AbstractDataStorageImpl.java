@@ -1,8 +1,8 @@
 package storages.impl;
 
-import configs.DataStorageConfiguration;
 import exceptions.AccessFileException;
 import exceptions.LoadDataException;
+import filemanagers.FileManager;
 import handlers.Handler;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import mappers.Mapper;
 import model.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import storages.AbstractDataStorage;
+import validators.Validator;
 
 @Slf4j
 public abstract class AbstractDataStorageImpl<E extends BaseEntity>
@@ -21,11 +22,24 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   private Long entityIdSequence;
   private Collection<E> entities;
-  DataStorageConfiguration<E> configuration;
+  private final Handler<Mapper<E, String>, String> mapperHandler;
+  private final FileManager fileManager;
+  private final String pathToFile;
+  private final Collection<Validator<String>> textValidators;
+  private final Collection<Validator<E>> entityValidators;
 
 
-  protected AbstractDataStorageImpl(DataStorageConfiguration<E> configuration) {
-    this.configuration = configuration;
+  protected AbstractDataStorageImpl(
+      Handler<Mapper<E, String>, String> mapperHandler,
+      FileManager fileManager,
+      String pathToFile,
+      Collection<Validator<String>> textValidators,
+      Collection<Validator<E>> entityValidators) {
+    this.mapperHandler = mapperHandler;
+    this.fileManager = fileManager;
+    this.pathToFile = pathToFile;
+    this.textValidators = textValidators;
+    this.entityValidators = entityValidators;
   }
 
   @Override
@@ -49,10 +63,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   @Override
   public void save() {
-    var fileManager = configuration.getFileManager();
-    var pathToFile = configuration.getPathToFile();
-    Handler<Mapper<E, String>, String> handler = configuration.getMapperHandler();
-    Mapper<E, String> mapper = handler.getHandler(configuration.getPathToFile());
+    Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
     try {
       fileManager.write(pathToFile, entities.stream()
           .map(mapper::toSource)
@@ -68,10 +79,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
   }
 
   protected Collection<E> load() {
-    var fileManager = configuration.getFileManager();
-    var pathToFile = configuration.getPathToFile();
-    Handler<Mapper<E, String>, String> handler = configuration.getMapperHandler();
-    Mapper<E, String> mapper = handler.getHandler(configuration.getPathToFile());
+    Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
     try {
       return fileManager.read(pathToFile)
           .filter(this::validateParseItem)
@@ -95,8 +103,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   protected boolean validateParseItem(String text) {
     var problems = new ArrayList<String>();
-    configuration.getTextValidators()
-        .forEach(textValidator -> problems.addAll(textValidator.validate(text)));
+    textValidators.forEach(textValidator -> problems.addAll(textValidator.validate(text)));
     if (!problems.isEmpty()) {
       log.warn("Text [{}] has problems: {}", text,
           StringUtils.join(problems));
@@ -107,8 +114,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   protected boolean validateEntity(E entity) {
     var problems = new ArrayList<String>();
-    configuration.getEntityValidators()
-        .forEach(entityValidator -> problems.addAll(entityValidator.validate(entity)));
+        entityValidators.forEach(entityValidator -> problems.addAll(entityValidator.validate(entity)));
     if (!problems.isEmpty()) {
       log.warn("Entity [{}] has problems: {}", entity.toString(),
           StringUtils.join(problems));

@@ -1,9 +1,3 @@
-import contexts.CategoryContext;
-import contexts.OrderContext;
-import contexts.ProductContext;
-import contexts.ShopContext;
-import contexts.ShopItemContext;
-import contexts.UserContext;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import model.Category;
@@ -19,7 +13,7 @@ public class Runner {
 
   public static void main(String[] args) {
     log.info("start working");
-    var categoryService = CategoryContext.CATEGORY_SERVICE;
+   /* var categoryService = CategoryContext.CATEGORY_SERVICE;
     categoryService.getAll().forEach(Runner::displayInfo);
     var category1 = new Category("Electronic device", "some description", null);
     var category2 = new Category("Smartphone", "some description about smartphones", category1);
@@ -71,7 +65,7 @@ public class Runner {
     var order2 = new Order(user2, Arrays.asList(shopItem1, shopItem2), 2.00);
     orderService.create(order1);
     orderService.create(order2);
-    orderService.save();
+    orderService.save();*/
 
     log.info("stop working");
   }
