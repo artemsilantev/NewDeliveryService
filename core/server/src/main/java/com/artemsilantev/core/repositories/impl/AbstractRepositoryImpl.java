@@ -40,11 +40,7 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
 
   @Override
   public void delete(Long id) throws NoRecordException {
-    E entityToDelete = dataStorage.getEntities()
-        .stream()
-        .filter(entity -> entity.getId() == id)
-        .findFirst()
-        .orElseThrow(() -> new NoRecordException(dataStorage.getClass().getSimpleName(), id));
+    var entityToDelete = get(id);
     dataStorage.getEntities().remove(entityToDelete);
   }
 
