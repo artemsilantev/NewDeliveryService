@@ -5,6 +5,8 @@ import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.utils.JaxbUtils;
 import jakarta.xml.bind.JAXBException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 public class CategoryXmlMapper implements Mapper<Category, String> {
@@ -34,5 +36,19 @@ public class CategoryXmlMapper implements Mapper<Category, String> {
     } finally {
       target.setParent(parentOld);
     }
+  }
+
+  @Override
+  public Collection<Category> toTargetCollection(Collection<String> sourceCollection) {
+    return sourceCollection.stream()
+        .map(this::toTarget)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<String> toSourceCollection(Collection<Category> targetCollection) {
+    return targetCollection.stream()
+        .map(this::toSource)
+        .collect(Collectors.toList());
   }
 }

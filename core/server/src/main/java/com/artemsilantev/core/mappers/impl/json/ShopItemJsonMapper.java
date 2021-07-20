@@ -5,6 +5,8 @@ import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.model.Shop;
 import com.artemsilantev.core.model.ShopItem;
 import com.artemsilantev.core.utils.GsonUtils;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ShopItemJsonMapper implements Mapper<ShopItem, String> {
 
@@ -31,5 +33,19 @@ public class ShopItemJsonMapper implements Mapper<ShopItem, String> {
     target.setShop(shopOld);
     target.setProduct(productOld);
     return result;
+  }
+
+  @Override
+  public Collection<ShopItem> toTargetCollection(Collection<String> sourceCollection) {
+    return sourceCollection.stream()
+        .map(this::toTarget)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<String> toSourceCollection(Collection<ShopItem> targetCollection) {
+    return targetCollection.stream()
+        .map(this::toSource)
+        .collect(Collectors.toList());
   }
 }

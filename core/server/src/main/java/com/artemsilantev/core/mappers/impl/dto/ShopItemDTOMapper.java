@@ -3,6 +3,8 @@ package com.artemsilantev.core.mappers.impl.dto;
 import com.artemsilantev.core.dto.ShopItemDTO;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.ShopItem;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
@@ -26,4 +28,17 @@ public class ShopItemDTOMapper implements Mapper<ShopItemDTO, ShopItem> {
     return modelMapper.map(target, ShopItem.class);
   }
 
+  @Override
+  public Collection<ShopItemDTO> toTargetCollection(Collection<ShopItem> sourceCollection) {
+    return sourceCollection.stream()
+        .map(this::toTarget)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<ShopItem> toSourceCollection(Collection<ShopItemDTO> targetCollection) {
+    return targetCollection.stream()
+        .map(this::toSource)
+        .collect(Collectors.toList());
+  }
 }

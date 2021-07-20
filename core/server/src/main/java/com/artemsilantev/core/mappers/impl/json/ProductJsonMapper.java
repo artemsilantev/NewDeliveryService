@@ -4,6 +4,7 @@ import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.utils.GsonUtils;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class ProductJsonMapper implements Mapper<Product, String> {
@@ -29,5 +30,19 @@ public class ProductJsonMapper implements Mapper<Product, String> {
     String result = GsonUtils.serialize(target);
     target.setCategories(categoriesOld);
     return result;
+  }
+
+  @Override
+  public Collection<Product> toTargetCollection(Collection<String> sourceCollection) {
+    return sourceCollection.stream()
+        .map(this::toTarget)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<String> toSourceCollection(Collection<Product> targetCollection) {
+    return targetCollection.stream()
+        .map(this::toSource)
+        .collect(Collectors.toList());
   }
 }

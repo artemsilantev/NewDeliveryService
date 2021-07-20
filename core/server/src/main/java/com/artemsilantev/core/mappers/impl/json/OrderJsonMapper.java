@@ -5,6 +5,7 @@ import com.artemsilantev.core.model.Order;
 import com.artemsilantev.core.model.ShopItem;
 import com.artemsilantev.core.model.User;
 import com.artemsilantev.core.utils.GsonUtils;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class OrderJsonMapper implements Mapper<Order, String> {
@@ -36,5 +37,19 @@ public class OrderJsonMapper implements Mapper<Order, String> {
     target.setItems(itemsOld);
     target.setUser(userOld);
     return result;
+  }
+
+  @Override
+  public Collection<Order> toTargetCollection(Collection<String> sourceCollection) {
+    return sourceCollection.stream()
+        .map(this::toTarget)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<String> toSourceCollection(Collection<Order> targetCollection) {
+    return targetCollection.stream()
+        .map(this::toSource)
+        .collect(Collectors.toList());
   }
 }
