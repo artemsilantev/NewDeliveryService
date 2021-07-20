@@ -1,7 +1,7 @@
 package com.artemsilantev.core.repositories;
 
-import java.util.Collection;
 import com.artemsilantev.core.model.BaseEntity;
+import java.util.Collection;
 
 public interface AbstractRepository<E extends BaseEntity> {
 

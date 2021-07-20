@@ -2,12 +2,12 @@ package com.artemsilantev.core.repositories.impl;
 
 import com.artemsilantev.core.exceptions.DuplicateEntityException;
 import com.artemsilantev.core.exceptions.NoRecordException;
-import java.util.Collection;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
 import com.artemsilantev.core.model.BaseEntity;
 import com.artemsilantev.core.repositories.AbstractRepository;
 import com.artemsilantev.core.storages.AbstractDataStorage;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public abstract class AbstractRepositoryImpl<E extends BaseEntity>

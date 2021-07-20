@@ -1,13 +1,13 @@
 package com.artemsilantev.core.services.impl;
 
 import com.artemsilantev.core.dto.CategoryDTO;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repositories.CategoryRepository;
 import com.artemsilantev.core.services.CategoryService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Category>
     implements CategoryService {

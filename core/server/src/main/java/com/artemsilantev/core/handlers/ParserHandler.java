@@ -2,8 +2,8 @@ package com.artemsilantev.core.handlers;
 
 import com.artemsilantev.core.exceptions.NoHandlerException;
 import com.artemsilantev.core.filemanagers.FileManager;
-import lombok.AllArgsConstructor;
 import com.artemsilantev.core.mappers.Mapper;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ParserHandler<T> implements Handler<Mapper<T, String>, String> {

@@ -1,12 +1,12 @@
 package com.artemsilantev.core.services.impl;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.BaseEntity;
 import com.artemsilantev.core.repositories.AbstractRepository;
 import com.artemsilantev.core.services.AbstractService;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public abstract class AbstractServiceImpl<T, S extends BaseEntity> implements

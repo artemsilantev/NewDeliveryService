@@ -1,11 +1,11 @@
 package com.artemsilantev.core.mappers.impl.json;
 
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Order;
 import com.artemsilantev.core.model.ShopItem;
 import com.artemsilantev.core.model.User;
 import com.artemsilantev.core.utils.GsonUtils;
+import java.util.stream.Collectors;
 
 public class OrderJsonMapper implements Mapper<Order, String> {
 

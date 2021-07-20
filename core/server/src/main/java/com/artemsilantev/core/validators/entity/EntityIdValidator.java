@@ -1,9 +1,9 @@
 package com.artemsilantev.core.validators.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import com.artemsilantev.core.model.BaseEntity;
 import com.artemsilantev.core.validators.Validator;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class EntityIdValidator<E extends BaseEntity> implements Validator<E> {
 

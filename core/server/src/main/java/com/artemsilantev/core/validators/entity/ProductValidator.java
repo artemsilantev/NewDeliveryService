@@ -1,11 +1,11 @@
 package com.artemsilantev.core.validators.entity;
 
+import com.artemsilantev.core.model.Product;
+import com.artemsilantev.core.validators.Validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
-import com.artemsilantev.core.model.Product;
 import org.apache.commons.lang3.StringUtils;
-import com.artemsilantev.core.validators.Validator;
 
 @AllArgsConstructor
 public class ProductValidator implements Validator<Product> {

@@ -1,13 +1,13 @@
 package com.artemsilantev.core.dto;
 
+import com.artemsilantev.core.model.BaseEntity;
+import com.artemsilantev.core.model.User;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import com.artemsilantev.core.model.BaseEntity;
-import com.artemsilantev.core.model.User;
 
 @Getter
 @Setter

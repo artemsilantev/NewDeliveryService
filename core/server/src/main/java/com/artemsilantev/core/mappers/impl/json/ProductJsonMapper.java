@@ -1,10 +1,10 @@
 package com.artemsilantev.core.mappers.impl.json;
 
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.utils.GsonUtils;
+import java.util.stream.Collectors;
 
 public class ProductJsonMapper implements Mapper<Product, String> {
 

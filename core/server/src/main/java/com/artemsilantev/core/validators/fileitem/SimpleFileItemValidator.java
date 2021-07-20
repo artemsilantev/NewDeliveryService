@@ -1,9 +1,9 @@
 package com.artemsilantev.core.validators.fileitem;
 
+import com.artemsilantev.core.validators.Validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
-import com.artemsilantev.core.validators.Validator;
 
 public class SimpleFileItemValidator implements Validator<String> {
 

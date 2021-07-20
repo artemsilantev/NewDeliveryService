@@ -1,10 +1,10 @@
 package com.artemsilantev.core.mappers.impl.xml;
 
 import com.artemsilantev.core.exceptions.EntityMappingException;
-import jakarta.xml.bind.JAXBException;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.utils.JaxbUtils;
+import jakarta.xml.bind.JAXBException;
 
 
 public class CategoryXmlMapper implements Mapper<Category, String> {
