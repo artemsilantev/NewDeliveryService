@@ -1,11 +1,11 @@
-package com.artemsilantev.core.validators.text;
+package com.artemsilantev.core.validators.fileitem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import com.artemsilantev.core.validators.Validator;
 
-public class SimpleTextItemValidator implements Validator<String> {
+public class SimpleFileItemValidator implements Validator<String> {
 
   @Override
   public Collection<String> validate(String item) {

@@ -64,7 +64,7 @@ import com.artemsilantev.core.validators.Validator;
 import com.artemsilantev.core.validators.entity.CategoryValidator;
 import com.artemsilantev.core.validators.entity.EntityIdValidator;
 import com.artemsilantev.core.validators.entity.ProductValidator;
-import com.artemsilantev.core.validators.text.SimpleTextItemValidator;
+import com.artemsilantev.core.validators.fileitem.SimpleFileItemValidator;
 import java.util.Arrays;
 import java.util.Collection;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -95,7 +95,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<Category, String>, String> categoryMapperHandler = new ParserHandler<>(
         new CategoryJsonMapper(), new CategoryXmlMapper(), fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<Category>> entityValidators = Arrays
         .asList(new CategoryValidator(), new EntityIdValidator<>());
     return new CategoryDataStorageImpl(categoryMapperHandler, fileManager, CATEGORY_FILE_NAME,
@@ -121,7 +121,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<Product, String>, String> productParserHandler = new ParserHandler<>(
         new ProductJsonMapper(), null, fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<Product>> entityValidators = Arrays
         .asList(new ProductValidator(), new EntityIdValidator<>());
     return new ProductDataStorageImpl(productParserHandler, fileManager, PRODUCT_FILE_NAME,
@@ -146,7 +146,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<Shop, String>, String> shopParserHandler = new ParserHandler<>(
         new ShopJsonMapper(), null, fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<Shop>> entityValidators = Arrays
         .asList(new EntityIdValidator<>());
     return new ShopDataStorageImpl(shopParserHandler, fileManager, SHOP_FILE_NAME,
@@ -172,7 +172,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<ShopItem, String>, String> shopItemParserHandler = new ParserHandler<>(
         new ShopItemJsonMapper(), null, fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<ShopItem>> entityValidators = Arrays
         .asList(new EntityIdValidator<>());
     return new ShopItemDataStorageImpl(shopItemParserHandler, fileManager, SHOP_ITEM_FILE_NAME,
@@ -197,7 +197,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<User, String>, String> userParserHandler = new ParserHandler<>(
         new UserJsonMapper(), null, fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<User>> entityValidators = Arrays
         .asList(new EntityIdValidator<>());
     return new UserDataStorageImpl(userParserHandler, fileManager, USER_FILE_NAME,
@@ -223,7 +223,7 @@ public class DeliveryServiceAutoConfiguration {
     Handler<Mapper<Order, String>, String> orderParserHandler = new ParserHandler<>(
         new OrderJsonMapper(), null, fileManager);
     Collection<Validator<String>> parseItemValidators = Arrays
-        .asList(new SimpleTextItemValidator());
+        .asList(new SimpleFileItemValidator());
     Collection<Validator<Order>> entityValidators = Arrays
         .asList(new EntityIdValidator<>());
     return new OrderDataStorageImpl(orderParserHandler, fileManager, ORDER_FILE_NAME,
