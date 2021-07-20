@@ -1,6 +1,7 @@
 package com.artemsilantev.core.services.impl;
 
 import com.artemsilantev.core.dto.ShopDTO;
+import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Shop;
 import com.artemsilantev.core.repositories.ShopRepository;
@@ -14,14 +15,27 @@ public class ShopServiceImpl extends AbstractServiceImpl<ShopDTO, Shop>
   }
 
   @Override
-  public ShopDTO create(Shop entity) {
+  public ShopDTO create(ShopDTO shopDTO) {
     for (Shop shop : abstractRepository.getAll()) {
-      if (shop.getName().equals(entity.getName())) {
-        entity.setId(shop.getId());
-        return mapperDTO.toTarget(entity);
+      if (shop.getName().equals(shopDTO.getName())) {
+        throw new IllegalEntityException(
+            String.format("Shop with this name already exists: %s", shopDTO.getName()));
       }
     }
-    entity.setId(abstractRepository.create(entity).getId());
-    return mapperDTO.toTarget(entity);
+    return super.create(shopDTO);
+  }
+
+  @Override
+  public void update(ShopDTO shopDTO) {
+    for (Shop shop : abstractRepository.getAll()) {
+      if (shop.getName().equals(shopDTO.getName())
+          && !shop.getId().equals(shopDTO.getId())) {
+        throw new IllegalEntityException(
+            String.format("Shop with this name already exists: %s", shopDTO.getName()));
+      }
+      super.update(shopDTO);
+    }
+
+
   }
 }

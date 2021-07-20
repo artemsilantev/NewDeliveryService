@@ -1,6 +1,7 @@
 package com.artemsilantev.core.services.impl;
 
 import com.artemsilantev.core.dto.UserDTO;
+import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.User;
 import com.artemsilantev.core.repositories.UserRepository;
@@ -14,14 +15,25 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDTO, User>
   }
 
   @Override
-  public UserDTO create(User entity) {
+  public UserDTO create(UserDTO userDTO) {
     for (User user : abstractRepository.getAll()) {
-      if (user.getEmail().equals(entity.getEmail())) {
-        entity.setId(user.getId());
-        return mapperDTO.toTarget(entity);
+      if (user.getEmail().equals(userDTO.getEmail())) {
+        throw new IllegalEntityException(
+            String.format("User with this email already exists: %s", userDTO.getEmail()));
       }
     }
-    entity.setId(abstractRepository.create(entity).getId());
-    return mapperDTO.toTarget(entity);
+    return super.create(userDTO);
+  }
+
+  @Override
+  public void update(UserDTO userDTO) {
+    for (User user : abstractRepository.getAll()) {
+      if (user.getEmail().equals(userDTO.getEmail())
+          && !user.getId().equals(userDTO.getId())) {
+        throw new IllegalEntityException(
+            String.format("User with this email already exists: %s", userDTO.getEmail()));
+      }
+    }
+    super.update(userDTO);
   }
 }

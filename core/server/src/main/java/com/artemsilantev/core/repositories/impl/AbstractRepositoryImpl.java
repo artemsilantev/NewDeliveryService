@@ -39,9 +39,15 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
   }
 
   @Override
-  public void delete(Long id) throws NoRecordException {
+  public void delete(Long id){
     var entityToDelete = get(id);
-    dataStorage.getEntities().remove(entityToDelete);
+   getAll().remove(entityToDelete);
+  }
+
+  @Override
+  public void update(E e) {
+    delete(e.getId());
+    getAll().add(e);
   }
 
   @Override

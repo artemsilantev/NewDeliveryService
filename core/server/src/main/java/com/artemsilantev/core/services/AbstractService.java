@@ -6,11 +6,13 @@ public interface AbstractService<T, S> {
 
   T get(Long id);
 
-  T create(S entity);
+  T create(T entity);
 
   Collection<T> getAll();
 
   void delete(Long id);
 
   void save();
+
+  void update(T entity);
 }

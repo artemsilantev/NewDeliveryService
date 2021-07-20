@@ -21,16 +21,14 @@ public abstract class AbstractServiceImpl<T, S extends BaseEntity> implements
   }
 
   @Override
-  public T create(S entity) {
-    entity.setId(abstractRepository.create(entity).getId());
-    return mapperDTO.toTarget(entity);
+  public T create(T entity) {
+    var sourceEntity = mapperDTO.toSource(entity);
+    return mapperDTO.toTarget(abstractRepository.create(sourceEntity));
   }
 
   @Override
   public Collection<T> getAll() {
-    return abstractRepository.getAll().stream()
-        .map(mapperDTO::toTarget)
-        .collect(Collectors.toList());
+    return mapperDTO.toTargetCollection(abstractRepository.getAll());
   }
 
   @Override
@@ -41,5 +39,11 @@ public abstract class AbstractServiceImpl<T, S extends BaseEntity> implements
   @Override
   public void delete(Long id) {
     abstractRepository.delete(id);
+  }
+
+  @Override
+  public void update(T entity) {
+    var sourceEntity = mapperDTO.toSource(entity);
+    abstractRepository.update(sourceEntity);
   }
 }

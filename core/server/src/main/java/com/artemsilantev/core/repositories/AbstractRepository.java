@@ -14,4 +14,6 @@ public interface AbstractRepository<E extends BaseEntity> {
   void save();
 
   void delete(Long id);
+
+  void update(E e);
 }

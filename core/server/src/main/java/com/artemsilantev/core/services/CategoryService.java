@@ -9,5 +9,5 @@ public interface CategoryService extends AbstractService<CategoryDTO, Category> 
 
   Collection<CategoryDTO> getRootCategories();
 
-  Collection<CategoryDTO> getChildrenCategories(Long id);
+  Collection<CategoryDTO> getChildren(Long id);
 }

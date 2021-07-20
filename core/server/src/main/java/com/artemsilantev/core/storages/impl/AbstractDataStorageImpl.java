@@ -62,9 +62,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
   @Override
   public void save() {
     Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
-    fileManager.write(pathToFile, entities.stream()
-        .map(mapper::toSource)
-        .collect(Collectors.toList()));
+    fileManager.write(pathToFile, mapper.toSourceCollection(entities));
   }
 
   protected Collection<E> load() {
