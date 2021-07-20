@@ -1,14 +1,13 @@
 package com.artemsilantev.core.filemanagers;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 public interface FileManager {
 
-  Stream<String> read(String pathToFile) throws IOException;
+  Stream<String> read(String pathToFile);
 
-  void write(String path, Collection<String> lines) throws IOException;
+  void write(String pathToFile, Collection<String> lines);
 
-  String getExtension(String path);
+  String getExtension(String pathToFile);
 }

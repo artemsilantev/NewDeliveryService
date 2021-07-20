@@ -1,7 +1,9 @@
 package com.artemsilantev.core.filemanagers;
 
+import com.artemsilantev.core.exceptions.AccessFileException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -9,21 +11,30 @@ import java.util.stream.Stream;
 public class TextFileManger implements FileManager {
 
   @Override
-  public Stream<String> read(String pathToFile) throws IOException {
+  public Stream<String> read(String pathToFile) {
     var path = Paths.get(pathToFile);
-    if (Files.notExists(path)) {
-      Files.createFile(path);
+    try {
+      createFileIfNotExists(path);
+      return Files.lines(path);
+    } catch (IOException ioException) {
+      throw new AccessFileException(
+          String.format("Couldn't read from file with path \"%s\": %s", pathToFile,
+              ioException.getMessage()));
     }
-    return Files.lines(path);
+
   }
 
   @Override
-  public void write(String pathToFile, Collection<String> lines) throws IOException {
+  public void write(String pathToFile, Collection<String> lines) {
     var path = Paths.get(pathToFile);
-    if (Files.notExists(path)) {
-      Files.createFile(path);
+    try {
+      createFileIfNotExists(path);
+      Files.write(path, lines);
+    } catch (IOException ioException) {
+      throw new AccessFileException(
+          String.format("Couldn't write to file with path \"%s\": %s", pathToFile,
+              ioException.getMessage()));
     }
-    Files.write(path, lines);
   }
 
   @Override
@@ -34,6 +45,18 @@ public class TextFileManger implements FileManager {
       extension = pathToFile.substring(index + 1);
     }
     return extension;
+  }
+
+  private void createFileIfNotExists(Path path) {
+    try {
+      if (Files.notExists(path)) {
+        Files.createFile(path);
+      }
+    } catch (IOException ioException) {
+      throw new AccessFileException(
+          String.format("Couldn't create file with path \"%s\": %s", path,
+              ioException.getMessage()));
+    }
   }
 
 }
