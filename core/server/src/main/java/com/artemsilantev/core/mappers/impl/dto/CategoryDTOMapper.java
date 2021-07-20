@@ -12,7 +12,12 @@ public class CategoryDTOMapper implements Mapper<CategoryDTO, Category> {
 
   public CategoryDTOMapper() {
     modelMapper = new ModelMapper();
-    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+    var map = modelMapper.createTypeMap(Category.class, CategoryDTO.class);
+    map.addMapping(category -> {
+      var parent = category.getParent();
+      return parent != null ? parent.getId() : null;
+    }, CategoryDTO::setParentId);
   }
 
 

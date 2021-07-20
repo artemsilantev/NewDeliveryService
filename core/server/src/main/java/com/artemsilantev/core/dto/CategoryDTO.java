@@ -10,10 +10,11 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "id")
+@ToString(exclude = {"id", "parentId"})
 public class CategoryDTO {
 
   private Long id;
   private String name;
   private String description;
+  private Long parentId;
 }

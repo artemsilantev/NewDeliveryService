@@ -7,5 +7,7 @@ import java.util.Collection;
 
 public interface CategoryService extends AbstractService<CategoryDTO, Category> {
 
-  Collection<CategoryDTO> getParents(Long id);
+  Collection<CategoryDTO> getRootCategories();
+
+  Collection<CategoryDTO> getChildrenCategories(Long id);
 }
