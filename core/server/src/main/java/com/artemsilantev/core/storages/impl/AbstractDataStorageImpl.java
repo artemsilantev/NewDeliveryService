@@ -1,20 +1,18 @@
 package com.artemsilantev.core.storages.impl;
 
-import com.artemsilantev.core.exceptions.AccessFileException;
 import com.artemsilantev.core.exceptions.LoadDataException;
 import com.artemsilantev.core.filemanagers.FileManager;
 import com.artemsilantev.core.handlers.Handler;
-import java.io.IOException;
+import com.artemsilantev.core.mappers.Mapper;
+import com.artemsilantev.core.model.BaseEntity;
+import com.artemsilantev.core.storages.AbstractDataStorage;
+import com.artemsilantev.core.validators.Validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import com.artemsilantev.core.mappers.Mapper;
-import com.artemsilantev.core.model.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
-import com.artemsilantev.core.storages.AbstractDataStorage;
-import com.artemsilantev.core.validators.Validator;
 
 @Slf4j
 public abstract class AbstractDataStorageImpl<E extends BaseEntity>
@@ -25,7 +23,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
   private final Handler<Mapper<E, String>, String> mapperHandler;
   private final FileManager fileManager;
   private final String pathToFile;
-  private final Collection<Validator<String>> textValidators;
+  private final Collection<Validator<String>> fileItemValidators;
   private final Collection<Validator<E>> entityValidators;
 
 
@@ -33,12 +31,12 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
       Handler<Mapper<E, String>, String> mapperHandler,
       FileManager fileManager,
       String pathToFile,
-      Collection<Validator<String>> textValidators,
+      Collection<Validator<String>> fileItemValidators,
       Collection<Validator<E>> entityValidators) {
     this.mapperHandler = mapperHandler;
     this.fileManager = fileManager;
     this.pathToFile = pathToFile;
-    this.textValidators = textValidators;
+    this.fileItemValidators = fileItemValidators;
     this.entityValidators = entityValidators;
   }
 
@@ -64,25 +62,16 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
   @Override
   public void save() {
     Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
-    try {
-      fileManager.write(pathToFile, entities.stream()
-          .map(mapper::toSource)
-          .collect(Collectors.toList())
-      );
-    } catch (IOException ioException) {
-      log.error("Couldn't save data by path \"{}\" in {}", pathToFile,
-          this.getClass().getSimpleName());
-      throw new AccessFileException(
-          String.format("File with path \"%s\" has problem: %s", pathToFile,
-              ioException.getMessage()));
-    }
+    fileManager.write(pathToFile, entities.stream()
+        .map(mapper::toSource)
+        .collect(Collectors.toList()));
   }
 
   protected Collection<E> load() {
     Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
     try {
-      return fileManager.read(pathToFile)
-          .filter(this::validateParseItem)
+      Collection<E> entitiesToLoad = fileManager.read(pathToFile)
+          .filter(this::validateFileItem)
           .map(entity -> {
             try {
               return mapper.toTarget(entity);
@@ -95,15 +84,21 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
           .filter(Objects::nonNull)
           .filter(this::validateEntity)
           .collect(Collectors.toList());
-    } catch (IOException ioException) {
+      return fillReference(entitiesToLoad);
+    } catch (Exception exception) {
       log.error("Problem with loading data (path: \"{}\")", pathToFile);
-      throw new LoadDataException(ioException.getMessage());
+      throw new LoadDataException(exception.getMessage());
     }
   }
 
-  protected boolean validateParseItem(String text) {
+  protected Collection<E> fillReference(Collection<E> entitiesToLoad) {
+    return entitiesToLoad;
+  }
+
+
+  protected boolean validateFileItem(String text) {
     var problems = new ArrayList<String>();
-    textValidators.forEach(textValidator -> problems.addAll(textValidator.validate(text)));
+    fileItemValidators.forEach(validator -> problems.addAll(validator.validate(text)));
     if (!problems.isEmpty()) {
       log.warn("Text [{}] has problems: {}", text,
           StringUtils.join(problems));
@@ -114,7 +109,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   protected boolean validateEntity(E entity) {
     var problems = new ArrayList<String>();
-        entityValidators.forEach(entityValidator -> problems.addAll(entityValidator.validate(entity)));
+    entityValidators.forEach(validator -> problems.addAll(validator.validate(entity)));
     if (!problems.isEmpty()) {
       log.warn("Entity [{}] has problems: {}", entity.toString(),
           StringUtils.join(problems));

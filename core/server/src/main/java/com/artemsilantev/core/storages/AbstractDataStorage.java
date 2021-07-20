@@ -1,7 +1,7 @@
 package com.artemsilantev.core.storages;
 
-import java.util.Collection;
 import com.artemsilantev.core.model.BaseEntity;
+import java.util.Collection;
 
 public interface AbstractDataStorage<E extends BaseEntity> {
 

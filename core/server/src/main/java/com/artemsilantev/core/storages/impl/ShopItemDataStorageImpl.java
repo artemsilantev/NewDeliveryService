@@ -2,8 +2,6 @@ package com.artemsilantev.core.storages.impl;
 
 import com.artemsilantev.core.filemanagers.FileManager;
 import com.artemsilantev.core.handlers.Handler;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.model.Shop;
@@ -12,6 +10,8 @@ import com.artemsilantev.core.storages.ProductDataStorage;
 import com.artemsilantev.core.storages.ShopDataStorage;
 import com.artemsilantev.core.storages.ShopItemDataStorage;
 import com.artemsilantev.core.validators.Validator;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ShopItemDataStorageImpl extends AbstractDataStorageImpl<ShopItem>
     implements ShopItemDataStorage {
@@ -30,30 +30,28 @@ public class ShopItemDataStorageImpl extends AbstractDataStorageImpl<ShopItem>
     this.productDataStorage = productDataStorage;
   }
 
-
   @Override
-  protected Collection<ShopItem> load() {
-    Collection<ShopItem> shopItems = super.load();
-    return shopItems.stream()
+  protected Collection<ShopItem> fillReference(Collection<ShopItem> entitiesToLoad) {
+    return entitiesToLoad.stream()
         .map(item -> {
           if (item.getShop() != null) {
-            item.setShop(getShop(item.getShop().getId()));
+            item.setShop(findShopById(item.getShop().getId()));
           }
           if (item.getProduct() != null) {
-            item.setProduct(getProduct(item.getProduct().getId()));
+            item.setProduct(findProductById(item.getProduct().getId()));
           }
           return item;
         }).collect(Collectors.toList());
   }
 
-  private Product getProduct(Long id) {
+  private Product findProductById(Long id) {
     return productDataStorage.getEntities().stream()
         .filter(product -> product.getId().equals(id))
         .findFirst()
         .orElse(null);
   }
 
-  private Shop getShop(Long id) {
+  private Shop findShopById(Long id) {
     return shopDataStorage.getEntities().stream()
         .filter(shop -> shop.getId().equals(id))
         .findFirst()

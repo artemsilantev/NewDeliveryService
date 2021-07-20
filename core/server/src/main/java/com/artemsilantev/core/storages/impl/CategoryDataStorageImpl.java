@@ -2,12 +2,12 @@ package com.artemsilantev.core.storages.impl;
 
 import com.artemsilantev.core.filemanagers.FileManager;
 import com.artemsilantev.core.handlers.Handler;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.storages.CategoryDataStorage;
 import com.artemsilantev.core.validators.Validator;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class CategoryDataStorageImpl extends AbstractDataStorageImpl<Category>
     implements CategoryDataStorage {
@@ -21,19 +21,19 @@ public class CategoryDataStorageImpl extends AbstractDataStorageImpl<Category>
     super(mapperHandler, fileManager, pathToFile, textValidators, entityValidators);
   }
 
+
   @Override
-  protected Collection<Category> load() {
-    Collection<Category> categories = super.load();
-    return categories.stream()
+  protected Collection<Category> fillReference(Collection<Category> entitiesToLoad) {
+    return entitiesToLoad.stream()
         .map(category -> {
           if (category.getParent() != null) {
-            category.setParent(get(category.getParent().getId(), categories));
+            category.setParent(findCategoryById(category.getParent().getId(), entitiesToLoad));
           }
           return category;
         }).collect(Collectors.toList());
   }
 
-  private Category get(Long id, Collection<Category> categories) {
+  private Category findCategoryById(Long id, Collection<Category> categories) {
     return categories.stream()
         .filter(category -> category.getId().equals(id))
         .findFirst()

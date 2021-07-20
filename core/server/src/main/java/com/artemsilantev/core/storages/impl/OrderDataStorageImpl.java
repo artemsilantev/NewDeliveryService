@@ -2,9 +2,6 @@ package com.artemsilantev.core.storages.impl;
 
 import com.artemsilantev.core.filemanagers.FileManager;
 import com.artemsilantev.core.handlers.Handler;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Order;
 import com.artemsilantev.core.model.ShopItem;
@@ -13,6 +10,9 @@ import com.artemsilantev.core.storages.OrderDataStorage;
 import com.artemsilantev.core.storages.ShopItemDataStorage;
 import com.artemsilantev.core.storages.UserDataStorage;
 import com.artemsilantev.core.validators.Validator;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class OrderDataStorageImpl extends AbstractDataStorageImpl<Order>
     implements OrderDataStorage {
@@ -31,31 +31,29 @@ public class OrderDataStorageImpl extends AbstractDataStorageImpl<Order>
     this.userDataStorage = userDataStorage;
   }
 
-
   @Override
-  protected Collection<Order> load() {
-    Collection<Order> orders = super.load();
-    return orders.stream()
+  protected Collection<Order> fillReference(Collection<Order> entitiesToLoad) {
+    return entitiesToLoad.stream()
         .map(order -> {
           if (order.getUser() != null) {
-            order.setUser(getUser(order.getUser().getId()));
+            order.setUser(findUserById(order.getUser().getId()));
           }
           order.setItems(order.getItems().stream()
-              .map(shopItem -> getShopItem(shopItem.getId()))
+              .map(shopItem -> findShopItemById(shopItem.getId()))
               .filter(Objects::nonNull)
               .collect(Collectors.toList()));
           return order;
         }).collect(Collectors.toList());
   }
 
-  private ShopItem getShopItem(Long id) {
+  private ShopItem findShopItemById(Long id) {
     return shopItemDataStorage.getEntities().stream()
         .filter(shopItem -> shopItem.getId().equals(id))
         .findFirst()
         .orElse(null);
   }
 
-  private User getUser(Long id) {
+  private User findUserById(Long id) {
     return userDataStorage.getEntities()
         .stream()
         .filter(user -> user.getId().equals(id))
