@@ -9,9 +9,4 @@ public class Runner {
 
   }
 
-  private static void displayInfo(Object obj) {
-
-    log.debug("{}", obj.toString());
-  }
-
 }
