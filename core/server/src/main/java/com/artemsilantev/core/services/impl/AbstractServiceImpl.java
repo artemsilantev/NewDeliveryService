@@ -5,7 +5,6 @@ import com.artemsilantev.core.model.BaseEntity;
 import com.artemsilantev.core.repositories.AbstractRepository;
 import com.artemsilantev.core.services.AbstractService;
 import java.util.Collection;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

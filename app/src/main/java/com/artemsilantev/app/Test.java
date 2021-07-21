@@ -15,8 +15,6 @@ import com.artemsilantev.core.services.ShopService;
 import com.artemsilantev.core.services.UserService;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +39,7 @@ public class Test {
     log.debug("test class run");
     try {
       create();
-    }catch (IllegalEntityException illegalEntityException){
+    } catch (IllegalEntityException illegalEntityException) {
       log.warn(illegalEntityException.getMessage());
     }
     displayAll();
@@ -51,7 +49,6 @@ public class Test {
     categoryService.update(category);
     save();
 
-
     log.debug("test class stop working");
   }
 
@@ -59,7 +56,7 @@ public class Test {
     var category1 = new CategoryDTO(null, "Electronic device",
         "some description about electronic device", null);
     var category2 = new CategoryDTO(null, "Smartphone", "some description about smartphones",
-            category1.getId());
+        category1.getId());
     category1 = categoryService.create(category1);
     category2 = categoryService.create(category2);
 
