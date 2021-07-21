@@ -7,5 +7,5 @@ public interface CategoryRepository extends AbstractRepository<Category> {
 
   Collection<Category> getRootCategories();
 
-  Collection<Category> getCategoriesWithParent();
+  Collection<Category> getChildrenCategories();
 }

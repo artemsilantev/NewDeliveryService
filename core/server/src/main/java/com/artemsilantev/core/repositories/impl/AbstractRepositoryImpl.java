@@ -40,8 +40,7 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
 
   @Override
   public void delete(Long id){
-    var entityToDelete = get(id);
-   getAll().remove(entityToDelete);
+   getAll().remove(get(id));
   }
 
   @Override

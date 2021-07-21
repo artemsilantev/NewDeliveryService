@@ -21,7 +21,7 @@ public class CategoryRepositoryImpl extends AbstractRepositoryImpl<Category>
   }
 
   @Override
-  public Collection<Category> getCategoriesWithParent() {
+  public Collection<Category> getChildrenCategories() {
     return getAll().stream()
         .filter(category -> category.getParent() != null)
         .collect(Collectors.toList());

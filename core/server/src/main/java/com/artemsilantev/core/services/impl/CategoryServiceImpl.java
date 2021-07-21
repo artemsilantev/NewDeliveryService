@@ -55,7 +55,7 @@ public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Catego
   @Override
   public Collection<CategoryDTO> getChildren(Long id) {
     var parent = abstractRepository.get(id);
-    return ((CategoryRepository) abstractRepository).getCategoriesWithParent().stream()
+    return ((CategoryRepository) abstractRepository).getChildrenCategories().stream()
         .filter(category -> category.getParent().equals(parent))
         .map(mapperDTO::toTarget)
         .collect(Collectors.toList());
