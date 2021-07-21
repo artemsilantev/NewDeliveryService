@@ -22,6 +22,7 @@ public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Catego
 
   @Override
   public CategoryDTO create(CategoryDTO categoryDTO) {
+    log.debug("Category will be created: {}", categoryDTO.toString());
     for (Category category : abstractRepository.getAll()) {
       if (category.getName().equals(categoryDTO.getName())) {
         throw new IllegalEntityException(
@@ -33,7 +34,7 @@ public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Catego
 
   @Override
   public void update(CategoryDTO categoryDTO) {
-    log.info("Category was updated: {}", categoryDTO.toString());
+    log.debug("Category will be updated: {}", categoryDTO.toString());
     for (Category category : abstractRepository.getAll()) {
       if (category.getName().equals(categoryDTO.getName())
           && !category.getId().equals(categoryDTO.getId())) {
