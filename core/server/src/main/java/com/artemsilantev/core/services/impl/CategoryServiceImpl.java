@@ -8,8 +8,10 @@ import com.artemsilantev.core.repositories.CategoryRepository;
 import com.artemsilantev.core.services.CategoryService;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Category>
     implements CategoryService {
 
@@ -31,6 +33,7 @@ public class CategoryServiceImpl extends AbstractServiceImpl<CategoryDTO, Catego
 
   @Override
   public void update(CategoryDTO categoryDTO) {
+    log.info("Category was updated: {}", categoryDTO.toString());
     for (Category category : abstractRepository.getAll()) {
       if (category.getName().equals(categoryDTO.getName())
           && !category.getId().equals(categoryDTO.getId())) {

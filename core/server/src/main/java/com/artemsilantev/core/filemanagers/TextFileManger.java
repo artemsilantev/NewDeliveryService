@@ -7,7 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TextFileManger implements FileManager {
 
   @Override
@@ -17,9 +19,10 @@ public class TextFileManger implements FileManager {
       createFileIfNotExists(path);
       return Files.lines(path);
     } catch (IOException ioException) {
-      throw new AccessFileException(
-          String.format("Couldn't read from file with path \"%s\": %s", pathToFile,
-              ioException.getMessage()));
+      var errorMessage = String.format("Couldn't read from file with path \"%s\": %s", pathToFile,
+          ioException.getMessage());
+      log.error(errorMessage);
+      throw new AccessFileException(errorMessage);
     }
 
   }
@@ -31,9 +34,10 @@ public class TextFileManger implements FileManager {
       createFileIfNotExists(path);
       Files.write(path, lines);
     } catch (IOException ioException) {
-      throw new AccessFileException(
-          String.format("Couldn't write to file with path \"%s\": %s", pathToFile,
-              ioException.getMessage()));
+      var errorMessage = String.format("Couldn't write to file with path \"%s\": %s", pathToFile,
+          ioException.getMessage());
+      log.error(errorMessage);
+      throw new AccessFileException(errorMessage);
     }
   }
 
@@ -53,9 +57,10 @@ public class TextFileManger implements FileManager {
         Files.createFile(path);
       }
     } catch (IOException ioException) {
-      throw new AccessFileException(
-          String.format("Couldn't create file with path \"%s\": %s", path,
-              ioException.getMessage()));
+      var errorMessage = String.format("Couldn't create file with path \"%s\": %s", path,
+          ioException.getMessage());
+      log.error(errorMessage);
+      throw new AccessFileException(errorMessage);
     }
   }
 

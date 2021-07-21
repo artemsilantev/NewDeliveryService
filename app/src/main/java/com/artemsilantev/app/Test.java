@@ -15,6 +15,8 @@ import com.artemsilantev.core.services.ShopService;
 import com.artemsilantev.core.services.UserService;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +42,7 @@ public class Test {
     try {
       create();
     }catch (IllegalEntityException illegalEntityException){
-      log.error(illegalEntityException.getMessage());
+      log.warn(illegalEntityException.getMessage());
     }
     displayAll();
     var category = categoryService.get(1L);
@@ -105,6 +107,6 @@ public class Test {
   }
 
   private void displayInfo(Object obj) {
-    log.debug("{}", obj.toString());
+    log.info("{}", obj.toString());
   }
 }

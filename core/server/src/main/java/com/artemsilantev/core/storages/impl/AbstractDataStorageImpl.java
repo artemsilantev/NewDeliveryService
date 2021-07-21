@@ -48,6 +48,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
           .mapToLong(E::getId)
           .max()
           .orElse(0L);
+      log.debug("Data storage was loaded: {}", this.getClass().getSimpleName());
     }
     return entities;
   }
@@ -63,6 +64,7 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
   public void save() {
     Mapper<E, String> mapper = mapperHandler.getHandler(pathToFile);
     fileManager.write(pathToFile, mapper.toSourceCollection(entities));
+    log.debug("Data storage was saved: {}", this.getClass().getSimpleName());
   }
 
   protected Collection<E> load() {
