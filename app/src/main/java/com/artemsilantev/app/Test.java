@@ -39,8 +39,8 @@ public class Test {
     log.debug("test class run");
     try {
       create();
-    } catch (IllegalEntityException illegalEntityException) {
-      log.debug(illegalEntityException.getMessage());
+    }catch (IllegalEntityException illegalEntityException){
+      log.error(illegalEntityException.getMessage());
     }
     displayAll();
     var category = categoryService.get(1L);
@@ -54,13 +54,18 @@ public class Test {
   }
 
   private void create() {
-    var category1 = categoryService.create(new CategoryDTO(null, "Electronic device",
-        "some description about electronic device", null));
-    var category2 = categoryService.create(
-        new CategoryDTO(null, "Smartphone", "some description about smartphones",
-            category1.getId()));
+    var category1 = new CategoryDTO(null, "Electronic device",
+        "some description about electronic device", null);
+    var category2 = new CategoryDTO(null, "Smartphone", "some description about smartphones",
+            category1.getId());
+    category1 = categoryService.create(category1);
+    category2 = categoryService.create(category2);
+
     var product1 = new ProductDTO(null, "Iphone", Arrays.asList(category2));
     var product2 = new ProductDTO(null, "Electronic device", Arrays.asList(category1, category2));
+    product1 = productService.create(product1);
+    product2 = productService.create(product2);
+
     var shop1 = new ShopDTO(null, "Shop1", "shop1 address", "shop1@gmail.com");
     var shop2 = new ShopDTO(null, "Shop2", "shop2 address", "shop2@mail.ru");
     shop1 = shopService.create(shop1);
@@ -77,8 +82,8 @@ public class Test {
     user2 = userService.create(user2);
     var order1 = new OrderDTO(null, user1, Arrays.asList(shopItem1), 1.00);
     var order2 = new OrderDTO(null, user2, Arrays.asList(shopItem1, shopItem2), 2.00);
-    orderService.create(order1);
-    orderService.create(order2);
+    order1 = orderService.create(order1);
+    order2 = orderService.create(order2);
   }
 
   private void displayAll() {
@@ -100,7 +105,6 @@ public class Test {
   }
 
   private void displayInfo(Object obj) {
-
     log.debug("{}", obj.toString());
   }
 }

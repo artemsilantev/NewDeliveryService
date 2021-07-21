@@ -1,7 +1,9 @@
 package com.artemsilantev.core.mappers.impl.dto;
 
+import com.artemsilantev.core.dto.CategoryDTO;
 import com.artemsilantev.core.dto.ShopItemDTO;
 import com.artemsilantev.core.mappers.Mapper;
+import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.model.ShopItem;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -15,6 +17,11 @@ public class ShopItemDTOMapper implements Mapper<ShopItemDTO, ShopItem> {
   public ShopItemDTOMapper() {
     modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+    var map = modelMapper.createTypeMap(Category.class, CategoryDTO.class);
+    map.addMapping(category -> {
+      var parent = category.getParent();
+      return parent != null ? parent.getId() : null;
+    }, CategoryDTO::setParentId);
   }
 
   @Override

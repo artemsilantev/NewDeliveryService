@@ -54,8 +54,8 @@ public abstract class AbstractDataStorageImpl<E extends BaseEntity>
 
   @Override
   public E create(E entity) {
+    getEntities().add(entity);
     entity.setId(++entityIdSequence);
-    entities.add(entity);
     return entity;
   }
 
