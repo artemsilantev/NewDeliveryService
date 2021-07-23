@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%-5level] [%d{dd.MM.yyyy HH:mm:ss.SSS}] [%thread] [%logger{20} - %msg]%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="file-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>service.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>service-backup-log-%i.log</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>4</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>2MB</maxFileSize>
+    </triggeringPolicy>
+    <encoder>
+      <pattern>[%-5level] [%d{dd.MM.yyyy HH:mm:ss.SSS}] [%thread] [%logger{20} - %msg]%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.artemsilantev.core.services.impl.CategoryServiceImpl" level="debug"
+    additivity="false">
+    <appender-ref ref="file-rolling"></appender-ref>
+  </logger>
+
+  <root level="${logger-level}">
+    <appender-ref ref="console"/>
+  </root>
+</configuration>

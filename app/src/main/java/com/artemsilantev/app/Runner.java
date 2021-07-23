@@ -1,23 +1,14 @@
 package com.artemsilantev.app;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class Runner implements ApplicationRunner {
-
-  @Autowired
-  private Test test;
+public class Runner extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
     SpringApplication.run(Runner.class, args);
   }
 
-  @Override
-  public void run(ApplicationArguments args) throws Exception {
-    test.run();
-  }
 }
