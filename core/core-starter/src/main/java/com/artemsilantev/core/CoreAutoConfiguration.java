@@ -136,8 +136,9 @@ public class CoreAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ProductService getProductService(ProductRepository productRepository) {
-    return new ProductServiceImpl(new ProductDTOMapper(), productRepository);
+  public ProductService getProductService(ProductRepository productRepository,
+      CategoryService categoryService) {
+    return new ProductServiceImpl(new ProductDTOMapper(), productRepository, categoryService);
   }
 
   @Bean
@@ -232,7 +233,7 @@ public class CoreAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public OrderRepository getOrderRepository(OrderDataStorage orderDataStorage){
+  public OrderRepository getOrderRepository(OrderDataStorage orderDataStorage) {
     return new OrderRepositoryImpl(orderDataStorage);
   }
 
