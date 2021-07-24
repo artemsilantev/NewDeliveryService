@@ -10,4 +10,9 @@ public class UserRepositoryImpl extends AbstractRepositoryImpl<User>
   public UserRepositoryImpl(UserDataStorage userDataStorage) {
     super(userDataStorage);
   }
+
+  @Override
+  protected String getEntityName() {
+    return "User";
+  }
 }

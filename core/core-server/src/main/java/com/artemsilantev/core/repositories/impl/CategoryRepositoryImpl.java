@@ -26,4 +26,9 @@ public class CategoryRepositoryImpl extends AbstractRepositoryImpl<Category>
         .filter(category -> category.getParent() != null)
         .collect(Collectors.toList());
   }
+
+  @Override
+  protected String getEntityName() {
+    return "Category";
+  }
 }

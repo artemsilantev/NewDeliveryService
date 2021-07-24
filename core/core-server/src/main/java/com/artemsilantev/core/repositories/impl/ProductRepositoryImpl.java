@@ -23,4 +23,9 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product>
         .map(category -> categoryRepository.get(category.getId()))
         .collect(Collectors.toList()));
   }
+
+  @Override
+  protected String getEntityName() {
+    return "Product";
+  }
 }

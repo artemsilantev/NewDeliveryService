@@ -7,12 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class NoRecordException extends RuntimeException {
 
-  private final String entityType;
+  private final String entityName;
   private final Long id;
 
 
   @Override
   public String getMessage() {
-    return String.format("Object in this storage %s was not found by this id (%d)", entityType, id);
+    return String.format("'%s' was not found by this id (%d)", entityName, id);
   }
 }

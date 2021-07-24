@@ -10,4 +10,9 @@ public class ShopRepositoryImpl extends AbstractRepositoryImpl<Shop>
   public ShopRepositoryImpl(ShopDataStorage shopDataStorage) {
     super(shopDataStorage);
   }
+
+  @Override
+  protected String getEntityName() {
+    return "Shop";
+  }
 }

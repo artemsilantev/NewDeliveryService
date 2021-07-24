@@ -28,4 +28,9 @@ public class OrderRepositoryImpl extends AbstractRepositoryImpl<Order>
         .map(shopItem -> shopItemRepository.get(shopItem.getId()))
         .collect(Collectors.toList()));
   }
+
+  @Override
+  protected String getEntityName() {
+    return "Order";
+  }
 }

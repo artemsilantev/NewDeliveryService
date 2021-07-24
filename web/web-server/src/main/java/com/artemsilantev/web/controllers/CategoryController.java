@@ -1,10 +1,11 @@
 package com.artemsilantev.web.controllers;
 
 import com.artemsilantev.core.services.CategoryService;
-import com.artemsilantev.web.requests.CategoryCreateRequest;
-import com.artemsilantev.web.requests.CategoryUpdateRequest;
 import com.artemsilantev.web.dto.CategoryWebDTO;
 import com.artemsilantev.web.mappers.CategoryWebMapper;
+import com.artemsilantev.web.requests.CategoryCreateRequest;
+import com.artemsilantev.web.requests.CategoryUpdateRequest;
+import java.net.URI;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,49 +31,46 @@ public class CategoryController {
 
   @GetMapping("/{id}")
   public ResponseEntity<CategoryWebDTO> get(@PathVariable Long id) {
-    return new ResponseEntity<>(
-        mapper.toTarget(categoryService.get(id)),
-        HttpStatus.OK
-    );
+    return ResponseEntity.ok()
+        .body(mapper.toTarget(categoryService.get(id)));
   }
 
   @GetMapping
   public ResponseEntity<Collection<CategoryWebDTO>> getAll() {
-    return new ResponseEntity<>(
-        mapper.toTargetCollection(categoryService.getAll()), HttpStatus.OK
-    );
+    return ResponseEntity.ok()
+        .body(mapper.toTargetCollection(categoryService.getAll()));
   }
 
   @PostMapping
   public ResponseEntity<CategoryWebDTO> create(@RequestBody CategoryCreateRequest createRequest) {
     var categoryDTO = categoryService.create(mapper.toSource(createRequest));
-    return new ResponseEntity<>(mapper.toTarget(categoryDTO), HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body(mapper.toTarget(categoryDTO));
   }
 
   @PutMapping
   public ResponseEntity<?> update(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
     categoryService.update(mapper.toSource(categoryUpdateRequest));
-    return new ResponseEntity<>("success", HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body("successful");
   }
 
   @GetMapping("/root")
   public ResponseEntity<Collection<CategoryWebDTO>> getRootCategories() {
-    return new ResponseEntity<>(
-        mapper.toTargetCollection(categoryService.getRootCategories()), HttpStatus.OK
-    );
+    return ResponseEntity.ok()
+        .body(mapper.toTargetCollection(categoryService.getRootCategories()));
   }
 
   @GetMapping("/root/{id}")
   public ResponseEntity<Collection<CategoryWebDTO>> getChildrenCategories(@PathVariable Long id) {
-    return new ResponseEntity<>(
-        mapper.toTargetCollection(categoryService.getChildren(id)), HttpStatus.OK
-    );
+    return ResponseEntity.ok()
+       .body(mapper.toTargetCollection(categoryService.getChildren(id)));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id){
+  public ResponseEntity<?> delete(@PathVariable Long id) {
     categoryService.delete(id);
-    return new ResponseEntity<>("success", HttpStatus.OK);
+    return ResponseEntity.ok("successful");
   }
 
 }

@@ -13,12 +13,13 @@ import lombok.AllArgsConstructor;
 public abstract class AbstractRepositoryImpl<E extends BaseEntity>
     implements AbstractRepository<E> {
 
+  private static final String ENTITY_STANDARD_NAME = "Entity";
   protected final AbstractDataStorage<E> dataStorage;
 
   @Override
   public E create(E entity) {
     fillReference(entity);
-    var entityCreated= dataStorage.create(entity);
+    var entityCreated = dataStorage.create(entity);
     save();
     return entityCreated;
   }
@@ -29,9 +30,9 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
         .filter(entity -> entity.getId().equals(id))
         .collect(Collectors.toList());
     if (entities.isEmpty()) {
-      throw new NoRecordException(dataStorage.getClass().getSimpleName(), id);
+      throw new NoRecordException(getEntityName(), id);
     } else if (entities.size() > 1) {
-      throw new DuplicateEntityException(dataStorage.getClass().getSimpleName(), id);
+      throw new DuplicateEntityException(getEntityName(), id);
     }
     return entities.get(0);
   }
@@ -42,9 +43,9 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
   }
 
   @Override
-  public void delete(Long id){
-   getAll().remove(get(id));
-   save();
+  public void delete(Long id) {
+    getAll().remove(get(id));
+    save();
   }
 
   @Override
@@ -57,6 +58,10 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
 
   protected void fillReference(E entity) {
 
+  }
+
+  protected String getEntityName() {
+    return ENTITY_STANDARD_NAME;
   }
 
   @Override

@@ -25,4 +25,9 @@ public class ShopItemRepositoryImpl extends AbstractRepositoryImpl<ShopItem>
     entity.setShop(shopRepository.get(entity.getShop().getId()));
     entity.setProduct(productRepository.get(entity.getProduct().getId()));
   }
+
+  @Override
+  protected String getEntityName() {
+    return "Shop item";
+  }
 }
