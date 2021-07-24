@@ -2,7 +2,9 @@ package com.artemsilantev.web.controllers;
 
 import com.artemsilantev.core.services.ProductService;
 import com.artemsilantev.web.dto.ProductWebDTO;
-import com.artemsilantev.web.mappers.ProductWebDTOMapper;
+import com.artemsilantev.web.mappers.ProductWebMapper;
+import com.artemsilantev.web.requests.ProductCreateRequest;
+import com.artemsilantev.web.requests.ProductUpdateRequest;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,29 +26,29 @@ public class ProductController {
   private ProductService productService;
 
   @Autowired
-  private ProductWebDTOMapper mapperDTO;
+  private ProductWebMapper mapper;
 
   @GetMapping
   public ResponseEntity<Collection<ProductWebDTO>> getAll() {
     return new ResponseEntity<>(
-        mapperDTO.toTargetCollection(productService.getAll()), HttpStatus.OK
+        mapper.toTargetCollection(productService.getAll()), HttpStatus.OK
     );
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ProductWebDTO> get(@PathVariable Long id) {
-    return new ResponseEntity<>(mapperDTO.toTarget(productService.get(id)), HttpStatus.OK);
+    return new ResponseEntity<>(mapper.toTarget(productService.get(id)), HttpStatus.OK);
   }
 
   @PostMapping
-  public ResponseEntity<ProductWebDTO> create(@RequestBody ProductWebDTO productWebDTO) {
-    var productDTO = productService.create(mapperDTO.toSource(productWebDTO));
-    return new ResponseEntity<>(mapperDTO.toTarget(productDTO), HttpStatus.OK);
+  public ResponseEntity<ProductWebDTO> create(@RequestBody ProductCreateRequest createRequest) {
+    var productDTO = productService.create(mapper.toSource(createRequest));
+    return new ResponseEntity<>(mapper.toTarget(productDTO), HttpStatus.OK);
   }
 
   @PutMapping
-  public ResponseEntity<?> update(@RequestBody ProductWebDTO productWebDTO){
-    productService.update(mapperDTO.toSource(productWebDTO));
+  public ResponseEntity<?> update(@RequestBody ProductUpdateRequest updateRequest){
+    productService.update(mapper.toSource(updateRequest));
     return new ResponseEntity<>("success", HttpStatus.OK);
   }
 
