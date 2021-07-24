@@ -5,6 +5,7 @@ import java.util.Collection;
 
 public interface AbstractRepository<E extends BaseEntity> {
 
+
   E create(E entity);
 
   E get(Long id);
@@ -16,4 +17,5 @@ public interface AbstractRepository<E extends BaseEntity> {
   void delete(Long id);
 
   void update(E e);
+
 }

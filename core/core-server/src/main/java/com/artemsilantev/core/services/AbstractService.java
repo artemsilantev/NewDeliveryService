@@ -12,7 +12,5 @@ public interface AbstractService<T, S> {
 
   void delete(Long id);
 
-  void save();
-
   void update(T entity);
 }

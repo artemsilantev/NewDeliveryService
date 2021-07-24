@@ -17,7 +17,10 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
 
   @Override
   public E create(E entity) {
-    return dataStorage.create(entity);
+    fillReference(entity);
+    var entityCreated= dataStorage.create(entity);
+    save();
+    return entityCreated;
   }
 
   @Override
@@ -41,12 +44,19 @@ public abstract class AbstractRepositoryImpl<E extends BaseEntity>
   @Override
   public void delete(Long id){
    getAll().remove(get(id));
+   save();
   }
 
   @Override
-  public void update(E e) {
-    delete(e.getId());
-    getAll().add(e);
+  public void update(E entity) {
+    fillReference(entity);
+    delete(entity.getId());
+    getAll().add(entity);
+    save();
+  }
+
+  protected void fillReference(E entity) {
+
   }
 
   @Override

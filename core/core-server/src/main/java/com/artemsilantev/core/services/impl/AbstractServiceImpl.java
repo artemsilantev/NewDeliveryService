@@ -31,11 +31,6 @@ public abstract class AbstractServiceImpl<T, S extends BaseEntity> implements
   }
 
   @Override
-  public void save() {
-    abstractRepository.save();
-  }
-
-  @Override
   public void delete(Long id) {
     abstractRepository.delete(id);
   }

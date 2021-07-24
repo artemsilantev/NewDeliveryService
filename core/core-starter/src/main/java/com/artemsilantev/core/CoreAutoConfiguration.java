@@ -130,15 +130,15 @@ public class CoreAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ProductRepository getProductRepository(ProductDataStorage productDataStorage) {
-    return new ProductRepositoryImpl(productDataStorage);
+  public ProductRepository getProductRepository(ProductDataStorage productDataStorage,
+      CategoryRepository categoryRepository) {
+    return new ProductRepositoryImpl(productDataStorage, categoryRepository);
   }
 
   @Bean
   @ConditionalOnMissingBean
-  public ProductService getProductService(ProductRepository productRepository,
-      CategoryService categoryService) {
-    return new ProductServiceImpl(new ProductDTOMapper(), productRepository, categoryService);
+  public ProductService getProductService(ProductRepository productRepository) {
+    return new ProductServiceImpl(new ProductDTOMapper(), productRepository);
   }
 
   @Bean
@@ -182,8 +182,9 @@ public class CoreAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ShopItemRepository getShopItemRepository(ShopItemDataStorage shopItemDataStorage) {
-    return new ShopItemRepositoryImpl(shopItemDataStorage);
+  public ShopItemRepository getShopItemRepository(ShopItemDataStorage shopItemDataStorage,
+      ShopRepository shopRepository, ProductRepository productRepository) {
+    return new ShopItemRepositoryImpl(shopItemDataStorage, shopRepository, productRepository);
   }
 
   @Bean
@@ -233,8 +234,9 @@ public class CoreAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public OrderRepository getOrderRepository(OrderDataStorage orderDataStorage) {
-    return new OrderRepositoryImpl(orderDataStorage);
+  public OrderRepository getOrderRepository(OrderDataStorage orderDataStorage,
+      UserRepository userRepository, ShopItemRepository shopItemRepository) {
+    return new OrderRepositoryImpl(orderDataStorage, userRepository, shopItemRepository);
   }
 
   @Bean
