@@ -1,6 +1,5 @@
 package com.artemsilantev.web.exceptions;
 
-import com.artemsilantev.core.exceptions.DuplicateEntityException;
 import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.exceptions.NoRecordException;
 import java.rmi.ServerException;

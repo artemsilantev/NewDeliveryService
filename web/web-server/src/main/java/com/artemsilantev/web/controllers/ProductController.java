@@ -9,7 +9,6 @@ import com.artemsilantev.web.requests.ProductCreateRequest;
 import com.artemsilantev.web.requests.ProductUpdateRequest;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +35,14 @@ public class ProductController {
 
   @GetMapping
   public ResponseEntity<Collection<ProductWebDTO>> getAll() {
-    return new ResponseEntity<>(
-        productWebMapper.toTargetCollection(productService.getAll()), HttpStatus.OK
-    );
+    return ResponseEntity.ok()
+        .body(productWebMapper.toTargetCollection(productService.getAll()));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ProductWebDTO> get(@PathVariable Long id) {
-    return new ResponseEntity<>(productWebMapper.toTarget(productService.get(id)), HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body(productWebMapper.toTarget(productService.get(id)));
   }
 
   @GetMapping("/{id}/categories")
@@ -56,7 +55,8 @@ public class ProductController {
   @PostMapping
   public ResponseEntity<ProductWebDTO> create(@RequestBody ProductCreateRequest createRequest) {
     var productDTO = productService.create(productWebMapper.toSource(createRequest));
-    return new ResponseEntity<>(productWebMapper.toTarget(productDTO), HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body(productWebMapper.toTarget(productDTO));
   }
 
 
@@ -75,15 +75,17 @@ public class ProductController {
   }
 
   @PutMapping
-  public ResponseEntity<?> update(@RequestBody ProductUpdateRequest updateRequest) {
+  public ResponseEntity<Object> update(@RequestBody ProductUpdateRequest updateRequest) {
     productService.update(productWebMapper.toSource(updateRequest));
-    return new ResponseEntity<>("success", HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body("successful");
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id) {
+  public ResponseEntity<Object> delete(@PathVariable Long id) {
     productService.delete(id);
-    return new ResponseEntity<>("success", HttpStatus.OK);
+    return ResponseEntity.ok()
+        .body("successful");
   }
 
 

@@ -5,10 +5,8 @@ import com.artemsilantev.web.dto.CategoryWebDTO;
 import com.artemsilantev.web.mappers.CategoryWebMapper;
 import com.artemsilantev.web.requests.CategoryCreateRequest;
 import com.artemsilantev.web.requests.CategoryUpdateRequest;
-import java.net.URI;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,13 +62,14 @@ public class CategoryController {
   @GetMapping("/root/{id}")
   public ResponseEntity<Collection<CategoryWebDTO>> getChildrenCategories(@PathVariable Long id) {
     return ResponseEntity.ok()
-       .body(mapper.toTargetCollection(categoryService.getChildren(id)));
+        .body(mapper.toTargetCollection(categoryService.getChildren(id)));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id) {
+  public ResponseEntity<Object> delete(@PathVariable Long id) {
     categoryService.delete(id);
-    return ResponseEntity.ok("successful");
+    return ResponseEntity.ok()
+        .body("successful");
   }
 
 }
