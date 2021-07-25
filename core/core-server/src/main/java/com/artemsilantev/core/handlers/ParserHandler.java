@@ -18,24 +18,24 @@ public class ParserHandler<T> implements Handler<Mapper<T, String>, String> {
     switch (extension) {
       case "json": {
         if (JsonMapper == null) {
-          throw createNoHandlerException(extension);
+          throw createNoHandlerException(fileName);
         }
         return JsonMapper;
       }
       case "xml": {
         if (XmlMapper == null) {
-          throw createNoHandlerException(extension);
+          throw createNoHandlerException(fileName);
         }
         return XmlMapper;
       }
       default: {
-        throw createNoHandlerException(extension);
+        throw createNoHandlerException(fileName);
       }
     }
   }
 
-  private NoHandlerException createNoHandlerException(String extension) {
+  private NoHandlerException createNoHandlerException(String fileName) {
     return new NoHandlerException(
-        String.format("Couldn't' find mapper for this extension '%s'", extension));
+        String.format("Couldn't' find mapper for this file %s", fileName));
   }
 }

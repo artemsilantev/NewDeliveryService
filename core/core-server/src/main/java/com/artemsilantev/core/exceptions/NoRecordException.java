@@ -13,6 +13,6 @@ public class NoRecordException extends RuntimeException {
 
   @Override
   public String getMessage() {
-    return String.format("'%s' was not found by this id (%d)", entityName, id);
+    return String.format("%s was not found by this id (%d)", entityName, id);
   }
 }
