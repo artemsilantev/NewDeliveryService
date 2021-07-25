@@ -3,7 +3,7 @@ package com.artemsilantev.web.exceptions;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class IllegalResourceException extends RuntimeException{
+public class IllegalResourceException extends RuntimeException {
 
   private final String message;
 
