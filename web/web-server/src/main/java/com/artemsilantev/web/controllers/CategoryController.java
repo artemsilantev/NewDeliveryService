@@ -47,7 +47,7 @@ public class CategoryController {
   }
 
   @PutMapping
-  public ResponseEntity<?> update(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+  public ResponseEntity<Object> update(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
     categoryService.update(mapper.toSource(categoryUpdateRequest));
     return ResponseEntity.ok()
         .body("successful");

@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductUpdateRequest {
+
   private Long id;
   private String name;
 }
