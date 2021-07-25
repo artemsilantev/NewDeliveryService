@@ -6,6 +6,9 @@ import com.artemsilantev.web.mappers.CategoryWebMapper;
 import com.artemsilantev.web.requests.CategoryCreateRequest;
 import com.artemsilantev.web.requests.CategoryUpdateRequest;
 import java.util.Collection;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +31,7 @@ public class CategoryController {
   private CategoryWebMapper mapper;
 
   @GetMapping("/{id}")
-  public ResponseEntity<CategoryWebDTO> get(@PathVariable Long id) {
+  public ResponseEntity<CategoryWebDTO> get(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
     return ResponseEntity.ok()
         .body(mapper.toTarget(categoryService.get(id)));
   }
@@ -40,15 +43,15 @@ public class CategoryController {
   }
 
   @PostMapping
-  public ResponseEntity<CategoryWebDTO> create(@RequestBody CategoryCreateRequest createRequest) {
-    var categoryDTO = categoryService.create(mapper.toSource(createRequest));
+  public ResponseEntity<CategoryWebDTO> create(@RequestBody @Valid CategoryCreateRequest request) {
+    var categoryDTO = categoryService.create(mapper.toSource(request));
     return ResponseEntity.ok()
         .body(mapper.toTarget(categoryDTO));
   }
 
   @PutMapping
-  public ResponseEntity<Object> update(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
-    categoryService.update(mapper.toSource(categoryUpdateRequest));
+  public ResponseEntity<Object> update(@RequestBody @Valid CategoryUpdateRequest request) {
+    categoryService.update(mapper.toSource(request));
     return ResponseEntity.ok()
         .body("successful");
   }
@@ -60,13 +63,14 @@ public class CategoryController {
   }
 
   @GetMapping("/root/{id}")
-  public ResponseEntity<Collection<CategoryWebDTO>> getChildrenCategories(@PathVariable Long id) {
+  public ResponseEntity<Collection<CategoryWebDTO>> getChildrenCategories(
+      @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
     return ResponseEntity.ok()
         .body(mapper.toTargetCollection(categoryService.getChildren(id)));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Object> delete(@PathVariable Long id) {
+  public ResponseEntity<Object> delete(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
     categoryService.delete(id);
     return ResponseEntity.ok()
         .body("successful");
