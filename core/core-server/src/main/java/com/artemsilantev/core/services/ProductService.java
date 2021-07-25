@@ -5,4 +5,6 @@ import com.artemsilantev.core.model.Product;
 
 public interface ProductService extends AbstractService<ProductDTO, Product> {
 
+  ProductDTO addCategory(Long productId, Long categoryId);
+  ProductDTO removeCategory(Long productId, Long categoryId);
 }

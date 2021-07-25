@@ -1,5 +1,6 @@
 package com.artemsilantev.core.services.impl;
 
+import com.artemsilantev.core.dto.CategoryDTO;
 import com.artemsilantev.core.dto.ProductDTO;
 import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.mappers.Mapper;
@@ -39,4 +40,19 @@ public class ProductServiceImpl extends AbstractServiceImpl<ProductDTO, Product>
     super.update(productDTO);
   }
 
+  @Override
+  public ProductDTO addCategory(Long productId, Long categoryId) {
+    var product = get(productId);
+    product.getCategories().add(new CategoryDTO(categoryId, null, null, null));
+    update(product);
+    return get(productId);
+  }
+
+  @Override
+  public ProductDTO removeCategory(Long productId, Long categoryId) {
+    var product = get(productId);
+    product.getCategories().removeIf(categoryDTO -> categoryDTO.getId().equals(categoryId));
+    update(product);
+    return get(productId);
+  }
 }
