@@ -4,7 +4,7 @@ import com.artemsilantev.core.exceptions.EntityMappingException;
 import com.artemsilantev.core.mappers.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.utils.JaxbUtils;
-import jakarta.xml.bind.JAXBException;
+import javax.xml.bind.JAXBException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 

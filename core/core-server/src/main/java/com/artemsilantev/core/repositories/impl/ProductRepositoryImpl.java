@@ -4,6 +4,7 @@ import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.repositories.CategoryRepository;
 import com.artemsilantev.core.repositories.ProductRepository;
 import com.artemsilantev.core.storages.ProductDataStorage;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product>
@@ -19,6 +20,9 @@ public class ProductRepositoryImpl extends AbstractRepositoryImpl<Product>
 
   @Override
   protected void fillReference(Product entity) {
+    if(entity.getCategories()==null) {
+      entity.setCategories(new ArrayList<>());
+    }
     entity.setCategories(entity.getCategories().stream()
         .map(category -> categoryRepository.get(category.getId()))
         .collect(Collectors.toList()));

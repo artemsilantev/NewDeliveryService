@@ -5,6 +5,7 @@ import com.artemsilantev.core.repositories.OrderRepository;
 import com.artemsilantev.core.repositories.ShopItemRepository;
 import com.artemsilantev.core.repositories.UserRepository;
 import com.artemsilantev.core.storages.OrderDataStorage;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class OrderRepositoryImpl extends AbstractRepositoryImpl<Order>
@@ -23,6 +24,9 @@ public class OrderRepositoryImpl extends AbstractRepositoryImpl<Order>
 
   @Override
   protected void fillReference(Order entity) {
+    if(entity.getItems()==null) {
+      entity.setItems(new ArrayList<>());
+    }
     entity.setUser(userRepository.get(entity.getUser().getId()));
     entity.setItems(entity.getItems().stream()
         .map(shopItem -> shopItemRepository.get(shopItem.getId()))

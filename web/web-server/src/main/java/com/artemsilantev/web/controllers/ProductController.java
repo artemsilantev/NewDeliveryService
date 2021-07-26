@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/v1/products")
 public class ProductController {
 
   @Autowired
@@ -35,6 +35,20 @@ public class ProductController {
   @Autowired
   private CategoryWebMapper categoryWebMapper;
 
+  @PostMapping
+  public ResponseEntity<ProductWebDTO> create(
+      @RequestBody @Valid ProductCreateRequest createRequest) {
+    var productDTO = productService.create(productWebMapper.toSource(createRequest));
+    return ResponseEntity.ok()
+        .body(productWebMapper.toTarget(productDTO));
+  }
+
+  @PutMapping
+  public ResponseEntity<Object> update(@RequestBody @Valid ProductUpdateRequest updateRequest) {
+    productService.update(productWebMapper.toSource(updateRequest));
+    return ResponseEntity.ok()
+        .body("successful");
+  }
 
   @GetMapping
   public ResponseEntity<Collection<ProductWebDTO>> getAll() {
@@ -48,6 +62,13 @@ public class ProductController {
         .body(productWebMapper.toTarget(productService.get(id)));
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
+    productService.delete(id);
+    return ResponseEntity.ok()
+        .body("successful");
+  }
+
   @GetMapping("/{id}/categories")
   public ResponseEntity<Collection<CategoryWebDTO>> getCategories(
       @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
@@ -56,41 +77,21 @@ public class ProductController {
         .body(categoryWebMapper.toTargetCollection(product.getCategories()));
   }
 
-  @PostMapping
-  public ResponseEntity<ProductWebDTO> create(
-      @RequestBody @Valid ProductCreateRequest createRequest) {
-    var productDTO = productService.create(productWebMapper.toSource(createRequest));
-    return ResponseEntity.ok()
-        .body(productWebMapper.toTarget(productDTO));
-  }
-
 
   @PutMapping("/{id}/categories/{categoryId}")
-  public ResponseEntity<ProductWebDTO> addCategory(
+  public ResponseEntity<Object> addCategory(
       @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id,
       @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long categoryId) {
-    return ResponseEntity.ok()
-        .body(productWebMapper.toTarget(productService.addCategory(id, categoryId)));
-  }
-
-  @DeleteMapping("/{id}/categories/{categoryId}")
-  public ResponseEntity<ProductWebDTO> deleteCategory(
-      @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id,
-      @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long categoryId) {
-    return ResponseEntity.ok()
-        .body(productWebMapper.toTarget(productService.removeCategory(id, categoryId)));
-  }
-
-  @PutMapping
-  public ResponseEntity<Object> update(@RequestBody @Valid ProductUpdateRequest updateRequest) {
-    productService.update(productWebMapper.toSource(updateRequest));
+    productService.addCategory(id, categoryId);
     return ResponseEntity.ok()
         .body("successful");
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Object> delete(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
-    productService.delete(id);
+  @DeleteMapping("/{id}/categories/{categoryId}")
+  public ResponseEntity<Object> deleteCategory(
+      @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id,
+      @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long categoryId) {
+    productService.removeCategory(id, categoryId);
     return ResponseEntity.ok()
         .body("successful");
   }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("/categories")
+@RequestMapping("/v1/categories")
 public class CategoryController {
 
   @Autowired
@@ -29,18 +29,6 @@ public class CategoryController {
 
   @Autowired
   private CategoryWebMapper mapper;
-
-  @GetMapping("/{id}")
-  public ResponseEntity<CategoryWebDTO> get(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
-    return ResponseEntity.ok()
-        .body(mapper.toTarget(categoryService.get(id)));
-  }
-
-  @GetMapping
-  public ResponseEntity<Collection<CategoryWebDTO>> getAll() {
-    return ResponseEntity.ok()
-        .body(mapper.toTargetCollection(categoryService.getAll()));
-  }
 
   @PostMapping
   public ResponseEntity<CategoryWebDTO> create(@RequestBody @Valid CategoryCreateRequest request) {
@@ -56,6 +44,25 @@ public class CategoryController {
         .body("successful");
   }
 
+  @GetMapping
+  public ResponseEntity<Collection<CategoryWebDTO>> getAll() {
+    return ResponseEntity.ok()
+        .body(mapper.toTargetCollection(categoryService.getAll()));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<CategoryWebDTO> get(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
+    return ResponseEntity.ok()
+        .body(mapper.toTarget(categoryService.get(id)));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
+    categoryService.delete(id);
+    return ResponseEntity.ok()
+        .body("successful");
+  }
+
   @GetMapping("/root")
   public ResponseEntity<Collection<CategoryWebDTO>> getRootCategories() {
     return ResponseEntity.ok()
@@ -67,13 +74,6 @@ public class CategoryController {
       @PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
     return ResponseEntity.ok()
         .body(mapper.toTargetCollection(categoryService.getChildren(id)));
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Object> delete(@PathVariable @Min(1) @Max(Long.MAX_VALUE) Long id) {
-    categoryService.delete(id);
-    return ResponseEntity.ok()
-        .body("successful");
   }
 
 }
