@@ -3,10 +3,12 @@ package com.artemsilantev.web.exceptions;
 import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.exceptions.NoRecordException;
 import java.rmi.ServerException;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -38,6 +40,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     var illegalResourceException = new IllegalResourceException(exception.getMessage());
     return handleExceptionInternal(illegalResourceException, null,
         new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatus status, WebRequest request) {
+    var errors = new ArrayList<String>();
+    for (var error : ex.getBindingResult().getFieldErrors()) {
+      errors.add(error.getField() + ": " + error.getDefaultMessage());
+    }
+    for (var error : ex.getBindingResult().getGlobalErrors()) {
+      errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+    }
+    var notValidArgumentsException = new NotValidArgumentsException(errors, "Arguments not valid.");
+    return handleExceptionInternal(notValidArgumentsException, null, headers, status, request);
   }
 
   @ExceptionHandler(value = {Exception.class})
