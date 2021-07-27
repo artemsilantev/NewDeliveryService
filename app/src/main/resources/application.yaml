@@ -1,2 +1,2 @@
-git:
-  id: '@project.version@'
+git-info:
+  commitId: '@git.commit.id.abbrev@'
