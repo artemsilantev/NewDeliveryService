@@ -1,7 +1,11 @@
-package com.artemsilantev.web.exceptions;
+package com.artemsilantev.web.handler;
 
 import com.artemsilantev.core.exceptions.IllegalEntityException;
 import com.artemsilantev.core.exceptions.NoRecordException;
+import com.artemsilantev.web.exceptions.ApiError;
+import com.artemsilantev.web.exceptions.IllegalResourceException;
+import com.artemsilantev.web.exceptions.NotValidArgumentsException;
+import com.artemsilantev.web.exceptions.ResourceNotFoundException;
 import java.rmi.ServerException;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
