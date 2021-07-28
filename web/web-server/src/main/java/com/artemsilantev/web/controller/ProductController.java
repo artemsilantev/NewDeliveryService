@@ -11,7 +11,7 @@ import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,14 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
+@RequiredArgsConstructor
 @RequestMapping("/v1/products")
 public class ProductController {
 
-  @Autowired
-  private ProductService productService;
-
-  @Autowired
-  private ProductWebMapper productWebMapper;
+  private final ProductService productService;
+  private final ProductWebMapper productWebMapper;
 
   @PostMapping
   public ResponseEntity<ProductDto> create(

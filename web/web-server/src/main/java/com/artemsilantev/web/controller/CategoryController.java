@@ -10,7 +10,7 @@ import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,16 +23,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController()
+@RestController
 @Validated
+@RequiredArgsConstructor
 @RequestMapping("/v1/categories")
 public class CategoryController {
 
-  @Autowired
-  private CategoryService categoryService;
-
-  @Autowired
-  private CategoryWebMapper categoryWebMapper;
+  private final CategoryService categoryService;
+  private final CategoryWebMapper categoryWebMapper;
 
   @PostMapping
   public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryCreateRequest request) {
@@ -47,7 +45,8 @@ public class CategoryController {
 
 
   @PatchMapping
-  public ResponseEntity<Object> patch(@Valid @RequestBody CategoryPatchRequest request) { ;
+  public ResponseEntity<Object> patch(@Valid @RequestBody CategoryPatchRequest request) {
+    ;
     var categoryNew = categoryWebMapper.toSourcePatch(request);
     var categoryOld = categoryService.get(request.getId());
     categoryService.update(categoryWebMapper.patch(categoryOld, categoryNew));
