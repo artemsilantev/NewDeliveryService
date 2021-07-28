@@ -1,6 +1,6 @@
 package com.artemsilantev.web.controllers;
 
-import com.artemsilantev.core.services.ProductService;
+import com.artemsilantev.core.service.ProductService;
 import com.artemsilantev.web.dto.CategoryWebDTO;
 import com.artemsilantev.web.dto.ProductWebDTO;
 import com.artemsilantev.web.mappers.CategoryWebMapper;

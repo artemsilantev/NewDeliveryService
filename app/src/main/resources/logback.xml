@@ -22,7 +22,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.artemsilantev.core.services.impl.CategoryServiceImpl" level="debug"
+  <logger name="com.artemsilantev.core.service.impl.CategoryServiceImpl" level="debug"
     additivity="false">
     <appender-ref ref="file-rolling"></appender-ref>
   </logger>

@@ -1,70 +1,70 @@
 package com.artemsilantev.core;
 
-import com.artemsilantev.core.filemanagers.FileManager;
-import com.artemsilantev.core.filemanagers.TextFileManger;
-import com.artemsilantev.core.handlers.Handler;
-import com.artemsilantev.core.handlers.ParserHandler;
-import com.artemsilantev.core.mappers.Mapper;
-import com.artemsilantev.core.mappers.impl.dto.CategoryDTOMapper;
-import com.artemsilantev.core.mappers.impl.dto.OrderDTOMapper;
-import com.artemsilantev.core.mappers.impl.dto.ProductDTOMapper;
-import com.artemsilantev.core.mappers.impl.dto.ShopDTOMapper;
-import com.artemsilantev.core.mappers.impl.dto.ShopItemDTOMapper;
-import com.artemsilantev.core.mappers.impl.dto.UserDTOMapper;
-import com.artemsilantev.core.mappers.impl.json.CategoryJsonMapper;
-import com.artemsilantev.core.mappers.impl.json.OrderJsonMapper;
-import com.artemsilantev.core.mappers.impl.json.ProductJsonMapper;
-import com.artemsilantev.core.mappers.impl.json.ShopItemJsonMapper;
-import com.artemsilantev.core.mappers.impl.json.ShopJsonMapper;
-import com.artemsilantev.core.mappers.impl.json.UserJsonMapper;
-import com.artemsilantev.core.mappers.impl.xml.CategoryXmlMapper;
+import com.artemsilantev.core.filemanager.FileManager;
+import com.artemsilantev.core.filemanager.TextFileManger;
+import com.artemsilantev.core.handler.Handler;
+import com.artemsilantev.core.handler.ParserHandler;
+import com.artemsilantev.core.mapper.Mapper;
+import com.artemsilantev.core.mapper.impl.dto.CategoryDtoMapper;
+import com.artemsilantev.core.mapper.impl.dto.OrderDtoMapper;
+import com.artemsilantev.core.mapper.impl.dto.ProductDtoMapper;
+import com.artemsilantev.core.mapper.impl.dto.ShopDtoMapper;
+import com.artemsilantev.core.mapper.impl.dto.ShopItemDtoMapper;
+import com.artemsilantev.core.mapper.impl.dto.UserDtoMapper;
+import com.artemsilantev.core.mapper.impl.json.CategoryJsonMapper;
+import com.artemsilantev.core.mapper.impl.json.OrderJsonMapper;
+import com.artemsilantev.core.mapper.impl.json.ProductJsonMapper;
+import com.artemsilantev.core.mapper.impl.json.ShopItemJsonMapper;
+import com.artemsilantev.core.mapper.impl.json.ShopJsonMapper;
+import com.artemsilantev.core.mapper.impl.json.UserJsonMapper;
+import com.artemsilantev.core.mapper.impl.xml.CategoryXmlMapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.model.Order;
 import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.model.Shop;
 import com.artemsilantev.core.model.ShopItem;
 import com.artemsilantev.core.model.User;
-import com.artemsilantev.core.repositories.CategoryRepository;
-import com.artemsilantev.core.repositories.OrderRepository;
-import com.artemsilantev.core.repositories.ProductRepository;
-import com.artemsilantev.core.repositories.ShopItemRepository;
-import com.artemsilantev.core.repositories.ShopRepository;
-import com.artemsilantev.core.repositories.UserRepository;
-import com.artemsilantev.core.repositories.impl.CategoryRepositoryImpl;
-import com.artemsilantev.core.repositories.impl.OrderRepositoryImpl;
-import com.artemsilantev.core.repositories.impl.ProductRepositoryImpl;
-import com.artemsilantev.core.repositories.impl.ShopItemRepositoryImpl;
-import com.artemsilantev.core.repositories.impl.ShopRepositoryImpl;
-import com.artemsilantev.core.repositories.impl.UserRepositoryImpl;
-import com.artemsilantev.core.services.CategoryService;
-import com.artemsilantev.core.services.OrderService;
-import com.artemsilantev.core.services.ProductService;
-import com.artemsilantev.core.services.ShopItemService;
-import com.artemsilantev.core.services.ShopService;
-import com.artemsilantev.core.services.UserService;
-import com.artemsilantev.core.services.impl.CategoryServiceImpl;
-import com.artemsilantev.core.services.impl.OrderServiceImpl;
-import com.artemsilantev.core.services.impl.ProductServiceImpl;
-import com.artemsilantev.core.services.impl.ShopItemServiceImpl;
-import com.artemsilantev.core.services.impl.ShopServiceImpl;
-import com.artemsilantev.core.services.impl.UserServiceImpl;
-import com.artemsilantev.core.storages.CategoryDataStorage;
-import com.artemsilantev.core.storages.OrderDataStorage;
-import com.artemsilantev.core.storages.ProductDataStorage;
-import com.artemsilantev.core.storages.ShopDataStorage;
-import com.artemsilantev.core.storages.ShopItemDataStorage;
-import com.artemsilantev.core.storages.UserDataStorage;
-import com.artemsilantev.core.storages.impl.CategoryDataStorageImpl;
-import com.artemsilantev.core.storages.impl.OrderDataStorageImpl;
-import com.artemsilantev.core.storages.impl.ProductDataStorageImpl;
-import com.artemsilantev.core.storages.impl.ShopDataStorageImpl;
-import com.artemsilantev.core.storages.impl.ShopItemDataStorageImpl;
-import com.artemsilantev.core.storages.impl.UserDataStorageImpl;
-import com.artemsilantev.core.validators.Validator;
-import com.artemsilantev.core.validators.entity.CategoryValidator;
-import com.artemsilantev.core.validators.entity.EntityIdValidator;
-import com.artemsilantev.core.validators.entity.ProductValidator;
-import com.artemsilantev.core.validators.fileitem.SimpleFileItemValidator;
+import com.artemsilantev.core.repository.CategoryRepository;
+import com.artemsilantev.core.repository.OrderRepository;
+import com.artemsilantev.core.repository.ProductRepository;
+import com.artemsilantev.core.repository.ShopItemRepository;
+import com.artemsilantev.core.repository.ShopRepository;
+import com.artemsilantev.core.repository.UserRepository;
+import com.artemsilantev.core.repository.impl.CategoryRepositoryImpl;
+import com.artemsilantev.core.repository.impl.OrderRepositoryImpl;
+import com.artemsilantev.core.repository.impl.ProductRepositoryImpl;
+import com.artemsilantev.core.repository.impl.ShopItemRepositoryImpl;
+import com.artemsilantev.core.repository.impl.ShopRepositoryImpl;
+import com.artemsilantev.core.repository.impl.UserRepositoryImpl;
+import com.artemsilantev.core.service.CategoryService;
+import com.artemsilantev.core.service.OrderService;
+import com.artemsilantev.core.service.ProductService;
+import com.artemsilantev.core.service.ShopItemService;
+import com.artemsilantev.core.service.ShopService;
+import com.artemsilantev.core.service.UserService;
+import com.artemsilantev.core.service.impl.CategoryServiceImpl;
+import com.artemsilantev.core.service.impl.OrderServiceImpl;
+import com.artemsilantev.core.service.impl.ProductServiceImpl;
+import com.artemsilantev.core.service.impl.ShopItemServiceImpl;
+import com.artemsilantev.core.service.impl.ShopServiceImpl;
+import com.artemsilantev.core.service.impl.UserServiceImpl;
+import com.artemsilantev.core.storage.CategoryDataStorage;
+import com.artemsilantev.core.storage.OrderDataStorage;
+import com.artemsilantev.core.storage.ProductDataStorage;
+import com.artemsilantev.core.storage.ShopDataStorage;
+import com.artemsilantev.core.storage.ShopItemDataStorage;
+import com.artemsilantev.core.storage.UserDataStorage;
+import com.artemsilantev.core.storage.impl.CategoryDataStorageImpl;
+import com.artemsilantev.core.storage.impl.OrderDataStorageImpl;
+import com.artemsilantev.core.storage.impl.ProductDataStorageImpl;
+import com.artemsilantev.core.storage.impl.ShopDataStorageImpl;
+import com.artemsilantev.core.storage.impl.ShopItemDataStorageImpl;
+import com.artemsilantev.core.storage.impl.UserDataStorageImpl;
+import com.artemsilantev.core.validator.Validator;
+import com.artemsilantev.core.validator.entity.CategoryValidator;
+import com.artemsilantev.core.validator.entity.EntityIdValidator;
+import com.artemsilantev.core.validator.entity.ProductValidator;
+import com.artemsilantev.core.validator.fileitem.SimpleFileItemValidator;
 import java.util.Arrays;
 import java.util.Collection;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -111,7 +111,7 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public CategoryService getCategoryService(CategoryRepository categoryRepository) {
-    return new CategoryServiceImpl(new CategoryDTOMapper(), categoryRepository);
+    return new CategoryServiceImpl(new CategoryDtoMapper(), categoryRepository);
   }
 
   @Bean
@@ -138,7 +138,7 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public ProductService getProductService(ProductRepository productRepository) {
-    return new ProductServiceImpl(new ProductDTOMapper(), productRepository);
+    return new ProductServiceImpl(new ProductDtoMapper(), productRepository);
   }
 
   @Bean
@@ -163,7 +163,7 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public ShopService getShopService(ShopRepository shopRepository) {
-    return new ShopServiceImpl(new ShopDTOMapper(), shopRepository);
+    return new ShopServiceImpl(new ShopDtoMapper(), shopRepository);
   }
 
   @Bean
@@ -190,7 +190,7 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public ShopItemService getShopItemService(ShopItemRepository shopItemRepository) {
-    return new ShopItemServiceImpl(new ShopItemDTOMapper(), shopItemRepository);
+    return new ShopItemServiceImpl(new ShopItemDtoMapper(), shopItemRepository);
   }
 
   @Bean
@@ -215,7 +215,7 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public UserService getUserService(UserRepository userRepository) {
-    return new UserServiceImpl(new UserDTOMapper(), userRepository);
+    return new UserServiceImpl(new UserDtoMapper(), userRepository);
   }
 
   @Bean
@@ -242,6 +242,6 @@ public class CoreAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public OrderService getOrderService(OrderRepository orderRepository) {
-    return new OrderServiceImpl(new OrderDTOMapper(), orderRepository);
+    return new OrderServiceImpl(new OrderDtoMapper(), orderRepository);
   }
 }

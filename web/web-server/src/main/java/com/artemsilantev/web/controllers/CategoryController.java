@@ -1,6 +1,6 @@
 package com.artemsilantev.web.controllers;
 
-import com.artemsilantev.core.services.CategoryService;
+import com.artemsilantev.core.service.CategoryService;
 import com.artemsilantev.web.dto.CategoryWebDTO;
 import com.artemsilantev.web.mappers.CategoryWebMapper;
 import com.artemsilantev.web.requests.CategoryCreateRequest;

@@ -1,7 +1,7 @@
 package com.artemsilantev.web.handler;
 
-import com.artemsilantev.core.exceptions.IllegalEntityException;
-import com.artemsilantev.core.exceptions.NoRecordException;
+import com.artemsilantev.core.exception.IllegalEntityException;
+import com.artemsilantev.core.exception.NoRecordException;
 import com.artemsilantev.web.exceptions.ApiError;
 import com.artemsilantev.web.exceptions.IllegalResourceException;
 import com.artemsilantev.web.exceptions.NotValidArgumentsException;
