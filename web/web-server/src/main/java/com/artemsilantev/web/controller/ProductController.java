@@ -34,17 +34,14 @@ public class ProductController {
   @Autowired
   private ProductWebMapper productWebMapper;
 
-  @Autowired
-  private CategoryWebMapper categoryWebMapper;
-
   @PostMapping
   public ResponseEntity<ProductDto> create(
-      @RequestBody @Valid ProductCreateRequest createRequest) {
+      @Valid @RequestBody ProductCreateRequest createRequest) {
     return ResponseEntity.ok(productService.create(productWebMapper.toSource(createRequest)));
   }
 
   @PutMapping
-  public ResponseEntity<Object> update(@RequestBody @Valid ProductUpdateRequest updateRequest) {
+  public ResponseEntity<Object> update(@Valid @RequestBody ProductUpdateRequest updateRequest) {
     productService.update(productWebMapper.toSource(updateRequest));
     return ResponseEntity.noContent().build();
   }
