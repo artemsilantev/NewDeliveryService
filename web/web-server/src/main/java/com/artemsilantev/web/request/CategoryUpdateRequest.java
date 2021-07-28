@@ -20,7 +20,8 @@ public class CategoryUpdateRequest {
   @Max(value = Long.MAX_VALUE)
   private Long id;
 
-  @Size(max = 64)
+  @Size(min = 1, max = 64)
+  @NotNull
   private String name;
 
   @Size(max = 64)

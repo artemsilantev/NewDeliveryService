@@ -23,4 +23,7 @@ public class ProductUpdateRequest {
   @Size(min = 1, max = 64)
   @NotNull
   private String name;
+
+  @Size(max = 64)
+  private String description;
 }

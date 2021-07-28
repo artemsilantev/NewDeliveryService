@@ -4,6 +4,7 @@ import com.artemsilantev.core.dto.CategoryDto;
 import com.artemsilantev.core.service.CategoryService;
 import com.artemsilantev.web.mapper.CategoryWebMapper;
 import com.artemsilantev.web.request.CategoryCreateRequest;
+import com.artemsilantev.web.request.CategoryPatchRequest;
 import com.artemsilantev.web.request.CategoryUpdateRequest;
 import java.util.Collection;
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,16 +32,25 @@ public class CategoryController {
   private CategoryService categoryService;
 
   @Autowired
-  private CategoryWebMapper mapper;
+  private CategoryWebMapper categoryWebMapper;
 
   @PostMapping
   public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryCreateRequest request) {
-    return ResponseEntity.ok(categoryService.create(mapper.toSource(request)));
+    return ResponseEntity.ok(categoryService.create(categoryWebMapper.toSourceCreate(request)));
   }
 
   @PutMapping
   public ResponseEntity<Object> update(@Valid @RequestBody CategoryUpdateRequest request) {
-    categoryService.update(mapper.toSource(request));
+    categoryService.update(categoryWebMapper.toSourceUpdate(request));
+    return ResponseEntity.noContent().build();
+  }
+
+
+  @PatchMapping
+  public ResponseEntity<Object> patch(@Valid @RequestBody CategoryPatchRequest request) { ;
+    var categoryNew = categoryWebMapper.toSourcePatch(request);
+    var categoryOld = categoryService.get(request.getId());
+    categoryService.update(categoryWebMapper.patch(categoryOld, categoryNew));
     return ResponseEntity.noContent().build();
   }
 

@@ -3,9 +3,9 @@ package com.artemsilantev.web.controller;
 import com.artemsilantev.core.dto.CategoryDto;
 import com.artemsilantev.core.dto.ProductDto;
 import com.artemsilantev.core.service.ProductService;
-import com.artemsilantev.web.mapper.CategoryWebMapper;
 import com.artemsilantev.web.mapper.ProductWebMapper;
 import com.artemsilantev.web.request.ProductCreateRequest;
+import com.artemsilantev.web.request.ProductPatchRequest;
 import com.artemsilantev.web.request.ProductUpdateRequest;
 import java.util.Collection;
 import javax.validation.Valid;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,13 +37,21 @@ public class ProductController {
 
   @PostMapping
   public ResponseEntity<ProductDto> create(
-      @Valid @RequestBody ProductCreateRequest createRequest) {
-    return ResponseEntity.ok(productService.create(productWebMapper.toSource(createRequest)));
+      @Valid @RequestBody ProductCreateRequest request) {
+    return ResponseEntity.ok(productService.create(productWebMapper.toSourceCreate(request)));
   }
 
   @PutMapping
-  public ResponseEntity<Object> update(@Valid @RequestBody ProductUpdateRequest updateRequest) {
-    productService.update(productWebMapper.toSource(updateRequest));
+  public ResponseEntity<Object> update(@Valid @RequestBody ProductUpdateRequest request) {
+    productService.update(productWebMapper.toSourceUpdate(request));
+    return ResponseEntity.noContent().build();
+  }
+
+  @PatchMapping
+  public ResponseEntity<Object> patch(@Valid @RequestBody ProductPatchRequest request) {
+    var productNew = productWebMapper.toSourcePatch(request);
+    var productOld = productService.get(productNew.getId());
+    productService.update(productWebMapper.patch(productOld, productNew));
     return ResponseEntity.noContent().build();
   }
 
