@@ -1,4 +1,4 @@
-package com.artemsilantev.web.exceptions;
+package com.artemsilantev.web.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

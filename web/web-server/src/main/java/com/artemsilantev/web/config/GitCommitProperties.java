@@ -1,4 +1,4 @@
-package com.artemsilantev.web.configs;
+package com.artemsilantev.web.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

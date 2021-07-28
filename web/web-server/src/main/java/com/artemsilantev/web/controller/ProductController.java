@@ -1,12 +1,12 @@
-package com.artemsilantev.web.controllers;
+package com.artemsilantev.web.controller;
 
 import com.artemsilantev.core.service.ProductService;
 import com.artemsilantev.web.dto.CategoryWebDTO;
 import com.artemsilantev.web.dto.ProductWebDTO;
-import com.artemsilantev.web.mappers.CategoryWebMapper;
-import com.artemsilantev.web.mappers.ProductWebMapper;
-import com.artemsilantev.web.requests.ProductCreateRequest;
-import com.artemsilantev.web.requests.ProductUpdateRequest;
+import com.artemsilantev.web.mapper.CategoryWebMapper;
+import com.artemsilantev.web.mapper.ProductWebMapper;
+import com.artemsilantev.web.request.ProductCreateRequest;
+import com.artemsilantev.web.request.ProductUpdateRequest;
 import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;

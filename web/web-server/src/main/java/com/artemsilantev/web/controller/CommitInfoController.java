@@ -1,6 +1,6 @@
-package com.artemsilantev.web.controllers;
+package com.artemsilantev.web.controller;
 
-import com.artemsilantev.web.configs.GitCommitProperties;
+import com.artemsilantev.web.config.GitCommitProperties;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

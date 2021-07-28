@@ -1,4 +1,4 @@
-package com.artemsilantev.web.exceptions;
+package com.artemsilantev.web.exception;
 
 import java.util.Arrays;
 import java.util.Collection;

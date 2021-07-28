@@ -2,11 +2,11 @@ package com.artemsilantev.web.handler;
 
 import com.artemsilantev.core.exception.IllegalEntityException;
 import com.artemsilantev.core.exception.NoRecordException;
-import com.artemsilantev.web.exceptions.ApiError;
-import com.artemsilantev.web.exceptions.IllegalResourceException;
-import com.artemsilantev.web.exceptions.NotValidArgumentsException;
-import com.artemsilantev.web.exceptions.ResourceNotFoundException;
-import java.rmi.ServerException;
+import com.artemsilantev.web.exception.ApiError;
+import com.artemsilantev.web.exception.IllegalResourceException;
+import com.artemsilantev.web.exception.InternalServerException;
+import com.artemsilantev.web.exception.NotValidArgumentsException;
+import com.artemsilantev.web.exception.ResourceNotFoundException;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -61,9 +61,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(value = {Exception.class})
-  public ResponseEntity<Object> handleServerException(Exception exception, WebRequest request) {
+  public ResponseEntity<Object> handleInternalServerException(Exception exception,
+      WebRequest request) {
     log.error("Error occurred: {} - {}", exception.getClass(), exception.getMessage());
-    var serverException = new ServerException("Problem on server side. Please try again later.");
+    var serverException = new InternalServerException(
+        "Problem on server side. Please try again later.");
     return handleExceptionInternal(serverException, null,
         new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
   }

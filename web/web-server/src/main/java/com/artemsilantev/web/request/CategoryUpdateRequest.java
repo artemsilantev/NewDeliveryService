@@ -1,4 +1,4 @@
-package com.artemsilantev.web.requests;
+package com.artemsilantev.web.request;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,13 +13,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryCreateRequest {
+public class CategoryUpdateRequest {
 
-  @Size(min = 1, max = 64)
   @NotNull
+  @Min(1)
+  @Max(value = Long.MAX_VALUE)
+  private Long id;
+
+  @Size(max = 64)
   private String name;
 
-  @Size(min = 1, max = 100)
+  @Size(max = 64)
   private String description;
 
   @Min(1)

@@ -1,10 +1,10 @@
-package com.artemsilantev.web.controllers;
+package com.artemsilantev.web.controller;
 
 import com.artemsilantev.core.service.CategoryService;
 import com.artemsilantev.web.dto.CategoryWebDTO;
-import com.artemsilantev.web.mappers.CategoryWebMapper;
-import com.artemsilantev.web.requests.CategoryCreateRequest;
-import com.artemsilantev.web.requests.CategoryUpdateRequest;
+import com.artemsilantev.web.mapper.CategoryWebMapper;
+import com.artemsilantev.web.request.CategoryCreateRequest;
+import com.artemsilantev.web.request.CategoryUpdateRequest;
 import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
