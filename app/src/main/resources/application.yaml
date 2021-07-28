@@ -1,2 +1,5 @@
 git-info:
-  commitId: '@git.commit.id.abbrev@'
+  id-abbrev: '@git.commit.id.abbrev@'
+  author: '@git.commit.user.name@'
+  message: '@git.commit.message.full@'
+  branch: '@git.branch@'

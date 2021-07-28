@@ -19,7 +19,10 @@ public class CommitInfoController {
   @GetMapping
   public ResponseEntity<Map<String, String>> get() {
     var map = new HashMap<String, String>();
-    map.put("id", gitCommitProperties.getCommitId());
+    map.put("branch", gitCommitProperties.getBranch());
+    map.put("author", gitCommitProperties.getAuthor());
+    map.put("message", gitCommitProperties.getMessage());
+    map.put("id", gitCommitProperties.getIdAbbrev());
     return ResponseEntity.ok()
         .body(map);
   }

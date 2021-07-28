@@ -8,5 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "git-info")
 @Data
 public class GitCommitProperties {
-  private String commitId = "unknown";
+  private String idAbbrev = "unknown";
+  private String message = "unknown";
+  private String author = "unknown";
+  private String branch = "unknown";
 }
