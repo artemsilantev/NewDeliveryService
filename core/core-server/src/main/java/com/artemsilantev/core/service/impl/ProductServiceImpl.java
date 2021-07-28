@@ -18,22 +18,22 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductDto, Product>
   }
 
   @Override
-  public ProductDto create(ProductDto productDTO) {
-    if (((ProductRepository) baseRepository).isNameExists(productDTO.getName())) {
+  public ProductDto create(ProductDto productDto) {
+    if (((ProductRepository) baseRepository).isNameExists(productDto.getName())) {
       throw new IllegalEntityException(
-          String.format("Product with this name already exists: %s", productDTO.getName()));
+          String.format("Product with this name already exists: %s", productDto.getName()));
     }
-    return super.create(productDTO);
+    return super.create(productDto);
   }
 
   @Override
-  public void update(ProductDto productDTO) {
-    if (((ProductRepository) baseRepository).isNameExists(productDTO.getName(),
-        productDTO.getId())) {
+  public void update(ProductDto productDto) {
+    if (((ProductRepository) baseRepository).isNameExists(productDto.getName(),
+        productDto.getId())) {
       throw new IllegalEntityException(
-          String.format("Product with this name already exists: %s", productDTO.getName()));
+          String.format("Product with this name already exists: %s", productDto.getName()));
     }
-    super.update(productDTO);
+    super.update(productDto);
   }
 
   @Override
@@ -47,7 +47,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductDto, Product>
   @Override
   public ProductDto removeCategory(Long productId, Long categoryId) {
     var product = get(productId);
-    product.getCategories().removeIf(categoryDTO -> categoryDTO.getId().equals(categoryId));
+    product.getCategories().removeIf(categoryDto -> categoryDto.getId().equals(categoryId));
     update(product);
     return get(productId);
   }

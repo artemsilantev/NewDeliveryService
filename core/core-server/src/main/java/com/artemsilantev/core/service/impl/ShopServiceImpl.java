@@ -15,20 +15,20 @@ public class ShopServiceImpl extends BaseServiceImpl<ShopDto, Shop>
   }
 
   @Override
-  public ShopDto create(ShopDto shopDTO) {
-    if (((ShopRepository) baseRepository).isNameExists(shopDTO.getName())) {
+  public ShopDto create(ShopDto shopDto) {
+    if (((ShopRepository) baseRepository).isNameExists(shopDto.getName())) {
       throw new IllegalEntityException(
-          String.format("Shop with this name already exists: %s", shopDTO.getName()));
+          String.format("Shop with this name already exists: %s", shopDto.getName()));
     }
-    return super.create(shopDTO);
+    return super.create(shopDto);
   }
 
   @Override
-  public void update(ShopDto shopDTO) {
-    if (((ShopRepository) baseRepository).isNameExists(shopDTO.getName(), shopDTO.getId())) {
+  public void update(ShopDto shopDto) {
+    if (((ShopRepository) baseRepository).isNameExists(shopDto.getName(), shopDto.getId())) {
       throw new IllegalEntityException(
-          String.format("Shop with this name already exists: %s", shopDTO.getName()));
+          String.format("Shop with this name already exists: %s", shopDto.getName()));
     }
-    super.update(shopDTO);
+    super.update(shopDto);
   }
 }

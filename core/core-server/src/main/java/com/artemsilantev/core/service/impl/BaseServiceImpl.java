@@ -11,23 +11,23 @@ import lombok.AllArgsConstructor;
 public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
     BaseService<T, S> {
 
-  protected final Mapper<T, S> mapperDTO;
+  protected final Mapper<T, S> mapperDto;
   protected final BaseRepository<S> baseRepository;
 
   @Override
   public T get(Long id) {
-    return mapperDTO.toTarget(baseRepository.get(id));
+    return mapperDto.toTarget(baseRepository.get(id));
   }
 
   @Override
   public T create(T entity) {
-    var sourceEntity = mapperDTO.toSource(entity);
-    return mapperDTO.toTarget(baseRepository.create(sourceEntity));
+    var sourceEntity = mapperDto.toSource(entity);
+    return mapperDto.toTarget(baseRepository.create(sourceEntity));
   }
 
   @Override
   public Collection<T> getAll() {
-    return mapperDTO.toTargetCollection(baseRepository.getAll());
+    return mapperDto.toTargetCollection(baseRepository.getAll());
   }
 
   @Override
@@ -37,7 +37,7 @@ public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
 
   @Override
   public void update(T entity) {
-    var sourceEntity = mapperDTO.toSource(entity);
+    var sourceEntity = mapperDto.toSource(entity);
     baseRepository.update(sourceEntity);
   }
 }

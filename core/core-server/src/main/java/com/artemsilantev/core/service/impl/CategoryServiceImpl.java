@@ -21,30 +21,30 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
   }
 
   @Override
-  public CategoryDto create(CategoryDto categoryDTO) {
-    log.debug("Category will be created: {}", categoryDTO.toString());
-    if (((CategoryRepository) baseRepository).isNameExists(categoryDTO.getName())) {
+  public CategoryDto create(CategoryDto categoryDto) {
+    log.debug("Category will be created: {}", categoryDto.toString());
+    if (((CategoryRepository) baseRepository).isNameExists(categoryDto.getName())) {
       throw new IllegalEntityException(
-          String.format("Category with this name already exists: %s", categoryDTO.getName()));
+          String.format("Category with this name already exists: %s", categoryDto.getName()));
     }
-    return mapperDTO.toTarget(baseRepository.create(mappedToSource(categoryDTO)));
+    return mapperDto.toTarget(baseRepository.create(mappedToSource(categoryDto)));
   }
 
   @Override
-  public void update(CategoryDto categoryDTO) {
-    log.debug("Category will be updated: {}", categoryDTO.toString());
-    if (((CategoryRepository) baseRepository).isNameExists(categoryDTO.getName(),
-        categoryDTO.getId())) {
+  public void update(CategoryDto categoryDto) {
+    log.debug("Category will be updated: {}", categoryDto.toString());
+    if (((CategoryRepository) baseRepository).isNameExists(categoryDto.getName(),
+        categoryDto.getId())) {
       throw new IllegalEntityException(
-          String.format("Category with this name already exists: %s", categoryDTO.getName()));
+          String.format("Category with this name already exists: %s", categoryDto.getName()));
     }
-    baseRepository.update(mappedToSource(categoryDTO));
+    baseRepository.update(mappedToSource(categoryDto));
   }
 
   @Override
   public Collection<CategoryDto> getRootCategories() {
     return ((CategoryRepository) baseRepository).getRootCategories().stream()
-        .map(mapperDTO::toTarget)
+        .map(mapperDto::toTarget)
         .collect(Collectors.toList());
   }
 
@@ -53,14 +53,14 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
     var parent = baseRepository.get(id);
     return ((CategoryRepository) baseRepository).getChildrenCategories().stream()
         .filter(category -> category.getParent().equals(parent))
-        .map(mapperDTO::toTarget)
+        .map(mapperDto::toTarget)
         .collect(Collectors.toList());
   }
 
 
-  private Category mappedToSource(CategoryDto categoryDTO) {
-    var category = mapperDTO.toSource(categoryDTO);
-    var parentId = categoryDTO.getParentId();
+  private Category mappedToSource(CategoryDto categoryDto) {
+    var category = mapperDto.toSource(categoryDto);
+    var parentId = categoryDto.getParentId();
     if (parentId != null) {
       category.setParent(baseRepository.get(parentId));
     }

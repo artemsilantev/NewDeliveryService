@@ -25,13 +25,13 @@ public class ProductDtoMapper implements Mapper<ProductDto, Product> {
   }
 
   @Override
-  public ProductDto toTarget(Product product) {
-    return mapper.map(product, ProductDto.class);
+  public ProductDto toTarget(Product source) {
+    return mapper.map(source, ProductDto.class);
   }
 
   @Override
-  public Product toSource(ProductDto productDTO) {
-    return mapper.map(productDTO, Product.class);
+  public Product toSource(ProductDto target) {
+    return mapper.map(target, Product.class);
   }
 
   @Override

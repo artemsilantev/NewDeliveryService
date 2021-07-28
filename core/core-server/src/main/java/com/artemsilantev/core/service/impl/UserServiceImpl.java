@@ -15,20 +15,20 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, User>
   }
 
   @Override
-  public UserDto create(UserDto userDTO) {
-    if (((UserRepository) baseRepository).isEmailExists(userDTO.getEmail())) {
+  public UserDto create(UserDto userDto) {
+    if (((UserRepository) baseRepository).isEmailExists(userDto.getEmail())) {
       throw new IllegalEntityException(
-          String.format("User with this email already exists: %s", userDTO.getEmail()));
+          String.format("User with this email already exists: %s", userDto.getEmail()));
     }
-    return super.create(userDTO);
+    return super.create(userDto);
   }
 
   @Override
-  public void update(UserDto userDTO) {
-    if (((UserRepository) baseRepository).isEmailExists(userDTO.getEmail(), userDTO.getId())) {
+  public void update(UserDto userDto) {
+    if (((UserRepository) baseRepository).isEmailExists(userDto.getEmail(), userDto.getId())) {
       throw new IllegalEntityException(
-          String.format("User with this email already exists: %s", userDTO.getEmail()));
+          String.format("User with this email already exists: %s", userDto.getEmail()));
     }
-    super.update(userDTO);
+    super.update(userDto);
   }
 }
