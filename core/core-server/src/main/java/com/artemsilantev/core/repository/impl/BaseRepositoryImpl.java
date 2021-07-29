@@ -33,8 +33,9 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
       throw new NoRecordException(String.format("%s was not found by this id (%d)",
           getEntityName(), id));
     } else if (entities.size() > 1) {
-      throw new DuplicateEntityException(String.format("Object in this storage %s with id (%d) has duplicate",
-          getEntityName(), id));
+      throw new DuplicateEntityException(
+          String.format("Object in this storage %s with id (%d) has duplicate",
+              getEntityName(), id));
     }
     return entities.get(0);
   }
@@ -66,7 +67,6 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
     return ENTITY_STANDARD_NAME;
   }
 
-  @Override
   public void save() {
     dataStorage.save();
   }

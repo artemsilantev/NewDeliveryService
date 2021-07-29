@@ -20,6 +20,7 @@
     <module>core</module>
     <module>app</module>
     <module>web</module>
+    <module>persistence</module>
   </modules>
 
   <properties>
@@ -38,7 +39,8 @@
     <jaxb-impl.version>3.0.1</jaxb-impl.version>
     <springfox-swagger.version>2.9.2</springfox-swagger.version>
     <spring-boot.version>2.5.3</spring-boot.version>
-    <git-id-commit-plugin.version>4.0.5</git-id-commit-plugin.version>
+    <git-id-commit-plugin.version>5.0.0</git-id-commit-plugin.version>
+    <properties-maven-plugin>1.0.0</properties-maven-plugin>
   </properties>
 
   <dependencyManagement>
@@ -68,6 +70,16 @@
       <dependency>
         <groupId>com.artemsilantev</groupId>
         <artifactId>web-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.artemsilantev</groupId>
+        <artifactId>persistence-starter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.artemsilantev</groupId>
+        <artifactId>persistence-server</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -153,7 +165,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>properties-maven-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>${properties-maven-plugin}</version>
           <executions>
             <execution>
               <phase>initialize</phase>
@@ -171,7 +183,7 @@
         <plugin>
           <groupId>io.github.git-commit-id</groupId>
           <artifactId>git-commit-id-maven-plugin</artifactId>
-          <version>5.0.0</version>
+          <version>${git-id-commit-plugin.version}</version>
           <configuration>
             <offline>true</offline>
             <generateGitPropertiesFile>true</generateGitPropertiesFile>

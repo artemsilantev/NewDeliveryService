@@ -3,3 +3,16 @@ git-info:
   author: '@git.commit.user.name@'
   message: '@git.commit.message.full@'
   branch: '@git.branch@'
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true

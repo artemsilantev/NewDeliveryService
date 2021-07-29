@@ -12,8 +12,6 @@ public interface BaseRepository<E extends BaseEntity> {
 
   Collection<E> getAll();
 
-  void save();
-
   void delete(Long id);
 
   void update(E e);

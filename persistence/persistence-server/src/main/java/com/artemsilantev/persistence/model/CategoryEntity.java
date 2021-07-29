@@ -1,0 +1,36 @@
+package com.artemsilantev.persistence.model;
+
+import java.util.Collection;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "CATEGORY_")
+public class CategoryEntity extends BaseEntity {
+
+  @Column(name = "NAME_")
+  private String name;
+
+  @Column(name = "DESCRIPTION_")
+  private String description;
+
+  @ManyToOne
+  @JoinColumn(name = "PARENT_ID_")
+  private CategoryEntity parent;
+
+  @OneToMany(mappedBy = "parent")
+  @Column(name = "CATEGORY_CHILD_")
+  private Collection<CategoryEntity> children;
+}
