@@ -3,12 +3,20 @@ package com.artemsilantev.persistence;
 import com.artemsilantev.core.CoreAutoConfiguration;
 import com.artemsilantev.core.repository.CategoryRepository;
 import com.artemsilantev.core.repository.ProductRepository;
+import com.artemsilantev.core.repository.ShopItemRepository;
+import com.artemsilantev.core.repository.ShopRepository;
 import com.artemsilantev.persistence.facade.JpaCategoryRepositoryFacade;
 import com.artemsilantev.persistence.facade.JpaProductRepositoryFacade;
+import com.artemsilantev.persistence.facade.JpaShopRepositoryFacade;
+import com.artemsilantev.persistence.facade.ShopItemRepositoryFacade;
 import com.artemsilantev.persistence.mapper.CategoryEntityMapper;
 import com.artemsilantev.persistence.mapper.ProductEntityMapper;
+import com.artemsilantev.persistence.mapper.ShopEntityMapper;
+import com.artemsilantev.persistence.mapper.ShopItemEntityMapper;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
 import com.artemsilantev.persistence.repository.JpaProductRepository;
+import com.artemsilantev.persistence.repository.JpaShopItemRepository;
+import com.artemsilantev.persistence.repository.JpaShopRepository;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -33,8 +41,24 @@ public class PersistenceAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ProductRepository getProductRepository(JpaProductRepository jpaProductRepository,
-      ProductEntityMapper mapper) {
-    return new JpaProductRepositoryFacade(jpaProductRepository, mapper);
+  public ShopItemRepository getShopItemRepository(JpaShopItemRepository shopItemRepository,
+      ShopItemEntityMapper mapper) {
+    return new ShopItemRepositoryFacade(shopItemRepository, mapper);
   }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public ProductRepository getProductRepository(JpaProductRepository jpaProductRepository,
+      JpaShopItemRepository shopItemRepository, ProductEntityMapper mapper) {
+    return new JpaProductRepositoryFacade(jpaProductRepository, shopItemRepository, mapper);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public ShopRepository getShopRepository(JpaShopRepository shopRepository,
+      JpaShopItemRepository shopItemRepository, ShopEntityMapper mapper) {
+    return new JpaShopRepositoryFacade(shopRepository, shopItemRepository, mapper);
+  }
+
+
 }

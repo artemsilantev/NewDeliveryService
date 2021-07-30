@@ -60,7 +60,7 @@ public class JpaCategoryRepositoryFacade implements CategoryRepository {
 
   @Override
   public void delete(Long id) {
-    repository.findAllByParentId(id).forEach(category ->
+    repository.findAllByParent_Id(id).forEach(category ->
         category.setParent(null));
 
     productRepository.findAll().forEach(product ->
