@@ -12,5 +12,4 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderDto, Order>
   public OrderServiceImpl(Mapper<OrderDto, Order> mapper, OrderRepository orderRepository) {
     super(mapper, orderRepository);
   }
-
 }

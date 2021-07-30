@@ -2,7 +2,8 @@ package com.artemsilantev.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +18,12 @@ import lombok.Setter;
 @Table(name = "SHOP_ITEM_")
 public class ShopItemEntity extends PersistenceBaseEntity {
 
-  @OneToOne
+  @ManyToOne
+  @JoinColumn(name = "FK_SHOP_ID_", referencedColumnName = "ID_")
   private ShopEntity shop;
 
-  @OneToOne
+  @ManyToOne
+  @JoinColumn(name = "FK_PRODUCT_ID_", referencedColumnName = "ID_")
   private ProductEntity product;
 
   @Column(name = "PRICE_")

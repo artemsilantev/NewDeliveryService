@@ -3,6 +3,7 @@ package com.artemsilantev.persistence.facade;
 import com.artemsilantev.core.model.User;
 import com.artemsilantev.core.repository.UserRepository;
 import com.artemsilantev.persistence.mapper.UserEntityMapper;
+import com.artemsilantev.persistence.repository.JpaOrderRepository;
 import com.artemsilantev.persistence.repository.JpaUserRepository;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class JpaUserRepositoryFacade implements UserRepository {
 
   private final JpaUserRepository repository;
+  private final JpaOrderRepository orderRepository;
   private final UserEntityMapper mapper;
 
   @Override
@@ -30,6 +32,7 @@ public class JpaUserRepositoryFacade implements UserRepository {
 
   @Override
   public void delete(Long id) {
+    orderRepository.deleteAll(orderRepository.findAllByUser_Id(id));
     repository.deleteById(id);
   }
 

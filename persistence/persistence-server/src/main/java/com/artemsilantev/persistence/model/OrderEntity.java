@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,19 +18,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PRODUCT_")
-public class ProductEntity extends PersistenceBaseEntity {
+@Table(name = "ORDER_")
+public class OrderEntity extends PersistenceBaseEntity {
 
-  @Column(name = "NAME_")
-  private String name;
-  @Column(name = "DESCRIPTION_")
-  private String description;
+  @ManyToOne
+  @JoinColumn(name = "FK_USER_ID_",referencedColumnName = "ID_")
+  private UserEntity user;
+
 
   @ManyToMany
   @JoinTable(
-      name = "PRODUCT_CATEGORY_",
-      joinColumns = {@JoinColumn(name = "PRODUCT_ID_")},
-      inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID_")}
+      name = "ORDER_SHOP_ITEM_",
+      joinColumns = {@JoinColumn(name = "ORDER_ID_")},
+      inverseJoinColumns = {@JoinColumn(name = "SHOP_ITEM_ID_")}
   )
-  Collection<CategoryEntity> categories;
+  private Collection<ShopItemEntity> items;
+  @Column(name = "TOTAL_COST_")
+  private Double totalCost;
+
 }

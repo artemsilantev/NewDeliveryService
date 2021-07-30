@@ -3,6 +3,7 @@ package com.artemsilantev.persistence.facade;
 import com.artemsilantev.core.model.Shop;
 import com.artemsilantev.core.repository.ShopRepository;
 import com.artemsilantev.persistence.mapper.ShopEntityMapper;
+import com.artemsilantev.persistence.repository.JpaOrderRepository;
 import com.artemsilantev.persistence.repository.JpaShopItemRepository;
 import com.artemsilantev.persistence.repository.JpaShopRepository;
 import java.util.Collection;
@@ -13,6 +14,7 @@ public class JpaShopRepositoryFacade implements ShopRepository {
 
   private final JpaShopRepository repository;
   private final JpaShopItemRepository shopItemRepository;
+  private final JpaOrderRepository orderRepository;
   private final ShopEntityMapper mapper;
 
   @Override
@@ -32,7 +34,9 @@ public class JpaShopRepositoryFacade implements ShopRepository {
 
   @Override
   public void delete(Long id) {
-    shopItemRepository.deleteAll(shopItemRepository.findAllByShop_Id(id));
+    var shopItems = shopItemRepository.findAllByShop_Id(id);
+    orderRepository.findAll().forEach(orderEntity -> orderEntity.getItems().removeAll(shopItems));
+    shopItemRepository.deleteAll(shopItems);
     repository.deleteById(id);
   }
 
