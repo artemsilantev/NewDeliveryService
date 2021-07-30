@@ -5,30 +5,27 @@ import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
 import com.artemsilantev.persistence.mapper.CategoryEntityMapper;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
+import com.artemsilantev.persistence.repository.JpaProductRepository;
 import java.util.Collection;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JpaCategoryRepositoryFacade implements CategoryRepository {
 
   private final JpaCategoryRepository repository;
+  private final JpaProductRepository productRepository;
   private final CategoryEntityMapper mapper;
 
   @Override
   public Collection<Category> getRootCategories() {
-    return repository.findAll().stream()
-        .filter(categoryEntity -> categoryEntity.getParent()==null)
-        .map(mapper::toTarget)
-        .collect(Collectors.toList());
+    return mapper.toTargetCollection(repository.findAllByParentNull());
   }
 
   @Override
   public Collection<Category> getChildrenCategories() {
-    return repository.findAll().stream()
-        .filter(categoryEntity -> categoryEntity.getParent()!=null)
-        .map(mapper::toTarget)
-        .collect(Collectors.toList());
+    return mapper.toTargetCollection(repository.findAllByParentNotNull());
   }
 
   @Override
@@ -63,6 +60,12 @@ public class JpaCategoryRepositoryFacade implements CategoryRepository {
 
   @Override
   public void delete(Long id) {
+    repository.findAllByParentId(id).forEach(category ->
+        category.setParent(null));
+
+    productRepository.findAll().forEach(product ->
+        product.getCategories().removeIf(categoryEntity ->
+            categoryEntity.getId().equals(id)));
     repository.deleteById(id);
   }
 

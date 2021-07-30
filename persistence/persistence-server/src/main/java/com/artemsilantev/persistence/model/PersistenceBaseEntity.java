@@ -6,13 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @MappedSuperclass
-public class BaseEntity {
+public abstract class PersistenceBaseEntity {
 
   @Id
   @Column(name = "ID_")
@@ -27,7 +31,7 @@ public class BaseEntity {
     if (entity == null || getClass() != entity.getClass()) {
       return false;
     }
-    BaseEntity that = (BaseEntity) entity;
+    PersistenceBaseEntity that = (PersistenceBaseEntity) entity;
     return Objects.equals(id, that.id);
   }
 

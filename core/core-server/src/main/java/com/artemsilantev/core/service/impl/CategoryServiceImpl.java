@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
     implements CategoryService {
 
+
   public CategoryServiceImpl(Mapper<CategoryDto, Category> mapper,
       CategoryRepository categoryRepository) {
     super(mapper, categoryRepository);

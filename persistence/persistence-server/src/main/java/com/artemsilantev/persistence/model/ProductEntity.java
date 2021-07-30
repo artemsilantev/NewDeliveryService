@@ -1,9 +1,11 @@
 package com.artemsilantev.persistence.model;
 
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,17 +17,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "CATEGORY_")
-public class CategoryEntity extends PersistenceBaseEntity {
+@Table(name = "PRODUCT_")
+public class ProductEntity extends PersistenceBaseEntity {
 
   @Column(name = "NAME_")
   private String name;
-
   @Column(name = "DESCRIPTION_")
   private String description;
 
-  @ManyToOne
-  @JoinColumn(name = "FK_CATEGORY_ID", referencedColumnName = "ID_")
-  private CategoryEntity parent;
-
+  @ManyToMany
+  @JoinTable(name = "PRODUCT_CATEGORY_", joinColumns = {@JoinColumn(name = "PRODUCT_ID_")},
+      inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID_")})
+  Collection<CategoryEntity> categories;
 }
