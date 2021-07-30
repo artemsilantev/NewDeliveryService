@@ -1,9 +1,9 @@
 package com.artemsilantev.persistence.model;
 
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,10 +27,8 @@ public class CategoryEntity extends BaseEntity {
   private String description;
 
   @ManyToOne
-  @JoinColumn(name = "PARENT_ID_")
   private CategoryEntity parent;
 
-  @OneToMany(mappedBy = "parent")
-  @Column(name = "CATEGORY_CHILD_")
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
   private Collection<CategoryEntity> children;
 }
