@@ -41,6 +41,7 @@
     <spring-boot.version>2.5.3</spring-boot.version>
     <git-id-commit-plugin.version>5.0.0</git-id-commit-plugin.version>
     <properties-maven-plugin>1.0.0</properties-maven-plugin>
+    <liquibase-core.version>4.4.2</liquibase-core.version>
   </properties>
 
   <dependencyManagement>
@@ -132,6 +133,11 @@
         <artifactId>logback-classic</artifactId>
         <version>${logback-classic.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        <version>${liquibase-core.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -199,6 +205,14 @@
               <phase>validate</phase>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.liquibase</groupId>
+          <artifactId>liquibase-maven-plugin</artifactId>
+          <version>${liquibase-core.version}</version>
+          <configuration>
+            <propertyFile>src/main/resources/application.yaml</propertyFile>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
