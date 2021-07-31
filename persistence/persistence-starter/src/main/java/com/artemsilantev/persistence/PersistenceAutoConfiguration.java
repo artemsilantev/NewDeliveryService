@@ -12,7 +12,7 @@ import com.artemsilantev.persistence.facade.JpaOrderRepositoryFacade;
 import com.artemsilantev.persistence.facade.JpaProductRepositoryFacade;
 import com.artemsilantev.persistence.facade.JpaShopRepositoryFacade;
 import com.artemsilantev.persistence.facade.JpaUserRepositoryFacade;
-import com.artemsilantev.persistence.facade.ShopItemRepositoryFacade;
+import com.artemsilantev.persistence.facade.JpaShopItemRepositoryFacade;
 import com.artemsilantev.persistence.mapper.CategoryEntityMapper;
 import com.artemsilantev.persistence.mapper.OrderEntityMapper;
 import com.artemsilantev.persistence.mapper.ProductEntityMapper;
@@ -51,7 +51,7 @@ public class PersistenceAutoConfiguration {
   @ConditionalOnMissingBean
   public ShopItemRepository getShopItemRepository(JpaShopItemRepository shopItemRepository,
       JpaOrderRepository orderRepository, ShopItemEntityMapper mapper) {
-    return new ShopItemRepositoryFacade(shopItemRepository, orderRepository, mapper);
+    return new JpaShopItemRepositoryFacade(shopItemRepository, orderRepository, mapper);
   }
 
   @Bean

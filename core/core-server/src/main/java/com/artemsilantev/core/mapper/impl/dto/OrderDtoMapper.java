@@ -1,7 +1,9 @@
 package com.artemsilantev.core.mapper.impl.dto;
 
+import com.artemsilantev.core.dto.CategoryDto;
 import com.artemsilantev.core.dto.OrderDto;
 import com.artemsilantev.core.mapper.Mapper;
+import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.model.Order;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -15,6 +17,11 @@ public class OrderDtoMapper implements Mapper<OrderDto, Order> {
   public OrderDtoMapper() {
     modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+    var map = modelMapper.createTypeMap(Category.class, CategoryDto.class);
+    map.addMapping(category -> {
+      var parent = category.getParent();
+      return parent != null ? parent.getId() : null;
+    }, CategoryDto::setParentId);
   }
 
   @Override
