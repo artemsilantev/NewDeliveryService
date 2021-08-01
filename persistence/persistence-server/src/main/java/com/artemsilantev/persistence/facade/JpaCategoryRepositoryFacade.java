@@ -1,66 +1,52 @@
 package com.artemsilantev.persistence.facade;
 
 import com.artemsilantev.core.exception.NoRecordException;
+import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
-import com.artemsilantev.persistence.mapper.CategoryEntityMapper;
+import com.artemsilantev.persistence.model.CategoryEntity;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
 import com.artemsilantev.persistence.repository.JpaProductRepository;
 import java.util.Collection;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Slf4j
-@RequiredArgsConstructor
-public class JpaCategoryRepositoryFacade implements CategoryRepository {
+public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Category, CategoryEntity>
+    implements CategoryRepository {
 
-  private final JpaCategoryRepository repository;
   private final JpaProductRepository productRepository;
-  private final CategoryEntityMapper mapper;
+
+  public JpaCategoryRepositoryFacade(
+      JpaRepository<CategoryEntity, Long> repository,
+      Mapper<Category, CategoryEntity> mapper,
+      JpaProductRepository productRepository) {
+    super(repository, mapper);
+    this.productRepository = productRepository;
+  }
 
   @Override
   public Collection<Category> getRootCategories() {
-    return mapper.toTargetCollection(repository.findAllByParentNull());
+    return mapper.toTargetCollection(((JpaCategoryRepository) repository).findAllByParentNull());
   }
 
   @Override
   public Collection<Category> getChildrenCategories() {
-    return mapper.toTargetCollection(repository.findAllByParentNotNull());
+    return mapper.toTargetCollection(((JpaCategoryRepository) repository).findAllByParentNotNull());
   }
 
   @Override
   public Boolean isNameExists(String name) {
-    return repository.existsByName(name);
+    return ((JpaCategoryRepository) repository).existsByName(name);
   }
 
   @Override
   public Boolean isNameExists(String name, Long id) {
-    return repository.existsByNameAndIdIsNot(name, id);
+    return ((JpaCategoryRepository) repository).existsByNameAndIdIsNot(name, id);
   }
 
-  @Override
-  public Category create(Category entity) {
-    return mapper.toTarget(repository.save(mapper.toSource(entity)));
-  }
-
-  @Override
-  public Category get(Long id) {
-    try {
-      return mapper.toTarget(repository.getById(id));
-    } catch (Exception exception) {
-      throw new NoRecordException((String.format("%s was not found by this id (%d)",
-          "Category", id)));
-    }
-  }
-
-  @Override
-  public Collection<Category> getAll() {
-    return mapper.toTargetCollection(repository.findAll());
-  }
 
   @Override
   public void delete(Long id) {
-    repository.findAllByParent_Id(id).forEach(category ->
+    ((JpaCategoryRepository) repository).findAllByParent_Id(id).forEach(category ->
         category.setParent(null));
 
     productRepository.findAll().forEach(product ->
@@ -70,7 +56,7 @@ public class JpaCategoryRepositoryFacade implements CategoryRepository {
   }
 
   @Override
-  public void update(Category category) {
-    repository.save(mapper.toSource(category));
+  protected NoRecordException createNoRecordException(Long id, String entityName) {
+    return super.createNoRecordException(id, "Category");
   }
 }

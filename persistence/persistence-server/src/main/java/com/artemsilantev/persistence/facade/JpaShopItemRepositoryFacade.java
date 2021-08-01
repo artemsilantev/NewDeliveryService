@@ -1,33 +1,24 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.NoRecordException;
+import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.ShopItem;
 import com.artemsilantev.core.repository.ShopItemRepository;
-import com.artemsilantev.persistence.mapper.ShopItemEntityMapper;
+import com.artemsilantev.persistence.model.ShopItemEntity;
 import com.artemsilantev.persistence.repository.JpaOrderRepository;
-import com.artemsilantev.persistence.repository.JpaShopItemRepository;
-import java.util.Collection;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RequiredArgsConstructor
-public class JpaShopItemRepositoryFacade implements ShopItemRepository {
+public class JpaShopItemRepositoryFacade extends JpaBaseRepositoryFacade<ShopItem, ShopItemEntity>
+    implements ShopItemRepository {
 
-  private final JpaShopItemRepository repository;
   private final JpaOrderRepository orderRepository;
-  private final ShopItemEntityMapper mapper;
 
-  @Override
-  public ShopItem create(ShopItem entity) {
-    return mapper.toTarget(repository.save(mapper.toSource(entity)));
-  }
-
-  @Override
-  public ShopItem get(Long id) {
-    return mapper.toTarget(repository.getById(id));
-  }
-
-  @Override
-  public Collection<ShopItem> getAll() {
-    return mapper.toTargetCollection(repository.findAll());
+  public JpaShopItemRepositoryFacade(
+      JpaRepository<ShopItemEntity, Long> repository,
+      JpaOrderRepository orderRepository,
+      Mapper<ShopItem, ShopItemEntity> mapper) {
+    super(repository, mapper);
+    this.orderRepository = orderRepository;
   }
 
   @Override
@@ -39,7 +30,7 @@ public class JpaShopItemRepositoryFacade implements ShopItemRepository {
   }
 
   @Override
-  public void update(ShopItem shopItem) {
-    repository.save(mapper.toSource(shopItem));
+  protected NoRecordException createNoRecordException(Long id, String entityName) {
+    return super.createNoRecordException(id, "Shop Item");
   }
 }

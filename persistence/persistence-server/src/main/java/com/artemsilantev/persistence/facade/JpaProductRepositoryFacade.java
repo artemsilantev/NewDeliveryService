@@ -1,35 +1,29 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.NoRecordException;
+import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Product;
 import com.artemsilantev.core.repository.ProductRepository;
-import com.artemsilantev.persistence.mapper.ProductEntityMapper;
+import com.artemsilantev.persistence.model.ProductEntity;
 import com.artemsilantev.persistence.repository.JpaOrderRepository;
 import com.artemsilantev.persistence.repository.JpaProductRepository;
 import com.artemsilantev.persistence.repository.JpaShopItemRepository;
-import java.util.Collection;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RequiredArgsConstructor
-public class JpaProductRepositoryFacade implements ProductRepository {
+public class JpaProductRepositoryFacade extends JpaBaseRepositoryFacade<Product, ProductEntity>
+    implements ProductRepository {
 
-  private final JpaProductRepository repository;
   private final JpaShopItemRepository shopItemRepository;
   private final JpaOrderRepository orderRepository;
-  private final ProductEntityMapper mapper;
 
-  @Override
-  public Product create(Product entity) {
-    return mapper.toTarget(repository.save(mapper.toSource(entity)));
-  }
-
-  @Override
-  public Product get(Long id) {
-    return mapper.toTarget(repository.getById(id));
-  }
-
-  @Override
-  public Collection<Product> getAll() {
-    return mapper.toTargetCollection(repository.findAll());
+  public JpaProductRepositoryFacade(
+      JpaRepository<ProductEntity, Long> repository,
+      JpaShopItemRepository shopItemRepository,
+      JpaOrderRepository orderRepository,
+      Mapper<Product, ProductEntity> mapper) {
+    super(repository, mapper);
+    this.shopItemRepository = shopItemRepository;
+    this.orderRepository = orderRepository;
   }
 
   @Override
@@ -41,17 +35,17 @@ public class JpaProductRepositoryFacade implements ProductRepository {
   }
 
   @Override
-  public void update(Product product) {
-    repository.save(mapper.toSource(product));
-  }
-
-  @Override
   public Boolean isNameExists(String name) {
-    return repository.existsByName(name);
+    return ((JpaProductRepository) repository).existsByName(name);
   }
 
   @Override
   public Boolean isNameExists(String name, Long id) {
-    return repository.existsByNameAndIdIsNot(name, id);
+    return ((JpaProductRepository) repository).existsByNameAndIdIsNot(name, id);
+  }
+
+  @Override
+  protected NoRecordException createNoRecordException(Long id, String entityName) {
+    return super.createNoRecordException(id, "Product");
   }
 }

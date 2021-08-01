@@ -1,40 +1,23 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.NoRecordException;
+import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Order;
 import com.artemsilantev.core.repository.OrderRepository;
-import com.artemsilantev.persistence.mapper.OrderEntityMapper;
-import com.artemsilantev.persistence.repository.JpaOrderRepository;
-import java.util.Collection;
-import lombok.RequiredArgsConstructor;
+import com.artemsilantev.persistence.model.OrderEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RequiredArgsConstructor
-public class JpaOrderRepositoryFacade implements OrderRepository {
+public class JpaOrderRepositoryFacade extends JpaBaseRepositoryFacade<Order, OrderEntity>
+    implements OrderRepository {
 
-  private final JpaOrderRepository repository;
-  private final OrderEntityMapper mapper;
-
-  @Override
-  public Order create(Order entity) {
-    return mapper.toTarget(repository.save(mapper.toSource(entity)));
+  public JpaOrderRepositoryFacade(
+      JpaRepository<OrderEntity, Long> repository,
+      Mapper<Order, OrderEntity> mapper) {
+    super(repository, mapper);
   }
 
   @Override
-  public Order get(Long id) {
-    return mapper.toTarget(repository.getById(id));
-  }
-
-  @Override
-  public Collection<Order> getAll() {
-    return mapper.toTargetCollection(repository.findAll());
-  }
-
-  @Override
-  public void delete(Long id) {
-    repository.deleteById(id);
-  }
-
-  @Override
-  public void update(Order order) {
-    repository.save(mapper.toSource(order));
+  protected NoRecordException createNoRecordException(Long id, String entityName) {
+    return super.createNoRecordException(id, "Order");
   }
 }
