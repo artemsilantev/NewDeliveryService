@@ -6,13 +6,13 @@ git-info:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driverClassName: org.postgresql.Driver
-    username: postgres
+    url: jdbc:sqlserver://localhost\SQLEXPRESS;database=testDb
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: test
     password: 1111
   jpa:
     generate-ddl: false
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
   liquibase:
     change-log: classpath:configs/liquibase/changelog-master.xml
     enabled: true
