@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaCategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-  Collection<CategoryEntity> findAllByParent_Id(Long id);
+  Collection<CategoryEntity> findAllByParentId(Long id);
 
   Collection<CategoryEntity> findAllByParentNotNull();
 

@@ -36,8 +36,8 @@ public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
   }
 
   @Override
-  public void update(T entity) {
+  public T update(T entity) {
     var sourceEntity = mapperDto.toSource(entity);
-    baseRepository.update(sourceEntity);
+    return mapperDto.toTarget(baseRepository.update(sourceEntity));
   }
 }

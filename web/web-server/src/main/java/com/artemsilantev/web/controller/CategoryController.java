@@ -38,19 +38,17 @@ public class CategoryController {
   }
 
   @PutMapping
-  public ResponseEntity<Object> update(@Valid @RequestBody CategoryUpdateRequest request) {
-    categoryService.update(categoryWebMapper.toSourceUpdate(request));
-    return ResponseEntity.noContent().build();
+  public ResponseEntity<CategoryDto> update(@Valid @RequestBody CategoryUpdateRequest request) {
+    return ResponseEntity.ok(categoryService.update(categoryWebMapper.toSourceUpdate(request)));
   }
 
 
   @PatchMapping
   public ResponseEntity<Object> patch(@Valid @RequestBody CategoryPatchRequest request) {
-    ;
     var categoryNew = categoryWebMapper.toSourcePatch(request);
     var categoryOld = categoryService.get(request.getId());
-    categoryService.update(categoryWebMapper.patch(categoryOld, categoryNew));
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok(
+        categoryService.update(categoryWebMapper.patch(categoryOld, categoryNew)));
   }
 
   @GetMapping

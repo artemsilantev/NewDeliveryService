@@ -14,6 +14,6 @@ public interface BaseRepository<E extends BaseEntity> {
 
   void delete(Long id);
 
-  void update(E e);
+  E update(E e);
 
 }

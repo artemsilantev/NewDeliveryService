@@ -22,12 +22,6 @@ public class JpaUserRepositoryFacade extends JpaBaseRepositoryFacade<User, UserE
   }
 
   @Override
-  public void delete(Long id) {
-    orderRepository.deleteAll(orderRepository.findAllByUser_Id(id));
-    repository.deleteById(id);
-  }
-
-  @Override
   public Boolean isEmailExists(String email) {
     return ((JpaUserRepository) repository).existsByEmail(email);
   }

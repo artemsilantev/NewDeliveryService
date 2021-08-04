@@ -24,11 +24,11 @@ public class ShopServiceImpl extends BaseServiceImpl<ShopDto, Shop>
   }
 
   @Override
-  public void update(ShopDto shopDto) {
+  public ShopDto update(ShopDto shopDto) {
     if (((ShopRepository) baseRepository).isNameExists(shopDto.getName(), shopDto.getId())) {
       throw new IllegalEntityException(
           String.format("Shop with this name already exists: %s", shopDto.getName()));
     }
-    super.update(shopDto);
+    return super.update(shopDto);
   }
 }

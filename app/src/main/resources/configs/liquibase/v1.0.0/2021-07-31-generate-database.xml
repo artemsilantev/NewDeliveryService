@@ -12,10 +12,31 @@
       </column>
       <column name="DESCRIPTION_" type="VARCHAR(255)"/>
       <column name="NAME_" type="VARCHAR(255)"/>
-      <column name="FK_CATEGORY_ID" type="BIGINT"/>
+      <column name="PARENT_CATEGORY_ID_" type="BIGINT">
+        <constraints nullable="true"/>
+      </column>
     </createTable>
-
   </changeSet>
+
+  <changeSet author="artem" id="2021-08-05-00-18-13" dbms="postgresql">
+    <addForeignKeyConstraint
+      baseColumnNames="PARENT_CATEGORY_ID_"
+      baseTableName="CATEGORY_"
+      constraintName="FK_CATEGORY_PARENT_CATEGORY_ID_"
+      onDelete="SET NULL"
+      referencedColumnNames="ID_"
+      referencedTableName="CATEGORY_"/>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-08-05-00-18-13" dbms="mssql">
+    <addForeignKeyConstraint
+      baseColumnNames="PARENT_CATEGORY_ID_"
+      baseTableName="CATEGORY_"
+      constraintName="FK_CATEGORY_PARENT_CATEGORY_ID_"
+      referencedColumnNames="ID_"
+      referencedTableName="CATEGORY_"/>
+  </changeSet>
+
   <changeSet author="artem" id="2021-07-31-22-59-21">
     <createTable tableName="ORDER_">
       <column autoIncrement="true" name="ID_" type="BIGINT">
@@ -87,6 +108,19 @@
       </column>
     </createTable>
 
+    <addForeignKeyConstraint
+      baseColumnNames="CATEGORY_ID_"
+      baseTableName="PRODUCT_CATEGORY_"
+      constraintName="FK_PRODUCT_CATEGORY_CATEGORY_ID_"
+      onDelete="CASCADE"
+      referencedColumnNames="ID_"
+      referencedTableName="CATEGORY_"/>
+    <addForeignKeyConstraint
+      baseColumnNames="PRODUCT_ID_"
+      baseTableName="PRODUCT_CATEGORY_"
+      constraintName="FK_PRODUCT_CATEGORY_PRODUCT_ID_"
+      referencedColumnNames="ID_"
+      referencedTableName="PRODUCT_"/>
   </changeSet>
 
   <changeSet author="artem" id="2021-07-31-23-30-50">
@@ -102,18 +136,6 @@
   </changeSet>
 
   <changeSet author="artem" id="2021-07-31-23-47-49">
-    <addForeignKeyConstraint
-      baseColumnNames="CATEGORY_ID_"
-      baseTableName="PRODUCT_CATEGORY_"
-      constraintName="FK_PRODUCT_CATEGORY_CATEGORY_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="CATEGORY_"/>
-    <addForeignKeyConstraint
-      baseColumnNames="FK_CATEGORY_ID"
-      baseTableName="CATEGORY_"
-      constraintName="FK_CATEGORY_FK_CATEGORY_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="CATEGORY_"/>
     <addForeignKeyConstraint
       baseColumnNames="ORDER_ID_"
       baseTableName="ORDER_SHOP_ITEM_"
@@ -133,12 +155,6 @@
       referencedColumnNames="ID_"
       referencedTableName="PRODUCT_"/>
     <addForeignKeyConstraint
-      baseColumnNames="PRODUCT_ID_"
-      baseTableName="PRODUCT_CATEGORY_"
-      constraintName="FK_PRODUCT_CATEGORY_PRODUCT_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="PRODUCT_"/>
-    <addForeignKeyConstraint
       baseColumnNames="FK_SHOP_ID_"
       baseTableName="SHOP_ITEM_"
       constraintName="FK_SHOP_ITEM_FK_SHOP_ID_"
@@ -150,5 +166,20 @@
       constraintName="FK_ORDER_SHOP_ITEM_SHOP_ITEM_ID"
       referencedColumnNames="ID_"
       referencedTableName="SHOP_ITEM_"/>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-08-04-23-24-45" dbms="mssql">
+    <sql>
+    CREATE OR ALTER TRIGGER TRG_DEL_NULL_CATEGORY_PARENT_ID_
+    ON CATEGORY_ INSTEAD OF DELETE
+    AS BEGIN
+    SET NOCOUNT ON
+    UPDATE CATEGORY_
+    SET PARENT_CATEGORY_ID_=NULL
+    WHERE PARENT_CATEGORY_ID_ IN (SELECT ID_ FROM DELETED)
+    DELETE FROM CATEGORY_
+    WHERE ID_ IN (SELECT ID_ FROM DELETED)
+    END
+    </sql>
   </changeSet>
 </databaseChangeLog>

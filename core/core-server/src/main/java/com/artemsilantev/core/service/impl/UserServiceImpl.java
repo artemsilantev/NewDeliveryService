@@ -24,11 +24,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, User>
   }
 
   @Override
-  public void update(UserDto userDto) {
+  public UserDto update(UserDto userDto) {
     if (((UserRepository) baseRepository).isEmailExists(userDto.getEmail(), userDto.getId())) {
       throw new IllegalEntityException(
           String.format("User with this email already exists: %s", userDto.getEmail()));
     }
-    super.update(userDto);
+    return super.update(userDto);
   }
 }

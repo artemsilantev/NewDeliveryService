@@ -7,10 +7,11 @@ git-info:
 spring:
   datasource:
     url: jdbc:sqlserver://localhost\SQLEXPRESS;database=testDb
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: test
     password: 1111
   jpa:
+    showSql: true
     generate-ddl: false
     database-platform: org.hibernate.dialect.SQLServer2012Dialect
   liquibase:

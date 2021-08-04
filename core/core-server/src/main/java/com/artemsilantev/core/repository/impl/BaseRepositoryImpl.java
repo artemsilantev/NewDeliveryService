@@ -52,11 +52,12 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
   }
 
   @Override
-  public void update(E entity) {
+  public E update(E entity) {
     fillReference(entity);
     delete(entity.getId());
     getAll().add(entity);
     save();
+    return entity;
   }
 
   protected void fillReference(E entity) {

@@ -40,17 +40,15 @@ public class ProductController {
   }
 
   @PutMapping
-  public ResponseEntity<Object> update(@Valid @RequestBody ProductUpdateRequest request) {
-    productService.update(productWebMapper.toSourceUpdate(request));
-    return ResponseEntity.noContent().build();
+  public ResponseEntity<ProductDto> update(@Valid @RequestBody ProductUpdateRequest request) {
+    return ResponseEntity.ok(productService.update(productWebMapper.toSourceUpdate(request)));
   }
 
   @PatchMapping
-  public ResponseEntity<Object> patch(@Valid @RequestBody ProductPatchRequest request) {
+  public ResponseEntity<ProductDto> patch(@Valid @RequestBody ProductPatchRequest request) {
     var productNew = productWebMapper.toSourcePatch(request);
     var productOld = productService.get(productNew.getId());
-    productService.update(productWebMapper.patch(productOld, productNew));
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok(productService.update(productWebMapper.patch(productOld, productNew)));
   }
 
   @GetMapping

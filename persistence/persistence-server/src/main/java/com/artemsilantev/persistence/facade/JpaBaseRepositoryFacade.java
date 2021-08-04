@@ -22,8 +22,7 @@ public abstract class JpaBaseRepositoryFacade<T extends BaseEntity, S>
 
   @Override
   public T get(Long id) {
-    return mapper.toTarget(repository.findById(id).orElseThrow(() ->
-        createNoRecordException(id, "entity")));
+    return mapper.toTarget(repository.getById(id));
   }
 
   @Override
@@ -37,8 +36,8 @@ public abstract class JpaBaseRepositoryFacade<T extends BaseEntity, S>
   }
 
   @Override
-  public void update(T entity) {
-    repository.save(mapper.toSource(entity));
+  public T update(T entity) {
+    return mapper.toTarget(repository.save(mapper.toSource(entity)));
   }
 
   protected NoRecordException createNoRecordException(Long id, String entityName) {

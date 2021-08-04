@@ -27,14 +27,6 @@ public class JpaShopRepositoryFacade extends JpaBaseRepositoryFacade<Shop, ShopE
   }
 
   @Override
-  public void delete(Long id) {
-    var shopItems = shopItemRepository.findAllByShop_Id(id);
-    orderRepository.findAll().forEach(orderEntity -> orderEntity.getItems().removeAll(shopItems));
-    shopItemRepository.deleteAll(shopItems);
-    repository.deleteById(id);
-  }
-
-  @Override
   public Boolean isNameExists(String name) {
     return ((JpaShopRepository) repository).existsByName(name);
   }

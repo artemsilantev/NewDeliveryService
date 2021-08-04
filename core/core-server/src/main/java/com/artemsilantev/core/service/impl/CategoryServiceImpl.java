@@ -32,14 +32,14 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
   }
 
   @Override
-  public void update(CategoryDto categoryDto) {
+  public CategoryDto update(CategoryDto categoryDto) {
     log.debug("Category will be updated: {}", categoryDto.toString());
     if (((CategoryRepository) baseRepository).isNameExists(categoryDto.getName(),
         categoryDto.getId())) {
       throw new IllegalEntityException(
           String.format("Category with this name already exists: %s", categoryDto.getName()));
     }
-    baseRepository.update(mappedToSource(categoryDto));
+    return mapperDto.toTarget(baseRepository.update(mappedToSource(categoryDto)));
   }
 
   @Override

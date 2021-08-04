@@ -22,14 +22,6 @@ public class JpaShopItemRepositoryFacade extends JpaBaseRepositoryFacade<ShopIte
   }
 
   @Override
-  public void delete(Long id) {
-    orderRepository.findAll().forEach(order ->
-        order.getItems().removeIf(shopItem ->
-            shopItem.getId().equals(id)));
-    repository.deleteById(id);
-  }
-
-  @Override
   protected NoRecordException createNoRecordException(Long id, String entityName) {
     return super.createNoRecordException(id, "Shop Item");
   }

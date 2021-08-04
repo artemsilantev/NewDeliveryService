@@ -27,13 +27,13 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductDto, Product>
   }
 
   @Override
-  public void update(ProductDto productDto) {
+  public ProductDto update(ProductDto productDto) {
     if (((ProductRepository) baseRepository).isNameExists(productDto.getName(),
         productDto.getId())) {
       throw new IllegalEntityException(
           String.format("Product with this name already exists: %s", productDto.getName()));
     }
-    super.update(productDto);
+    return super.update(productDto);
   }
 
   @Override

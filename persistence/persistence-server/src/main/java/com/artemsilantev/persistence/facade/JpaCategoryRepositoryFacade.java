@@ -43,18 +43,6 @@ public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Categor
     return ((JpaCategoryRepository) repository).existsByNameAndIdIsNot(name, id);
   }
 
-
-  @Override
-  public void delete(Long id) {
-    ((JpaCategoryRepository) repository).findAllByParent_Id(id).forEach(category ->
-        category.setParent(null));
-
-    productRepository.findAll().forEach(product ->
-        product.getCategories().removeIf(categoryEntity ->
-            categoryEntity.getId().equals(id)));
-    repository.deleteById(id);
-  }
-
   @Override
   protected NoRecordException createNoRecordException(Long id, String entityName) {
     return super.createNoRecordException(id, "Category");
