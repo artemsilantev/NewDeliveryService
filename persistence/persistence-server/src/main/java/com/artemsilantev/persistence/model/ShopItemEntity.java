@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "SHOP_ITEM_")
-public class ShopItemEntity extends PersistenceBaseEntity {
+public class  ShopItemEntity extends PersistenceBaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "FK_SHOP_ID_", referencedColumnName = "ID_")

@@ -1,11 +1,7 @@
 package com.artemsilantev.persistence.model;
 
-import java.util.Collection;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +26,4 @@ public class UserEntity extends PersistenceBaseEntity {
   private String email;
   @Column(name = "ADDRESS_")
   private String address;
-
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-  private Collection<OrderEntity> orders;
 }

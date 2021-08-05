@@ -37,17 +37,6 @@
       referencedTableName="CATEGORY_"/>
   </changeSet>
 
-  <changeSet author="artem" id="2021-07-31-22-59-21">
-    <createTable tableName="ORDER_">
-      <column autoIncrement="true" name="ID_" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_"/>
-      </column>
-      <column name="TOTAL_COST_" type="${float}"/>
-      <column name="FK_USER_ID_" type="BIGINT"/>
-    </createTable>
-
-  </changeSet>
-
   <changeSet author="artem" id="2021-07-31-23-04-10">
     <createTable tableName="PRODUCT_">
       <column autoIncrement="true" name="ID_" type="BIGINT">
@@ -56,46 +45,6 @@
       <column name="DESCRIPTION_" type="VARCHAR(255)"/>
       <column name="NAME_" type="VARCHAR(255)"/>
     </createTable>
-
-  </changeSet>
-
-  <changeSet author="artem" id="2021-07-31-23-07-21">
-    <createTable tableName="SHOP_">
-      <column autoIncrement="true" name="ID_" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SHOP_"/>
-      </column>
-      <column name="ADDRESS_" type="VARCHAR(255)"/>
-      <column name="EMAIL_" type="VARCHAR(255)"/>
-      <column name="NAME_" type="VARCHAR(255)"/>
-    </createTable>
-
-  </changeSet>
-
-  <changeSet author="artem" id="2021-07-31-23-12-32">
-    <createTable tableName="SHOP_ITEM_">
-      <column autoIncrement="true" name="ID_" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SHOP_ITEM_"/>
-      </column>
-      <column name="AMOUNT_" type="INTEGER"/>
-      <column name="PRICE_" type="${float}"/>
-      <column name="FK_PRODUCT_ID_" type="BIGINT"/>
-      <column name="FK_SHOP_ID_" type="BIGINT"/>
-    </createTable>
-
-  </changeSet>
-
-  <changeSet author="artem" id="2021-07-31-23-17-03">
-    <createTable tableName="USER_">
-      <column autoIncrement="true" name="ID_" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_"/>
-      </column>
-      <column name="ADDRESS_" type="VARCHAR(255)"/>
-      <column name="EMAIL_" type="VARCHAR(255)"/>
-      <column name="FIRST_NAME_" type="VARCHAR(255)"/>
-      <column name="NUMBER_" type="VARCHAR(255)"/>
-      <column name="SECOND_NAME_" type="VARCHAR(255)"/>
-    </createTable>
-
   </changeSet>
 
   <changeSet author="artem" id="2021-07-31-23-25-54">
@@ -107,7 +56,6 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
-
     <addForeignKeyConstraint
       baseColumnNames="CATEGORY_ID_"
       baseTableName="PRODUCT_CATEGORY_"
@@ -123,6 +71,73 @@
       referencedTableName="PRODUCT_"/>
   </changeSet>
 
+  <changeSet author="artem" id="2021-07-31-23-17-03">
+    <createTable tableName="USER_">
+      <column autoIncrement="true" name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_"/>
+      </column>
+      <column name="ADDRESS_" type="VARCHAR(255)"/>
+      <column name="EMAIL_" type="VARCHAR(255)"/>
+      <column name="FIRST_NAME_" type="VARCHAR(255)"/>
+      <column name="NUMBER_" type="VARCHAR(255)"/>
+      <column name="SECOND_NAME_" type="VARCHAR(255)"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-07-31-23-07-21">
+    <createTable tableName="SHOP_">
+      <column autoIncrement="true" name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SHOP_"/>
+      </column>
+      <column name="ADDRESS_" type="VARCHAR(255)"/>
+      <column name="EMAIL_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-07-31-23-12-32">
+    <createTable tableName="SHOP_ITEM_">
+      <column autoIncrement="true" name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SHOP_ITEM_"/>
+      </column>
+      <column name="AMOUNT_" type="INTEGER"/>
+      <column name="PRICE_" type="${float}"/>
+      <column name="FK_PRODUCT_ID_" type="BIGINT"/>
+      <column name="FK_SHOP_ID_" type="BIGINT"/>
+    </createTable>
+    <addForeignKeyConstraint
+      baseColumnNames="FK_PRODUCT_ID_"
+      baseTableName="SHOP_ITEM_"
+      constraintName="FK_SHOP_ITEM_FK_PRODUCT_ID_"
+      onDelete="CASCADE"
+      referencedColumnNames="ID_"
+      referencedTableName="PRODUCT_"/>
+    <addForeignKeyConstraint
+      baseColumnNames="FK_SHOP_ID_"
+      baseTableName="SHOP_ITEM_"
+      constraintName="FK_SHOP_ITEM_FK_SHOP_ID_"
+      onDelete="CASCADE"
+      referencedColumnNames="ID_"
+      referencedTableName="SHOP_"/>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-07-31-22-59-21">
+    <createTable tableName="ORDER_">
+      <column autoIncrement="true" name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_"/>
+      </column>
+      <column name="TOTAL_COST_" type="${float}"/>
+      <column name="FK_USER_ID_" type="BIGINT"/>
+    </createTable>
+    <addForeignKeyConstraint
+      baseColumnNames="FK_USER_ID_"
+      baseTableName="ORDER_"
+      onDelete="CASCADE"
+      constraintName="FK_ORDER_FK_USER_ID_"
+      referencedColumnNames="ID_"
+      referencedTableName="USER_"/>
+  </changeSet>
+
   <changeSet author="artem" id="2021-07-31-23-30-50">
     <createTable tableName="ORDER_SHOP_ITEM_">
       <column name="ORDER_ID_" type="BIGINT">
@@ -132,38 +147,18 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
-
-  </changeSet>
-
-  <changeSet author="artem" id="2021-07-31-23-47-49">
     <addForeignKeyConstraint
       baseColumnNames="ORDER_ID_"
       baseTableName="ORDER_SHOP_ITEM_"
       constraintName="FK_ORDER_SHOP_ITEM_ORDER_ID_"
+      onDelete="CASCADE"
       referencedColumnNames="ID_"
       referencedTableName="ORDER_"/>
     <addForeignKeyConstraint
-      baseColumnNames="FK_USER_ID_"
-      baseTableName="ORDER_"
-      constraintName="FK_ORDER_FK_USER_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="USER_"/>
-    <addForeignKeyConstraint
-      baseColumnNames="FK_PRODUCT_ID_"
-      baseTableName="SHOP_ITEM_"
-      constraintName="FK_SHOP_ITEM_FK_PRODUCT_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="PRODUCT_"/>
-    <addForeignKeyConstraint
-      baseColumnNames="FK_SHOP_ID_"
-      baseTableName="SHOP_ITEM_"
-      constraintName="FK_SHOP_ITEM_FK_SHOP_ID_"
-      referencedColumnNames="ID_"
-      referencedTableName="SHOP_"/>
-    <addForeignKeyConstraint
       baseColumnNames="SHOP_ITEM_ID_"
       baseTableName="ORDER_SHOP_ITEM_"
-      constraintName="FK_ORDER_SHOP_ITEM_SHOP_ITEM_ID"
+      constraintName="FK_ORDER_SHOP_ITEM_SHOP_ITEM_ID_"
+      onDelete="CASCADE"
       referencedColumnNames="ID_"
       referencedTableName="SHOP_ITEM_"/>
   </changeSet>
