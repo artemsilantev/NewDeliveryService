@@ -12,6 +12,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,8 +56,8 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseEntity<Collection<ProductDto>> getAll() {
-    return ResponseEntity.ok(productService.getAll());
+  public ResponseEntity<Page<ProductDto>> find(@PageableDefault(sort = "id") Pageable pageable) {
+    return ResponseEntity.ok(productService.find(pageable));
   }
 
   @GetMapping("/{id}")

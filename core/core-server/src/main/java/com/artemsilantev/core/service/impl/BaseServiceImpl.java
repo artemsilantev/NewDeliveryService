@@ -6,6 +6,8 @@ import com.artemsilantev.core.repository.BaseRepository;
 import com.artemsilantev.core.service.BaseService;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @AllArgsConstructor
 public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
@@ -28,6 +30,11 @@ public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
   @Override
   public Collection<T> getAll() {
     return mapperDto.toTargetCollection(baseRepository.getAll());
+  }
+
+  @Override
+  public Page<T> find(Pageable pageable) {
+    return baseRepository.find(pageable).map(mapperDto::toTarget);
   }
 
   @Override

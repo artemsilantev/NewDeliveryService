@@ -8,6 +8,8 @@ import com.artemsilantev.core.storage.BaseDataStorage;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @AllArgsConstructor
 public abstract class BaseRepositoryImpl<E extends BaseEntity>
@@ -43,6 +45,11 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
   @Override
   public Collection<E> getAll() {
     return dataStorage.getEntities();
+  }
+
+  @Override
+  public Page<E> find(Pageable pageable) {
+    return Page.empty();
   }
 
   @Override

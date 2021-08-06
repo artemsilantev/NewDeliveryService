@@ -26,5 +26,4 @@ public class CommitInfoController {
     return ResponseEntity.ok()
         .body(map);
   }
-
 }

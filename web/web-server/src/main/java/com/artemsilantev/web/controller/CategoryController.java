@@ -11,6 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +45,6 @@ public class CategoryController {
     return ResponseEntity.ok(categoryService.update(categoryWebMapper.toSourceUpdate(request)));
   }
 
-
   @PatchMapping
   public ResponseEntity<Object> patch(@Valid @RequestBody CategoryPatchRequest request) {
     var categoryNew = categoryWebMapper.toSourcePatch(request);
@@ -52,8 +54,8 @@ public class CategoryController {
   }
 
   @GetMapping
-  public ResponseEntity<Collection<CategoryDto>> getAll() {
-    return ResponseEntity.ok(categoryService.getAll());
+  public ResponseEntity<Page<CategoryDto>> findAll(@PageableDefault(sort = "id") Pageable pageable) {
+    return ResponseEntity.ok(categoryService.find(pageable));
   }
 
   @GetMapping("/{id}")
