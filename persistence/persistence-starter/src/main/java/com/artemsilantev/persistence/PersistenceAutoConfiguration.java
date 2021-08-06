@@ -32,50 +32,49 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan(basePackages = {"com.artemsilantev.persistence"})
 @EnableJpaRepositories(basePackages = {"com.artemsilantev.persistence.repository"})
 @EntityScan(basePackages = {"com.artemsilantev.persistence.model"})
+@EnableTransactionManagement
 @AutoConfigureBefore({CoreAutoConfiguration.class})
 public class PersistenceAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
   public CategoryRepository getCategoryRepository(JpaCategoryRepository categoryRepository,
-      JpaProductRepository productRepository, CategoryEntityMapper mapper) {
-    return new JpaCategoryRepositoryFacade(categoryRepository, mapper, productRepository);
+      CategoryEntityMapper mapper) {
+    return new JpaCategoryRepositoryFacade(categoryRepository, mapper);
   }
 
   @Bean
   @ConditionalOnMissingBean
   public ShopItemRepository getShopItemRepository(JpaShopItemRepository shopItemRepository,
-      JpaOrderRepository orderRepository, ShopItemEntityMapper mapper) {
-    return new JpaShopItemRepositoryFacade(shopItemRepository, orderRepository, mapper);
+      ShopItemEntityMapper mapper) {
+    return new JpaShopItemRepositoryFacade(shopItemRepository, mapper);
   }
 
   @Bean
   @ConditionalOnMissingBean
   public ProductRepository getProductRepository(JpaProductRepository productRepository,
-      JpaShopItemRepository shopItemRepository, JpaOrderRepository orderRepository,
       ProductEntityMapper mapper) {
-    return new JpaProductRepositoryFacade(productRepository, shopItemRepository, orderRepository,
-        mapper);
+    return new JpaProductRepositoryFacade(productRepository, mapper);
   }
 
   @Bean
   @ConditionalOnMissingBean
   public ShopRepository getShopRepository(JpaShopRepository shopRepository,
-      JpaShopItemRepository shopItemRepository, JpaOrderRepository orderRepository,
       ShopEntityMapper mapper) {
-    return new JpaShopRepositoryFacade(shopRepository, shopItemRepository, orderRepository, mapper);
+    return new JpaShopRepositoryFacade(shopRepository, mapper);
   }
 
   @Bean
   @ConditionalOnMissingBean
   public UserRepository getUserRepository(JpaUserRepository userRepository,
-      JpaOrderRepository orderRepository, UserEntityMapper mapper) {
-    return new JpaUserRepositoryFacade(userRepository, orderRepository, mapper);
+      UserEntityMapper mapper) {
+    return new JpaUserRepositoryFacade(userRepository, mapper);
   }
 
   @Bean
@@ -84,5 +83,4 @@ public class PersistenceAutoConfiguration {
       OrderEntityMapper mapper) {
     return new JpaOrderRepositoryFacade(orderRepository, mapper);
   }
-
 }
