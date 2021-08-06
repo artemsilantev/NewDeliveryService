@@ -25,7 +25,6 @@ public class OrderEntity extends PersistenceBaseEntity {
   @JoinColumn(name = "FK_USER_ID_",referencedColumnName = "ID_")
   private UserEntity user;
 
-
   @ManyToMany
   @JoinTable(
       name = "ORDER_SHOP_ITEM_",
@@ -33,7 +32,10 @@ public class OrderEntity extends PersistenceBaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "SHOP_ITEM_ID_")}
   )
   private Collection<ShopItemEntity> items;
+
   @Column(name = "TOTAL_COST_")
   private Double totalCost;
 
+  @Column(name = "FK_USER_ID_", updatable = false, insertable = false)
+  private Long userId;
 }

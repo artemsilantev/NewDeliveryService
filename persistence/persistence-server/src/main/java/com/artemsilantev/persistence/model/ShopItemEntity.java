@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "SHOP_ITEM_")
-public class  ShopItemEntity extends PersistenceBaseEntity {
+public class ShopItemEntity extends PersistenceBaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "FK_SHOP_ID_", referencedColumnName = "ID_")
@@ -28,6 +28,13 @@ public class  ShopItemEntity extends PersistenceBaseEntity {
 
   @Column(name = "PRICE_")
   private Double price;
+
   @Column(name = "AMOUNT_")
   private Integer amount;
+
+  @Column(name = "FK_SHOP_ID_", updatable = false, insertable = false)
+  private Long shopId;
+
+  @Column(name = "FK_PRODUCT_ID_", updatable = false, insertable = false)
+  private Long productId;
 }
