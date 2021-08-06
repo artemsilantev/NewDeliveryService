@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,8 +57,15 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<ProductDto>> find(@PageableDefault(sort = "id") Pageable pageable) {
-    return ResponseEntity.ok(productService.find(pageable));
+  public ResponseEntity<Page<ProductDto>> findPage(
+      @PageableDefault(sort = "id") Pageable pageRequest) {
+    return ResponseEntity.ok(productService.find(pageRequest));
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<Collection<ProductDto>> findAllSorted(
+      @SortDefault(sort = "id") Sort sortRequest) {
+    return ResponseEntity.ok(productService.find(sortRequest));
   }
 
   @GetMapping("/{id}")

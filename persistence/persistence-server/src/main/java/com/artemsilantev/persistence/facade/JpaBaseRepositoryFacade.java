@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +47,12 @@ public abstract class JpaBaseRepositoryFacade<T extends BaseEntity, S>
   @Transactional(readOnly = true)
   public Page<T> find(Pageable pageable) {
     return repository.findAll(pageable).map(mapper::toTarget);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<T> find(Sort sort) {
+    return mapper.toTargetCollection(repository.findAll(sort));
   }
 
   @Override

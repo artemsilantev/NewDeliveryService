@@ -13,7 +13,9 @@ import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,8 +56,15 @@ public class CategoryController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<CategoryDto>> findAll(@PageableDefault(sort = "id") Pageable pageable) {
-    return ResponseEntity.ok(categoryService.find(pageable));
+  public ResponseEntity<Page<CategoryDto>> findPage(
+      @PageableDefault(sort = "id") Pageable pageRequest) {
+    return ResponseEntity.ok(categoryService.find(pageRequest));
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<Collection<CategoryDto>> findAllSorted(
+      @SortDefault(sort = "id") Sort sortRequest) {
+    return ResponseEntity.ok(categoryService.find(sortRequest));
   }
 
   @GetMapping("/{id}")
