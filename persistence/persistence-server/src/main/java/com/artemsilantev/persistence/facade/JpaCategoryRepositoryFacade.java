@@ -6,7 +6,10 @@ import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
 import com.artemsilantev.persistence.model.CategoryEntity;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
+import com.artemsilantev.persistence.specification.CategorySpecification;
 import java.util.Collection;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,25 @@ public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Categor
   @Transactional(readOnly = true)
   public Collection<Category> getChildrenCategories() {
     return mapper.toTargetCollection(((JpaCategoryRepository) repository).findAllByParentNotNull());
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<Category> getNameStartWith(String name, Sort sort) {
+    return mapper.toTargetCollection(
+        ((JpaCategoryRepository) repository).findAll(CategorySpecification.nameStartWith(name),
+            sort));
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Collection<Category> getNameStartWithAndParent(String name, Long parentId, Sort sort) {
+    return mapper.toTargetCollection(
+        ((JpaCategoryRepository) repository).findAll(
+            Specification.where(
+                CategorySpecification.nameStartWith(name)
+                    .and(CategorySpecification.parentIdEqual(parentId))),
+            sort));
   }
 
   @Override

@@ -5,6 +5,7 @@ import com.artemsilantev.core.repository.CategoryRepository;
 import com.artemsilantev.core.storage.CategoryDataStorage;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Sort;
 
 public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category>
     implements CategoryRepository {
@@ -25,6 +26,17 @@ public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category>
     return getAll().stream()
         .filter(category -> category.getParent() != null)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<Category> getNameStartWith(String name, Sort sort) {
+    return getAll();
+  }
+
+  @Override
+  public Collection<Category> getNameStartWithAndParent(String name, Long parentId,
+      Sort sort) {
+    return getAll();
   }
 
   @Override

@@ -9,6 +9,7 @@ import com.artemsilantev.core.service.CategoryService;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 
 
 @Slf4j
@@ -44,9 +45,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
 
   @Override
   public Collection<CategoryDto> getRootCategories() {
-    return ((CategoryRepository) baseRepository).getRootCategories().stream()
-        .map(mapperDto::toTarget)
-        .collect(Collectors.toList());
+    return mapperDto.toTargetCollection(((CategoryRepository) baseRepository).getRootCategories());
   }
 
   @Override
@@ -58,6 +57,19 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
         .collect(Collectors.toList());
   }
 
+  @Override
+  public Collection<CategoryDto> getNameStartWith(String name, Sort sort) {
+    return mapperDto.toTargetCollection(
+        ((CategoryRepository) baseRepository).getNameStartWith(name, sort));
+  }
+
+  @Override
+  public Collection<CategoryDto> getNameStartWithAndParent(String name, Long parentId,
+      Sort sort) {
+    return mapperDto.toTargetCollection(
+        ((CategoryRepository) baseRepository).getNameStartWithAndParent(name, parentId,
+            sort));
+  }
 
   private Category mappedToSource(CategoryDto categoryDto) {
     var category = mapperDto.toSource(categoryDto);

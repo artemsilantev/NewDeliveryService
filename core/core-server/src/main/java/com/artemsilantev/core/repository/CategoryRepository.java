@@ -2,12 +2,17 @@ package com.artemsilantev.core.repository;
 
 import com.artemsilantev.core.model.Category;
 import java.util.Collection;
+import org.springframework.data.domain.Sort;
 
 public interface CategoryRepository extends BaseRepository<Category> {
 
   Collection<Category> getRootCategories();
 
   Collection<Category> getChildrenCategories();
+
+  Collection<Category> getNameStartWith(String name, Sort sort);
+
+  Collection<Category> getNameStartWithAndParent(String name, Long parentId, Sort sort);
 
   Boolean isNameExists(String name);
 
