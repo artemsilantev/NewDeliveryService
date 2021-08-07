@@ -9,12 +9,22 @@ public class CategorySpecification {
   }
 
   public static Specification<CategoryEntity> nameStartWith(String name) {
-    return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("name"),
-        name + '%'));
+    return ((root, criteriaQuery, criteriaBuilder) -> {
+      if (name == null) {
+        return criteriaBuilder.conjunction();
+      }
+      return criteriaBuilder.like(root.get("name"),
+          name + '%');
+    });
   }
 
   public static Specification<CategoryEntity> parentIdEqual(Long id) {
-    return (((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("parentId"),
-        id)));
+    return (((root, criteriaQuery, criteriaBuilder) -> {
+      if (id == null) {
+        return criteriaBuilder.conjunction();
+      }
+      return criteriaBuilder.equal(root.get("parentId"),
+          id);
+    }));
   }
 }

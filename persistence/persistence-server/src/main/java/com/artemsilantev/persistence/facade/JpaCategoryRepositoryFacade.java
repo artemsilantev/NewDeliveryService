@@ -36,15 +36,7 @@ public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Categor
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<Category> getNameStartWith(String name, Sort sort) {
-    return mapper.toTargetCollection(
-        ((JpaCategoryRepository) repository).findAll(CategorySpecification.nameStartWith(name),
-            sort));
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public Collection<Category> getNameStartWithAndParent(String name, Long parentId, Sort sort) {
+  public Collection<Category> search(String name, Long parentId, Sort sort) {
     return mapper.toTargetCollection(
         ((JpaCategoryRepository) repository).findAll(
             Specification.where(

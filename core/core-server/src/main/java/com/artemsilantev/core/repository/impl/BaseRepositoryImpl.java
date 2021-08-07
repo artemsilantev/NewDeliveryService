@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 @AllArgsConstructor
 public abstract class BaseRepositoryImpl<E extends BaseEntity>
@@ -51,11 +50,6 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
   @Override
   public Page<E> find(Pageable pageable) {
     return Page.empty();
-  }
-
-  @Override
-  public Collection<E> find(Sort sort) {
-    return getAll();
   }
 
   @Override

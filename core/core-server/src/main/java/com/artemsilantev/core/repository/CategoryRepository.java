@@ -10,9 +10,7 @@ public interface CategoryRepository extends BaseRepository<Category> {
 
   Collection<Category> getChildrenCategories();
 
-  Collection<Category> getNameStartWith(String name, Sort sort);
-
-  Collection<Category> getNameStartWithAndParent(String name, Long parentId, Sort sort);
+  Collection<Category> search(String name, Long parentId, Sort sort);
 
   Boolean isNameExists(String name);
 

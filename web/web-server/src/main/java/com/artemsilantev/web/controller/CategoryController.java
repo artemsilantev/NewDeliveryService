@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,25 +65,12 @@ public class CategoryController {
   }
 
   @GetMapping("/search")
-  public ResponseEntity<Collection<CategoryDto>> findAllSorted(
-      @SortDefault(sort = "id") Sort sortRequest) {
-    return ResponseEntity.ok(categoryService.find(sortRequest));
-  }
-
-  @GetMapping("/search/name-start-with")
-  public ResponseEntity<Collection<CategoryDto>> findAllNameStartWith(
-      @RequestParam @NotBlank @Size(max = 100) String name,
-      @SortDefault(sort = "id") Sort sortRequest) {
-    return ResponseEntity.ok(categoryService.getNameStartWith(name, sortRequest));
-  }
-
-  @GetMapping("/search/name-start-with-and-parent-id")
   public ResponseEntity<Collection<CategoryDto>> findAllNameStartWithAndParent(
-      @RequestParam @NotBlank @Size(max = 100) String name,
-      @RequestParam @Min(1) @Max(Long.MAX_VALUE) Long parentId,
+      @RequestParam @Nullable @Size(max = 100) String name,
+      @RequestParam @Nullable @Min(1) @Max(Long.MAX_VALUE) Long parentId,
       @SortDefault(sort = "id") Sort sortRequest) {
     return ResponseEntity.ok(
-        categoryService.getNameStartWithAndParent(name, parentId, sortRequest));
+        categoryService.search(name, parentId, sortRequest));
   }
 
   @GetMapping("/{id}")

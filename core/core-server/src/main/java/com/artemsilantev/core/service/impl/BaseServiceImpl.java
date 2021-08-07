@@ -8,7 +8,6 @@ import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 @AllArgsConstructor
 public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
@@ -36,11 +35,6 @@ public abstract class BaseServiceImpl<T, S extends BaseEntity> implements
   @Override
   public Page<T> find(Pageable pageable) {
     return baseRepository.find(pageable).map(mapperDto::toTarget);
-  }
-
-  @Override
-  public Collection<T> find(Sort sort) {
-    return mapperDto.toTargetCollection(baseRepository.find(sort));
   }
 
   @Override

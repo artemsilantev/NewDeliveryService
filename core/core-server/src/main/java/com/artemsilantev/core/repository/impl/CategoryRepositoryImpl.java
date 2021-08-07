@@ -29,12 +29,7 @@ public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category>
   }
 
   @Override
-  public Collection<Category> getNameStartWith(String name, Sort sort) {
-    return getAll();
-  }
-
-  @Override
-  public Collection<Category> getNameStartWithAndParent(String name, Long parentId,
+  public Collection<Category> search(String name, Long parentId,
       Sort sort) {
     return getAll();
   }

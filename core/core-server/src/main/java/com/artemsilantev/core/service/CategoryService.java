@@ -12,7 +12,5 @@ public interface CategoryService extends BaseService<CategoryDto, Category> {
 
   Collection<CategoryDto> getChildren(Long id);
 
-  Collection<CategoryDto> getNameStartWith(String name, Sort sort);
-
-  Collection<CategoryDto> getNameStartWithAndParent(String name, Long parentId, Sort sort);
+  Collection<CategoryDto> search(String name, Long parentId, Sort sort);
 }

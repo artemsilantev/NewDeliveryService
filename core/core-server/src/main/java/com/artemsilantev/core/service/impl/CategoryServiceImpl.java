@@ -58,16 +58,10 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
   }
 
   @Override
-  public Collection<CategoryDto> getNameStartWith(String name, Sort sort) {
-    return mapperDto.toTargetCollection(
-        ((CategoryRepository) baseRepository).getNameStartWith(name, sort));
-  }
-
-  @Override
-  public Collection<CategoryDto> getNameStartWithAndParent(String name, Long parentId,
+  public Collection<CategoryDto> search(String name, Long parentId,
       Sort sort) {
     return mapperDto.toTargetCollection(
-        ((CategoryRepository) baseRepository).getNameStartWithAndParent(name, parentId,
+        ((CategoryRepository) baseRepository).search(name, parentId,
             sort));
   }
 
