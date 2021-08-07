@@ -1,7 +1,9 @@
 package com.artemsilantev.persistence.model;
 
+import com.artemsilantev.persistence.listener.EntityAuditTrailsListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(EntityAuditTrailsListener.class)
 @Table(name = "CATEGORY_")
 public class CategoryEntity extends PersistenceBaseEntity {
 

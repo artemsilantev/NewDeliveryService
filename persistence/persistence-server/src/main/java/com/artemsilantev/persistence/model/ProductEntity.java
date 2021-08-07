@@ -1,8 +1,10 @@
 package com.artemsilantev.persistence.model;
 
+import com.artemsilantev.persistence.listener.EntityAuditTrailsListener;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(EntityAuditTrailsListener.class)
 @Table(name = "PRODUCT_")
 public class ProductEntity extends PersistenceBaseEntity {
 
