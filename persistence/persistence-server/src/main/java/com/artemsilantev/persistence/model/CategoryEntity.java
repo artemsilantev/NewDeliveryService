@@ -12,12 +12,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Audited
 @EntityListeners(EntityAuditTrailsListener.class)
 @Table(name = "CATEGORY_")
 public class CategoryEntity extends PersistenceBaseEntity {
