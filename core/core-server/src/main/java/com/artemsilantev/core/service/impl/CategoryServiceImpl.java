@@ -2,6 +2,7 @@ package com.artemsilantev.core.service.impl;
 
 import com.artemsilantev.core.dto.CategoryDto;
 import com.artemsilantev.core.exception.IllegalEntityException;
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
@@ -9,7 +10,8 @@ import com.artemsilantev.core.service.CategoryService;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @Slf4j
@@ -58,11 +60,8 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryDto, Category>
   }
 
   @Override
-  public Collection<CategoryDto> search(String name, Long parentId,
-      Sort sort) {
-    return mapperDto.toTargetCollection(
-        ((CategoryRepository) baseRepository).search(name, parentId,
-            sort));
+  public Page<CategoryDto> search(CategoryFilter filter, Pageable pageable) {
+    return ((CategoryRepository) baseRepository).search(filter, pageable).map(mapperDto::toTarget);
   }
 
   private Category mappedToSource(CategoryDto categoryDto) {

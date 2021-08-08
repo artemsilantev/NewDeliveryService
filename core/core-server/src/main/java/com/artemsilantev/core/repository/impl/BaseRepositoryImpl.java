@@ -49,7 +49,7 @@ public abstract class BaseRepositoryImpl<E extends BaseEntity>
 
   @Override
   public Page<E> find(Pageable pageable) {
-    return Page.empty();
+    return Page.empty(pageable);
   }
 
   @Override

@@ -1,8 +1,10 @@
 package com.artemsilantev.core.repository;
 
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.model.Category;
 import java.util.Collection;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryRepository extends BaseRepository<Category> {
 
@@ -10,7 +12,7 @@ public interface CategoryRepository extends BaseRepository<Category> {
 
   Collection<Category> getChildrenCategories();
 
-  Collection<Category> search(String name, Long parentId, Sort sort);
+  Page<Category> search(CategoryFilter filter, Pageable pageable);
 
   Boolean isNameExists(String name);
 

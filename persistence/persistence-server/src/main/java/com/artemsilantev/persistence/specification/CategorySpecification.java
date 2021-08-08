@@ -1,30 +1,29 @@
 package com.artemsilantev.persistence.specification;
 
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.persistence.model.CategoryEntity;
+import com.artemsilantev.persistence.util.PredicateBuilder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class CategorySpecification {
 
-  private CategorySpecification() {
-  }
-
-  public static Specification<CategoryEntity> nameStartWith(String name) {
+  public Specification<CategoryEntity> get(CategoryFilter filter) {
     return ((root, criteriaQuery, criteriaBuilder) -> {
-      if (name == null) {
-        return criteriaBuilder.conjunction();
+      if (filter == null) {
+        return null;
       }
-      return criteriaBuilder.like(root.get("name"),
-          name + '%');
+      var builder = new PredicateBuilder<CategoryEntity>(criteriaBuilder);
+      if (filter.getName() != null) {
+        builder.like(root.get("name"), filter.getName() + "%");
+      }
+      if (filter.getParentId() != null) {
+        builder.equal(root.get("parentId"), filter.getParentId());
+      }
+      return builder.build();
     });
-  }
-
-  public static Specification<CategoryEntity> parentIdEqual(Long id) {
-    return (((root, criteriaQuery, criteriaBuilder) -> {
-      if (id == null) {
-        return criteriaBuilder.conjunction();
-      }
-      return criteriaBuilder.equal(root.get("parentId"),
-          id);
-    }));
   }
 }

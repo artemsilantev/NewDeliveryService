@@ -1,9 +1,11 @@
 package com.artemsilantev.core.service;
 
 import com.artemsilantev.core.dto.CategoryDto;
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.model.Category;
 import java.util.Collection;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 public interface CategoryService extends BaseService<CategoryDto, Category> {
@@ -12,5 +14,5 @@ public interface CategoryService extends BaseService<CategoryDto, Category> {
 
   Collection<CategoryDto> getChildren(Long id);
 
-  Collection<CategoryDto> search(String name, Long parentId, Sort sort);
+  Page<CategoryDto> search(CategoryFilter filter, Pageable pageable);
 }

@@ -1,11 +1,13 @@
 package com.artemsilantev.core.repository.impl;
 
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
 import com.artemsilantev.core.storage.CategoryDataStorage;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category>
     implements CategoryRepository {
@@ -29,9 +31,8 @@ public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category>
   }
 
   @Override
-  public Collection<Category> search(String name, Long parentId,
-      Sort sort) {
-    return getAll();
+  public Page<Category> search(CategoryFilter filter, Pageable pageable) {
+    return Page.empty(pageable);
   }
 
   @Override

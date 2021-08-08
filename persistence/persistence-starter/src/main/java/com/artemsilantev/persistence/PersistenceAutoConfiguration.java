@@ -25,6 +25,7 @@ import com.artemsilantev.persistence.repository.JpaProductRepository;
 import com.artemsilantev.persistence.repository.JpaShopItemRepository;
 import com.artemsilantev.persistence.repository.JpaShopRepository;
 import com.artemsilantev.persistence.repository.JpaUserRepository;
+import com.artemsilantev.persistence.specification.CategorySpecification;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -45,8 +46,8 @@ public class PersistenceAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public CategoryRepository getCategoryRepository(JpaCategoryRepository categoryRepository,
-      CategoryEntityMapper mapper) {
-    return new JpaCategoryRepositoryFacade(categoryRepository, mapper);
+      CategoryEntityMapper mapper, CategorySpecification specification) {
+    return new JpaCategoryRepositoryFacade(categoryRepository, mapper, specification);
   }
 
   @Bean

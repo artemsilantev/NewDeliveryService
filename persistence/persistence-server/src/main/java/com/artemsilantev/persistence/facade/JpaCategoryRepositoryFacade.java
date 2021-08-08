@@ -1,6 +1,7 @@
 package com.artemsilantev.persistence.facade;
 
 import com.artemsilantev.core.exception.NoRecordException;
+import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Category;
 import com.artemsilantev.core.repository.CategoryRepository;
@@ -8,18 +9,22 @@ import com.artemsilantev.persistence.model.CategoryEntity;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
 import com.artemsilantev.persistence.specification.CategorySpecification;
 import java.util.Collection;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Category, CategoryEntity>
     implements CategoryRepository {
 
+  private final CategorySpecification specification;
+
   public JpaCategoryRepositoryFacade(
       JpaRepository<CategoryEntity, Long> repository,
-      Mapper<Category, CategoryEntity> mapper) {
+      Mapper<Category, CategoryEntity> mapper,
+      CategorySpecification specification) {
     super(repository, mapper);
+    this.specification = specification;
   }
 
   @Override
@@ -36,13 +41,9 @@ public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Categor
 
   @Override
   @Transactional(readOnly = true)
-  public Collection<Category> search(String name, Long parentId, Sort sort) {
-    return mapper.toTargetCollection(
-        ((JpaCategoryRepository) repository).findAll(
-            Specification.where(
-                CategorySpecification.nameStartWith(name)
-                    .and(CategorySpecification.parentIdEqual(parentId))),
-            sort));
+  public Page<Category> search(CategoryFilter filter, Pageable pageable) {
+    return ((JpaCategoryRepository) repository).findAll(specification.get(filter), pageable)
+        .map(mapper::toTarget);
   }
 
   @Override
