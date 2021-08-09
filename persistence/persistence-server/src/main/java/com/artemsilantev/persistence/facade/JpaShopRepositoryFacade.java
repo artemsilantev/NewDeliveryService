@@ -1,11 +1,13 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.IllegalEntityException;
 import com.artemsilantev.core.exception.NoRecordException;
 import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.Shop;
 import com.artemsilantev.core.repository.ShopRepository;
 import com.artemsilantev.persistence.model.ShopEntity;
 import com.artemsilantev.persistence.repository.JpaShopRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +35,11 @@ public class JpaShopRepositoryFacade extends JpaBaseRepositoryFacade<Shop, ShopE
   @Override
   protected NoRecordException createNoRecordException(Long id, String entityName) {
     return super.createNoRecordException(id, "Shop");
+  }
+
+  @Override
+  protected IllegalEntityException createIllegalEntityException(
+      DataIntegrityViolationException exception, String entityName) {
+    return super.createIllegalEntityException(exception, "Shop");
   }
 }

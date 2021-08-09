@@ -1,5 +1,6 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.IllegalEntityException;
 import com.artemsilantev.core.exception.NoRecordException;
 import com.artemsilantev.core.mapper.Mapper;
 import com.artemsilantev.core.model.BaseEntity;
@@ -7,6 +8,8 @@ import com.artemsilantev.core.repository.BaseRepository;
 import java.util.Collection;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Slf4j
 public abstract class JpaBaseRepositoryFacade<T extends BaseEntity, S>
     implements BaseRepository<T> {
 
@@ -72,7 +76,18 @@ public abstract class JpaBaseRepositoryFacade<T extends BaseEntity, S>
         entityName, id));
   }
 
+  protected IllegalEntityException createIllegalEntityException(
+      DataIntegrityViolationException exception,
+      String entityName) {
+    return new IllegalEntityException(
+        String.format("Couldn't create/update %s", entityName));
+  }
+
   protected T save(T entity) {
-    return mapper.toTarget(repository.save(mapper.toSource(entity)));
+    try {
+      return mapper.toTarget(repository.save(mapper.toSource(entity)));
+    } catch (DataIntegrityViolationException exception) {
+      throw createIllegalEntityException(exception, "entity");
+    }
   }
 }

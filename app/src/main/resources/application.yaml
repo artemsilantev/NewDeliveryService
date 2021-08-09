@@ -4,15 +4,34 @@ git-info:
   message: '@git.commit.message.full@'
   branch: '@git.branch@'
 
+loader-info:
+  server-url: 'http://localhost:8080'
+  producers:
+    - path-to-directory: '/Temp-load/categories/create'
+      cron-expression: '0 * * * * ?'
+      http-method: POST
+      method-mapping: '/v1/categories'
+    - path-to-directory: '/Temp-load/categories/update'
+      cron-expression: '12 * * * * ?'
+      http-method: PUT
+      method-mapping: '/v1/categories'
+    - path-to-directory: '/Temp-load/products/create'
+      cron-expression: '2 * * * * ?'
+      http-method: POST
+      method-mapping: '/v1/products'
+  consumers:
+    - cron-expression: '10 * * * * ?'
+    - cron-expression: '11 * * * * ?'
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driver-class-name: org.postgresql.Driver
-    username: postgres
+    url: jdbc:sqlserver://localhost\SQLEXPRESS;database=testDb
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: test
     password: 1111
   jpa:
-    generate-ddl: true
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
     show-sql: true
     open-in-view: false
   liquibase:

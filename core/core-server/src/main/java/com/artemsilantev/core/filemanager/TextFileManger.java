@@ -7,9 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class TextFileManger implements FileManager {
 
   @Override
@@ -21,10 +19,18 @@ public class TextFileManger implements FileManager {
     } catch (IOException ioException) {
       var errorMessage = String.format("Couldn't read from file with path \"%s\": %s", pathToFile,
           ioException.getMessage());
-      log.error(errorMessage);
       throw new AccessFileException(errorMessage, ioException);
     }
 
+  }
+
+  public Stream<String> tryRead(String pathToFile) {
+    var path = Paths.get(pathToFile);
+    try {
+      return Files.lines(path);
+    } catch (IOException ioException) {
+      return Stream.<String>builder().build();
+    }
   }
 
   @Override
@@ -36,7 +42,41 @@ public class TextFileManger implements FileManager {
     } catch (IOException ioException) {
       var errorMessage = String.format("Couldn't write to file with path \"%s\": %s", pathToFile,
           ioException.getMessage());
-      log.error(errorMessage);
+      throw new AccessFileException(errorMessage, ioException);
+    }
+  }
+
+  @Override
+  public void createDirectories(String pathToDirectory) {
+    var path = Paths.get(pathToDirectory);
+    if (Files.notExists(path)) {
+      try {
+        Files.createDirectories(path);
+      } catch (IOException ioException) {
+        var errorMessage = String.format("Couldn't create directories by path \"%s\": %s ",
+            pathToDirectory, ioException.getMessage());
+        throw new AccessFileException(errorMessage, ioException);
+      }
+    }
+  }
+
+  @Override
+  public void tryDelete(String pathToFile) {
+    var path = Paths.get(pathToFile);
+    try {
+      Files.deleteIfExists(path);
+    } catch (IOException ignored) {
+    }
+  }
+
+  @Override
+  public Stream<Path> getPaths(String pathToDirectory) {
+    var path = Paths.get(pathToDirectory);
+    try {
+      return Files.list(path);
+    } catch (IOException ioException) {
+      var errorMessage = String.format("Couldn't get paths by directory path: \"%s\": %s ",
+          pathToDirectory, ioException.getMessage());
       throw new AccessFileException(errorMessage, ioException);
     }
   }
@@ -59,7 +99,6 @@ public class TextFileManger implements FileManager {
     } catch (IOException ioException) {
       var errorMessage = String.format("Couldn't create file with path \"%s\": %s", path,
           ioException.getMessage());
-      log.error(errorMessage);
       throw new AccessFileException(errorMessage, ioException);
     }
   }

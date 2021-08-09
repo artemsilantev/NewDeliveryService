@@ -24,6 +24,10 @@
       <artifactId>persistence-starter</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.artemsilantev</groupId>
+      <artifactId>loader-starter</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
     </dependency>

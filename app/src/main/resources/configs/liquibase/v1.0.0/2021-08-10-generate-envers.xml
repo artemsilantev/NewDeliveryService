@@ -1,0 +1,100 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+  <property name="float" dbms="mssql" value="real"/>
+  <property name="float" dbms="postgresql" value="FLOAT8"/>
+
+  <changeSet author="artem" id="2021-08-10-18-04-05">
+    <createTable tableName="REVINFO">
+      <column name="REV" type="INTEGER" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_REVINFO_"/>
+      </column>
+      <column name="REVTSTMP" type="BIGINT"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-08-10-18-08-01">
+    <createTable tableName="CATEGORY__AUD">
+      <column name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CATEGORY__AUD_"/>
+      </column>
+      <column name="REV" type="INTEGER">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CATEGORY__AUD_"/>
+      </column>
+      <column name="REVTYPE" type="SMALLINT"/>
+      <column name="DESCRIPTION_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)"/>
+      <column name="PARENT_CATEGORY_ID_" type="BIGINT"/>
+    </createTable>
+
+    <addForeignKeyConstraint
+      baseColumnNames="REV"
+      baseTableName="CATEGORY__AUD"
+      constraintName="FK_CATEGORY__AUD_REV_"
+      deferrable="false"
+      initiallyDeferred="false"
+      onDelete="NO ACTION"
+      onUpdate="NO ACTION"
+      referencedColumnNames="REV"
+      referencedTableName="REVINFO"
+      validate="true"/>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-08-10-18-14-29">
+    <createTable tableName="PRODUCT__AUD">
+      <column name="ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PRODUCT__AUD_"/>
+      </column>
+      <column name="REV" type="INTEGER">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PRODUCT__AUD_"/>
+      </column>
+      <column name="REVTYPE" type="SMALLINT"/>
+      <column name="DESCRIPTION_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)"/>
+    </createTable>
+
+    <addForeignKeyConstraint
+      baseColumnNames="REV"
+      baseTableName="PRODUCT__AUD"
+      constraintName="FK_PRODUCT__AUD_REV_"
+      deferrable="false"
+      initiallyDeferred="false"
+      onDelete="NO ACTION"
+      onUpdate="NO ACTION"
+      referencedColumnNames="REV"
+      referencedTableName="REVINFO"
+      validate="true"/>
+  </changeSet>
+
+  <changeSet author="artem" id="2021-08-10-18-17-25">
+    <createTable tableName="PRODUCT_CATEGORY__AUD">
+      <column name="REV" type="INTEGER">
+        <constraints nullable="false" primaryKey="true"
+          primaryKeyName="PK_PRODUCT_CATEGORY__AUD_"/>
+      </column>
+      <column name="PRODUCT_ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true"
+          primaryKeyName="PK_PRODUCT_CATEGORY__AUD_"/>
+      </column>
+      <column name="CATEGORY_ID_" type="BIGINT">
+        <constraints nullable="false" primaryKey="true"
+          primaryKeyName="PK_PRODUCT_CATEGORY__AUD_"/>
+      </column>
+      <column name="REVTYPE" type="SMALLINT"/>
+    </createTable>
+
+    <addForeignKeyConstraint
+      baseColumnNames="REV"
+      baseTableName="PRODUCT_CATEGORY__AUD"
+      constraintName="FK_PRODUCT_CATEGORY__AUD_REV"
+      deferrable="false"
+      initiallyDeferred="false"
+      onDelete="NO ACTION"
+      onUpdate="NO ACTION"
+      referencedColumnNames="REV"
+      referencedTableName="REVINFO"
+      validate="true"/>
+  </changeSet>
+
+</databaseChangeLog>

@@ -21,6 +21,7 @@
     <module>app</module>
     <module>web</module>
     <module>persistence</module>
+    <module>loader</module>
   </modules>
 
   <properties>
@@ -81,6 +82,16 @@
       <dependency>
         <groupId>com.artemsilantev</groupId>
         <artifactId>persistence-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.artemsilantev</groupId>
+        <artifactId>loader-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.artemsilantev</groupId>
+        <artifactId>loader-starter</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

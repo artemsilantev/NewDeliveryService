@@ -11,7 +11,9 @@
         <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CATEGORY_"/>
       </column>
       <column name="DESCRIPTION_" type="VARCHAR(255)"/>
-      <column name="NAME_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)">
+        <constraints nullable="false" unique="true"/>
+      </column>
       <column name="PARENT_CATEGORY_ID_" type="BIGINT">
         <constraints nullable="true"/>
       </column>
@@ -43,7 +45,9 @@
         <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PRODUCT_"/>
       </column>
       <column name="DESCRIPTION_" type="VARCHAR(255)"/>
-      <column name="NAME_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)">
+        <constraints nullable="false" unique="true"/>
+      </column>
     </createTable>
   </changeSet>
 
@@ -77,7 +81,9 @@
         <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_"/>
       </column>
       <column name="ADDRESS_" type="VARCHAR(255)"/>
-      <column name="EMAIL_" type="VARCHAR(255)"/>
+      <column name="EMAIL_" type="VARCHAR(255)">
+        <constraints unique="true" nullable="false"/>
+      </column>
       <column name="FIRST_NAME_" type="VARCHAR(255)"/>
       <column name="NUMBER_" type="VARCHAR(255)"/>
       <column name="SECOND_NAME_" type="VARCHAR(255)"/>
@@ -91,7 +97,9 @@
       </column>
       <column name="ADDRESS_" type="VARCHAR(255)"/>
       <column name="EMAIL_" type="VARCHAR(255)"/>
-      <column name="NAME_" type="VARCHAR(255)"/>
+      <column name="NAME_" type="VARCHAR(255)">
+        <constraints nullable="false" unique="true"/>
+      </column>
     </createTable>
   </changeSet>
 

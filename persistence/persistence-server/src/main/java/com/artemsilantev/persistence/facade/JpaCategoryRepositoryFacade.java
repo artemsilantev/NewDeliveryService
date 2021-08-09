@@ -1,5 +1,6 @@
 package com.artemsilantev.persistence.facade;
 
+import com.artemsilantev.core.exception.IllegalEntityException;
 import com.artemsilantev.core.exception.NoRecordException;
 import com.artemsilantev.core.filter.CategoryFilter;
 import com.artemsilantev.core.mapper.Mapper;
@@ -9,6 +10,7 @@ import com.artemsilantev.persistence.model.CategoryEntity;
 import com.artemsilantev.persistence.repository.JpaCategoryRepository;
 import com.artemsilantev.persistence.specification.CategorySpecification;
 import java.util.Collection;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -61,5 +63,11 @@ public class JpaCategoryRepositoryFacade extends JpaBaseRepositoryFacade<Categor
   @Override
   protected NoRecordException createNoRecordException(Long id, String entityName) {
     return super.createNoRecordException(id, "Category");
+  }
+
+  @Override
+  protected IllegalEntityException createIllegalEntityException(
+      DataIntegrityViolationException exception, String entityName) {
+    return super.createIllegalEntityException(exception, "Category");
   }
 }
