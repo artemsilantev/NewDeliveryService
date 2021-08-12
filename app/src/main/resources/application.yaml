@@ -1,28 +1,20 @@
-git-info:
-  id-abbrev: '@git.commit.id.abbrev@'
-  author: '@git.commit.user.name@'
-  message: '@git.commit.message.full@'
-  branch: '@git.branch@'
-
-loader-info:
-  server-url: 'http://localhost:8080'
-  producers:
-    - path-to-directory: '/Temp-load/categories/create'
-      cron-expression: '0 * * * * ?'
-      http-method: POST
-      method-mapping: '/v1/categories'
-    - path-to-directory: '/Temp-load/categories/update'
-      cron-expression: '12 * * * * ?'
-      http-method: PUT
-      method-mapping: '/v1/categories'
-    - path-to-directory: '/Temp-load/products/create'
-      cron-expression: '2 * * * * ?'
-      http-method: POST
-      method-mapping: '/v1/products'
-  consumers:
-    - cron-expression: '10 * * * * ?'
-    - cron-expression: '11 * * * * ?'
-
+delivery-service:
+  git-commit-id:
+    id-abbrev: '@git.commit.id.abbrev@'
+    author: '@git.commit.user.name@'
+    message: '@git.commit.message.full@'
+    branch: '@git.branch@'
+  loader:
+    server-url: 'http://localhost:8080/'
+    directory-path: 'C:/Hot-load/'
+    cron-expression: '0 30 12 * * ?'
+    threads: 6
+    load-config:
+      - directory-name: 'categories/'
+        controller-url: 'v1/categories'
+      - directory-name: 'products/'
+        controller-url: 'v1/products'
+    enabled: true
 spring:
   datasource:
     url: jdbc:sqlserver://localhost\SQLEXPRESS;database=testDb

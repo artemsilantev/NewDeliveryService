@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "git-info")
+@ConfigurationProperties(prefix = "delivery-service.git-commit-id")
 @Data
 public class GitCommitProperties {
   private String idAbbrev = "unknown";

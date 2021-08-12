@@ -24,7 +24,7 @@ import org.hibernate.envers.Audited;
 @Table(name = "CATEGORY_")
 public class CategoryEntity extends PersistenceBaseEntity {
 
-  @Column(name = "NAME_")
+  @Column(name = "NAME_", nullable = false, unique = true)
   private String name;
 
   @Column(name = "DESCRIPTION_")
