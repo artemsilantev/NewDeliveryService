@@ -7,7 +7,7 @@ delivery-service:
   loader:
     server-url: 'http://localhost:8080/'
     directory-path: 'C:/Hot-load/'
-    cron-expression: '0 30 12 * * ?'
+    cron-expression: '0 * * * * ?'
     threads: 6
     load-config:
       - directory-name: 'categories/'

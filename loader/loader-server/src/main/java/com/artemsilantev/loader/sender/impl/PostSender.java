@@ -1,13 +1,11 @@
 package com.artemsilantev.loader.sender.impl;
 
 import com.artemsilantev.loader.sender.Sender;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-@Slf4j
 public class PostSender implements Sender {
 
   @Override

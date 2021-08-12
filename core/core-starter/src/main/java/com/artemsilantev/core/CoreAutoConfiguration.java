@@ -1,5 +1,6 @@
 package com.artemsilantev.core;
 
+import com.artemsilantev.core.aspect.BenchmarkAspect;
 import com.artemsilantev.core.filemanager.FileManager;
 import com.artemsilantev.core.filemanager.TextFileManger;
 import com.artemsilantev.core.handler.Handler;
@@ -87,6 +88,12 @@ public class CoreAutoConfiguration {
   @ConditionalOnMissingBean
   public FileManager getFileManager() {
     return new TextFileManger();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public BenchmarkAspect getBenchmarkAspect() {
+    return new BenchmarkAspect();
   }
 
   @Bean
