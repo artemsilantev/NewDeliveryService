@@ -11,10 +11,17 @@ public class GsonUtils {
   }
 
   public static Object deserialize(String textToParse, Type type) {
+    if (type == null) {
+      return "{}";
+    }
     return gson.fromJson(textToParse, type);
   }
 
   public static String serialize(Object obj) {
+    String result = gson.toJson(obj);
+    if ("null".equals(result)) {
+      return null;
+    }
     return gson.toJson(obj);
   }
 

@@ -14,6 +14,6 @@
   <modules>
     <module>core-server</module>
     <module>core-starter</module>
+    <module>core-test</module>
   </modules>
-
 </project>

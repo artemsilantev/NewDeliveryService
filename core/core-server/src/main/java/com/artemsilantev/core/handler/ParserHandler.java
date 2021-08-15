@@ -8,25 +8,28 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ParserHandler<T> implements Handler<Mapper<T, String>, String> {
 
-  private final Mapper<T, String> JsonMapper;
-  private final Mapper<T, String> XmlMapper;
+  private final Mapper<T, String> jsonMapper;
+  private final Mapper<T, String> xmlMapper;
   private final FileManager fileManager;
 
   @Override
   public Mapper<T, String> getHandler(String fileName) {
     String extension = fileManager.getExtension(fileName);
+    if (extension == null) {
+      extension = "";
+    }
     switch (extension) {
       case "json": {
-        if (JsonMapper == null) {
+        if (jsonMapper == null) {
           throw createNoHandlerException(fileName);
         }
-        return JsonMapper;
+        return jsonMapper;
       }
       case "xml": {
-        if (XmlMapper == null) {
+        if (xmlMapper == null) {
           throw createNoHandlerException(fileName);
         }
-        return XmlMapper;
+        return xmlMapper;
       }
       default: {
         throw createNoHandlerException(fileName);
