@@ -1,4 +1,4 @@
-package com.artemsilantev.core.test.utils;
+package com.artemsilantev.core.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

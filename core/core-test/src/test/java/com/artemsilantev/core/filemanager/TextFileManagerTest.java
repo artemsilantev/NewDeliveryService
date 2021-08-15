@@ -1,4 +1,4 @@
-package com.artemsilantev.core.test.filemanager;
+package com.artemsilantev.core.filemanager;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.artemsilantev.core.exception.AccessFileException;
-import com.artemsilantev.core.filemanager.TextFileManger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

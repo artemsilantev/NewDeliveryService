@@ -1,4 +1,4 @@
-package com.artemsilantev.core.test.handler;
+package com.artemsilantev.core.handler;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import com.artemsilantev.core.exception.NoHandlerException;
 import com.artemsilantev.core.filemanager.FileManager;
-import com.artemsilantev.core.handler.ParserHandler;
 import com.artemsilantev.core.mapper.Mapper;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
